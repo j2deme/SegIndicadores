@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('proposito')->nullable();
             $table->string('autores');
-            $table->tinyInteger('posicion_autor')-nullable();
+            $table->tinyInteger('posicion_autor')->nullable();
             $table->text('descripcion')->nullable();
             $table->unsignedBigInteger('sector_estrategico')->nullable(); # FK
             $table->unsignedBigInteger('subsector_estrategico')->nullable(); #FK
