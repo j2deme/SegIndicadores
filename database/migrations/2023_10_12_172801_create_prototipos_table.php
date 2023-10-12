@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('prototipos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_instituto');
-            $table->longText('objetivo');
+            $table->text('objetivo');
             $table->string('caracteristicas');
             $table->string('tipo');
             $table->timestamps();
