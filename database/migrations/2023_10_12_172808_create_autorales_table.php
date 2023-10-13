@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('autorales', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('tipo');
-            $table->bigInteger('clave');
+            $table->string('tipo');
+            $table->string('clave');
             $table->date('fecha_registro');
             $table->timestamps();
         });

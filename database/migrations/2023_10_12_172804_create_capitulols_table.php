@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('libro');
             $table->integer('pagina_inicio');
             $table->integer('pagina_fin');
-            $table->bigInteger('isbn');
-            $table->bigInteger('issn');
-            $table->bigInteger('casa_editorial');
-            $table->bigInteger('edicion');
+            $table->string('isbn')->nullable();
+            $table->string('issn')->nullable();
+            $table->string('casa_editorial');
+            $table->integer('edicion');
             $table->timestamps();
         });
     }
