@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('tipo');
             $table->string('clave');
-            $table->date('fecha_registro')->nullable();
+            $table->date('fecha_registro');
             $table->timestamps();
         });
     }
