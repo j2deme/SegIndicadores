@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('indice');
             $table->string('url');
             $table->integer('pagina_inicio');
-            $table->bigInteger('pagina_fin');
-            $table->bigInteger('isbn');
-            $table->bigInteger('issn');
-            $table->bigInteger('casa_editorial');
+            $table->integer('pagina_fin');
+            $table->string('isbn')->nullable();
+            $table->string('issn')->nullable();
+            $table->string('casa_editorial');
             $table->timestamps();
         });
     }
