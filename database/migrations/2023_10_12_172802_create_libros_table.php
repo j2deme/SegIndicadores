@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('tipo_participacion_autor');
             $table->integer('paginas');
             $table->string('isbn')->nullable();
-            $table->bigInteger('issn')->nullable();
-            $table->bigInteger('casa_editorial');
-            $table->bigInteger('edicion');
+            $table->string('issn')->nullable();
+            $table->string('casa_editorial');
+            $table->integer('edicion');
             $table->timestamps();
         });
     }
