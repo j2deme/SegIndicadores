@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('revision');
             $table->integer('pagina_inicio');
             $table->integer('pagina_fin');
-            $table->bigInteger('isbn');
-            $table->bigInteger('issn');
+            $table->string('isbn')->nullable();
+            $table->string('issn')->nullable();
             $table->timestamps();
         });
     }
