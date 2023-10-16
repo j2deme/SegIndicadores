@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('ponencias', function (Blueprint $table) {
             $table->id();
-            $table->string('Evento');
+            $table->string('evento');
+            $table->date('fecha_evento');
             $table->timestamps();
         });
     }
