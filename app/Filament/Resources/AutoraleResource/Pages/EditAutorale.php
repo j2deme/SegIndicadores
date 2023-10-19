@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\AutoralResource\Pages;
+namespace App\Filament\Resources\AutoraleResource\Pages;
 
-use App\Filament\Resources\AutoralResource;
+use App\Filament\Resources\AutoraleResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditAutoral extends EditRecord
+class EditAutorale extends EditRecord
 {
-    protected static string $resource = AutoralResource::class;
+    protected static string $resource = AutoraleResource::class;
 
     protected function getHeaderActions(): array
     {
