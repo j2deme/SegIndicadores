@@ -26,20 +26,20 @@ class CapitulolResource extends Resource
                 Forms\Components\TextInput::make('libro')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('pagina_inicio')
+                Forms\Components\TextInput::make('Pagina Inicio')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('pagina_fin')
+                Forms\Components\TextInput::make('Pagina Fin')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('isbn')
+                Forms\Components\TextInput::make('ISBN')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('issn')
+                Forms\Components\TextInput::make('ISSN')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('casa_editorial')
+                Forms\Components\TextInput::make('Casa Editorial')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('edicion')
+                Forms\Components\TextInput::make('Edicion')
                     ->required()
                     ->numeric(),
             ]);

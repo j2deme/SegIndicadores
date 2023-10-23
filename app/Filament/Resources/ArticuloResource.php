@@ -61,30 +61,30 @@ class ArticuloResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('revista')
+                Tables\Columns\TextColumn::make('Revista')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('estatus')
+                Tables\Columns\TextColumn::make('Estatus')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('tipo')
+                Tables\Columns\TextColumn::make('Tipo')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('volumen')
+                Tables\Columns\TextColumn::make('Volumen')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('indice')
+                Tables\Columns\TextColumn::make('Indice')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('url')
+                Tables\Columns\TextColumn::make('Url')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('pagina_inicio')
+                Tables\Columns\TextColumn::make('Pagina Inicio')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('pagina_fin')
+                Tables\Columns\TextColumn::make('Pagina Fin')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('isbn')
+                Tables\Columns\TextColumn::make('ISBN')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('issn')
+                Tables\Columns\TextColumn::make('ISSN')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('casa_editorial')
+                Tables\Columns\TextColumn::make('Casa editorial')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

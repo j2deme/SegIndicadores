@@ -38,11 +38,11 @@ class IndustrialResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('tipo')
+                Tables\Columns\TextColumn::make('Tipo')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('clave')
+                Tables\Columns\TextColumn::make('Clave')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('fecha_registro')
+                Tables\Columns\TextColumn::make('Fecha registro')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AutoraleResource\Pages;
-use App\Filament\Resources\AutoraleResource\RelationManagers;
-use App\Models\Autorale;
+use App\Filament\Resources\AutoralResource\Pages;
+use App\Filament\Resources\AutoralResource\RelationManagers;
+use App\Models\Autoral;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AutoraleResource extends Resource
+class AutoralResource extends Resource
 {
-    protected static ?string $model = Autorale::class;
+    protected static ?string $model = Autoral::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,13 +23,13 @@ class AutoraleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('tipo')
+                Forms\Components\TextInput::make('Tipo')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('clave')
+                Forms\Components\TextInput::make('Clave')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('fecha_registro')
+                Forms\Components\DatePicker::make('Fecha registro')
                     ->required(),
             ]);
     }
@@ -80,9 +80,9 @@ class AutoraleResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAutorales::route('/'),
-            'create' => Pages\CreateAutorale::route('/create'),
-            'edit' => Pages\EditAutorale::route('/{record}/edit'),
+            'index' => Pages\ListAutorals::route('/'),
+            'create' => Pages\CreateAutoral::route('/create'),
+            'edit' => Pages\EditAutoral::route('/{record}/edit'),
         ];
     }    
 }
