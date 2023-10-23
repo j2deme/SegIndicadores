@@ -23,17 +23,17 @@ class PrototipoResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nombre_instituto')
+                Forms\Components\TextInput::make('Nombre instituto')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('objetivo')
+                Forms\Components\Textarea::make('Objetivo')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('caracteristicas')
+                Forms\Components\TextInput::make('Caracteristicas')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('tipo')
+                Forms\Components\TextInput::make('Tipo')
                     ->required()
                     ->maxLength(255),
             ]);

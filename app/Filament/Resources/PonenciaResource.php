@@ -23,10 +23,10 @@ class PonenciaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('evento')
+                Forms\Components\TextInput::make('Evento')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('fecha_evento')
+                Forms\Components\DatePicker::make('Fecha evento')
                     ->required(),
             ]);
     }
