@@ -23,7 +23,7 @@ class OtroResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('titulo')
+                Forms\Components\TextInput::make('Titulo')
                     ->required()
                     ->maxLength(255),
             ]);

@@ -26,30 +26,30 @@ class RegistroResource extends Resource
                 Forms\Components\TextInput::make('user_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('nombre')
+                Forms\Components\TextInput::make('Nombre')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('proposito')
+                Forms\Components\TextInput::make('Proposito')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('autores')
+                Forms\Components\TextInput::make('Autores')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('posicion_autor'),
-                Forms\Components\Textarea::make('descripcion')
+                Forms\Components\Toggle::make('Posicion autor'),
+                Forms\Components\Textarea::make('Descripcion')
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('sector_estrategico')
+                Forms\Components\TextInput::make('Sector estrategico')
                     ->numeric(),
-                Forms\Components\TextInput::make('subsector_estrategico')
+                Forms\Components\TextInput::make('Subsector_estrategico')
                     ->numeric(),
-                Forms\Components\TextInput::make('area_prioritaria_pais')
+                Forms\Components\TextInput::make('Area prioritaria_pais')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('area_conocimiento')
+                Forms\Components\TextInput::make('Area conocimiento')
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('fecha_publicacion'),
-                Forms\Components\TextInput::make('pais_publicacion')
+                Forms\Components\DatePicker::make('Fecha publicacion'),
+                Forms\Components\TextInput::make('Pais publicacion')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('evidencia')
+                Forms\Components\TextInput::make('Evidencia')
                     ->maxLength(255),
             ]);
     }
