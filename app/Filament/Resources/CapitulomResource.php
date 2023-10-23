@@ -23,27 +23,27 @@ class CapitulomResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('congreso')
+                Forms\Components\TextInput::make('Congreso')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('estado_region')
+                Forms\Components\TextInput::make('Estado region')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('ciudad')
+                Forms\Components\TextInput::make('Ciudad')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('revision')
+                Forms\Components\TextInput::make('Revision')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('pagina_inicio')
+                Forms\Components\TextInput::make('Pagina inicio')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('pagina_fin')
+                Forms\Components\TextInput::make('Pagina fin')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('isbn')
+                Forms\Components\TextInput::make('ISBN')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('issn')
+                Forms\Components\TextInput::make('ISSN')
                     ->maxLength(255),
             ]);
     }

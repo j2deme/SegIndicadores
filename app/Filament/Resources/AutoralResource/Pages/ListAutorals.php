@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\AutoraleResource\Pages;
+namespace App\Filament\Resources\AutoralResource\Pages;
 
-use App\Filament\Resources\AutoraleResource;
+use App\Filament\Resources\AutoralResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListAutorales extends ListRecords
+class ListAutorals extends ListRecords
 {
-    protected static string $resource = AutoraleResource::class;
+    protected static string $resource = AutoralResource::class;
 
     protected function getHeaderActions(): array
     {
