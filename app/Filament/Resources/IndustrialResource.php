@@ -17,7 +17,7 @@ class IndustrialResource extends Resource
 {
     protected static ?string $model = Industrial::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-wrench-screwdriver';
 
     protected static ?string $pluralModelLabel = "Industriales";
     

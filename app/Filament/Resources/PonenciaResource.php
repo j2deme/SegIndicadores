@@ -17,7 +17,7 @@ class PonenciaResource extends Resource
 {
     protected static ?string $model = Ponencia::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-presentation-chart-line';
 
     protected static ?string $pluralModelLabel = "Ponencias";
     

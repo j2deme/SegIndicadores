@@ -17,7 +17,7 @@ class PrototipoResource extends Resource
 {
     protected static ?string $model = Prototipo::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-beaker';
 
     protected static ?string $pluralModelLabel = "Prototipos";
     
