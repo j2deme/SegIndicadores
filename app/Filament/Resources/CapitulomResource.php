@@ -17,7 +17,11 @@ class CapitulomResource extends Resource
 {
     protected static ?string $model = Capitulom::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-eye';
+
+    protected static ?string $pluralModelLabel = "Capitulos - Memoria";
+    
+    protected static ?string $slug = "capituloms";
 
     public static function form(Form $form): Form
     {

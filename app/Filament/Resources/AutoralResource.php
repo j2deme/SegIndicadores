@@ -17,7 +17,11 @@ class AutoralResource extends Resource
 {
     protected static ?string $model = Autoral::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
+
+    protected static ?string $pluralModelLabel = "Autorales";
+    
+    protected static ?string $slug = "autorals";
 
     public static function form(Form $form): Form
     {

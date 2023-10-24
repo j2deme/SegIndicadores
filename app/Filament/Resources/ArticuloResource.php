@@ -17,7 +17,11 @@ class ArticuloResource extends Resource
 {
     protected static ?string $model = Articulo::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+    
+    protected static ?string $pluralModelLabel = "Articulos";
+    
+    protected static ?string $slug = "articulos";
 
     public static function form(Form $form): Form
     {
