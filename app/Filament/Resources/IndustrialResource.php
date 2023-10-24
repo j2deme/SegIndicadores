@@ -19,6 +19,10 @@ class IndustrialResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $pluralModelLabel = "Industriales";
+    
+    protected static ?string $slug = "industriales";
+
     public static function form(Form $form): Form
     {
         return $form

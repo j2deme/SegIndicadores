@@ -19,6 +19,10 @@ class PonenciaResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $pluralModelLabel = "Ponencias";
+    
+    protected static ?string $slug = "ponencia";
+
     public static function form(Form $form): Form
     {
         return $form
