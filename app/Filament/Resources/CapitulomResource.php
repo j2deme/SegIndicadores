@@ -19,7 +19,9 @@ class CapitulomResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-eye';
 
-    protected static ?string $pluralModelLabel = "Capitulos - Memoria";
+    protected static ?string $modelLabel = 'Capitulo Memoria';
+
+    protected static ?string $pluralModelLabel = "Capitulos Memoria";
     
     protected static ?string $slug = "capituloms";
 
@@ -27,27 +29,29 @@ class CapitulomResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('Congreso')
+                Forms\Components\TextInput::make('congreso')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Estado region')
+                Forms\Components\TextInput::make('estado_region')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Ciudad')
+                Forms\Components\TextInput::make('ciudad')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Revision')
+                Forms\Components\TextInput::make('revision')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Pagina inicio')
+                Forms\Components\TextInput::make('pagina_inicio')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('Pagina fin')
+                Forms\Components\TextInput::make('pagina_fin')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('ISBN')
+                Forms\Components\TextInput::make('isbn')
+                    ->label('ISBN')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('ISSN')
+                Forms\Components\TextInput::make('issn')
+                    ->label('ISSN')
                     ->maxLength(255),
             ]);
     }

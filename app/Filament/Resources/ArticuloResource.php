@@ -19,6 +19,8 @@ class ArticuloResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
     
+    protected static ?string $modelLabel = 'Articulo';
+
     protected static ?string $pluralModelLabel = "Articulos";
     
     protected static ?string $slug = "articulos";
@@ -28,34 +30,45 @@ class ArticuloResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('revista')
+                    ->label('Revista')     
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('estatus')
+                    ->label('Estatus')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('tipo')
+                    ->label('Tipo')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('volumen')
+                    ->label('Volumen')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('indice')
+                    ->label('Indice')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('url')
+                    ->label('URL')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('pagina_inicio')
+                    ->label('Pagina inicio')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('pagina_fin')
+                    ->label('Pagina fin')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('isbn')
+                    ->label('ISBN')    
                     ->maxLength(255),
                 Forms\Components\TextInput::make('issn')
+                    ->label('ISSN')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('casa_editorial')
+                    ->label('Casa editorial')
                     ->required()
                     ->maxLength(255),
             ]);

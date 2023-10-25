@@ -19,6 +19,8 @@ class IndustrialResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-wrench-screwdriver';
 
+    protected static ?string $modelLabel = 'Industrial';
+
     protected static ?string $pluralModelLabel = "Industriales";
     
     protected static ?string $slug = "industriales";

@@ -18,8 +18,10 @@ class CapitulolResource extends Resource
     protected static ?string $model = Capitulol::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
+
+    protected static ?string $modelLabel = 'Capitulo Libro';
     
-    protected static ?string $pluralModelLabel = "Capitulos - Libro";
+    protected static ?string $pluralModelLabel = "Capitulos Libro";
     
     protected static ?string $slug = "capitulols";
 
@@ -32,20 +34,22 @@ class CapitulolResource extends Resource
                 Forms\Components\TextInput::make('libro')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Pagina Inicio')
+                Forms\Components\TextInput::make('pagina_inicio')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('Pagina Fin')
+                Forms\Components\TextInput::make('pagina_inicio')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('ISBN')
+                Forms\Components\TextInput::make('isbn')
+                    ->maxLength(255)
+                    ->label('ISBN'),
+                Forms\Components\TextInput::make('issn')
+                    ->label('ISSN')     
                     ->maxLength(255),
-                Forms\Components\TextInput::make('ISSN')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('Casa Editorial')
+                Forms\Components\TextInput::make('casa_editorial')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Edicion')
+                Forms\Components\TextInput::make('edicion')
                     ->required()
                     ->numeric(),
             ]);

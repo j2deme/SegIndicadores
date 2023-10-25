@@ -19,6 +19,8 @@ class OtroResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-m-squares-plus';
 
+    protected static ?string $modelLabel = 'Otro';
+
     protected static ?string $pluralModelLabel = "Otros";
     
     protected static ?string $slug = "otros";
@@ -27,7 +29,7 @@ class OtroResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('Titulo')
+                Forms\Components\TextInput::make('titulo')
                     ->required()
                     ->maxLength(255),
             ]);

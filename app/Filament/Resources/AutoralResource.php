@@ -19,6 +19,8 @@ class AutoralResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+    protected static ?string $modelLabel = 'Autoral';
+
     protected static ?string $pluralModelLabel = "Autorales";
     
     protected static ?string $slug = "autorals";
@@ -27,13 +29,14 @@ class AutoralResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('Tipo')
+                Forms\Components\TextInput::make('tipo')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Clave')
+                Forms\Components\TextInput::make('clave')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('Fecha registro')
+                Forms\Components\DatePicker::make('fecha_registro')
+                    ->label('Fecha registro')
                     ->required(),
             ]);
     }

@@ -19,6 +19,8 @@ class PonenciaResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-presentation-chart-line';
 
+    protected static ?string $modelLabel = 'Ponencia';
+
     protected static ?string $pluralModelLabel = "Ponencias";
     
     protected static ?string $slug = "ponencia";
@@ -27,10 +29,10 @@ class PonenciaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('Evento')
+                Forms\Components\TextInput::make('evento')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('Fecha evento')
+                Forms\Components\DatePicker::make('fecha_evento')
                     ->required(),
             ]);
     }
