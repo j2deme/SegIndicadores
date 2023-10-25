@@ -14,7 +14,7 @@ class Registro extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user(): BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
@@ -24,7 +24,7 @@ class Registro extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function sector(): BelongsTo
+    public function sector()
     {
         return $this->belongsTo(Sector::class);
     }
