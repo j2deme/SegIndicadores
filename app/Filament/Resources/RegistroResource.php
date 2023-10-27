@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Get;
 use App\Models\Subsector;
 use Illuminate\Support\Collection;
+use Filament\Forms\Components\FileUpload;
 
 class RegistroResource extends Resource
 {
@@ -38,7 +39,14 @@ class RegistroResource extends Resource
                 Forms\Components\TextInput::make('autores')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('posicion_autor'),
+                Forms\Components\Select::make('posicion_autor')
+                    ->options([
+                        '1' => 'Primer autor',
+                        '2' => 'Segundo autor',
+                        '3' => 'Tercer autor',
+                        '3' => 'Cuarto autor',
+                        '5' => 'Quinto autor',
+                    ]),
                 Forms\Components\Textarea::make('descripcion')
                     ->maxLength(65535)
                     ->columnSpanFull(),
@@ -61,8 +69,8 @@ class RegistroResource extends Resource
                 Forms\Components\TextInput::make('pais_publicacion')
                     ->label('Pais publicación')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('evidencia')
-                    ->maxLength(255),
+                Forms\Components\FileUpload::make('evidencia')
+                    ->multiple(),
             ]);
     }
 
