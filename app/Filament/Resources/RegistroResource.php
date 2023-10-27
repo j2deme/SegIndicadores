@@ -51,9 +51,7 @@ class RegistroResource extends Resource
                         ->where('sector_id', $get('sector_id'))
                         ->pluck('nombre', 'id')),
 
-                Forms\Components\TextInput::make('area _prioritaria_pais')
-
-
+                Forms\Components\TextInput::make('area_prioritaria_pais')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('area_conocimiento')
                     ->maxLength(255),
