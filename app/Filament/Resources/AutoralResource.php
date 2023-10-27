@@ -25,13 +25,16 @@ class AutoralResource extends Resource
     
     protected static ?string $slug = "autorals";
 
+     public static $tipos = ["Arquitectónica","Arte aplicado","Audiovisual", "Base de datos","Caricatura","Cinematográfica","Danza","De carácter plástico","Dibujo","Dramática","Escultórica","Fotográfica","Historieta","Literaria","Música con letra","Música sin letra","Pictórica","Programa de cómputo","Programa de radio","Programa de television"];
+
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('tipo')
+                Forms\Components\Select::make('tipo')
                     ->required()
-                    ->maxLength(255),
+                    ->options(AutoralResource::$tipos),
                 Forms\Components\TextInput::make('clave')
                     ->required()
                     ->maxLength(255),
