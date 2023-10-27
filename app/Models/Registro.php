@@ -28,5 +28,10 @@ class Registro extends Model
     {
         return $this->belongsTo(Sector::class);
     }
+
+    public function subsector()
+    {
+        return $this->belongsTo(Subsector::class);
+    }
 }
  
