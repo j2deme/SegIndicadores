@@ -98,6 +98,7 @@ class RegistroResource extends Resource
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('pais_publicacion')
+                    ->formatStateUsing(fn(string $state): string => RegistroResource::$paises[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('evidencia')
                     ->searchable(),
