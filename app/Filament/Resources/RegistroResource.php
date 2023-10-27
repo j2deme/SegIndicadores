@@ -41,7 +41,8 @@ class RegistroResource extends Resource
 
                 Forms\Components\Select::make('sector_id')
                     ->relationship('sector','nombre'),
-                Forms\Components\Select::make('subsector_id'),
+                Forms\Components\Select::make('subsector_id')
+                    ->relationship('sector','nombre'),
                     
                 Forms\Components\TextInput::make('area _prioritaria_pais')
 
