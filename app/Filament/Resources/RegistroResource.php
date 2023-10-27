@@ -39,10 +39,11 @@ class RegistroResource extends Resource
                     ->maxLength(65535)
                     ->columnSpanFull(),
 
-                Forms\Components\TextInput::make('sector_id')
+                Forms\Components\Select::make('sector_id')
                     ->relationship('sector','nombre'),
-                Forms\Components\TextInput::make('subsector_id')
+                Forms\Components\Select::make('subsector_id')
                     ->relationship('sector','nombre'),
+                    
                 Forms\Components\TextInput::make('area _prioritaria_pais')
 
                
@@ -74,8 +75,11 @@ class RegistroResource extends Resource
                 Tables\Columns\IconColumn::make('posicion_autor')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('sector_id')
-                    ->relationship('sector','nombre'),
-                Tables\Columns\TextColumn::make('subsector_id'),
+                ->numeric()
+                ->sortable(),  
+                Tables\Columns\TextColumn::make('subsector_id')
+                ->numeric()
+                ->sortable(),
                     
                 
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
@@ -111,7 +115,12 @@ class RegistroResource extends Resource
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
-            ]);
+            ])
+            
+            ->emptyStateDescription('Once you write your first post, it will appear here.');
+            
+            
+
     }
     
     public static function getRelations(): array
