@@ -9,6 +9,22 @@ class Registro extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'nombre',
+        'proposito',
+        'autores',
+        'posicion_autor',
+        'descripcion',
+        'sector_id',
+        'subsector_id',
+        'area_prioritaria_pais',
+        'area_conocimiento',
+        'fecha_publicacion',
+        'pais_publicacion',
+        'evidencia'
+    ];
+
     /**
      * Get the user that owns the Registro
      *
@@ -34,4 +50,3 @@ class Registro extends Model
         return $this->belongsTo(Subsector::class);
     }
 }
- 
