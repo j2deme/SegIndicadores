@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Get;
 use App\Models\Subsector;
 use Illuminate\Support\Collection;
-use Filament\Forms\Components\FileUpload;
 
 class RegistroResource extends Resource
 {
@@ -29,43 +28,42 @@ class RegistroResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
+                Forms\Components\TextInput::make('user_id')
                     ->required()
-                    ->relationship('user', 'name')
-                    ->label('Propietario'),
+                    ->numeric(),
                 Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('proposito')
+                    ->label('Propósito')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('autores')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('posicion_autor')
-                    ->options([
-                        '1' => 'Primer autor',
-                        '2' => 'Segundo autor',
-                        '3' => 'Tercer autor',
-                        '3' => 'Cuarto autor',
-                        '5' => 'Quinto autor',
-                    ]),
+                Forms\Components\Toggle::make('posicion_autor')
+                    ->label('Posición Autor'),
                 Forms\Components\Textarea::make('descripcion')
+                    ->label('Descripción')
                     ->maxLength(65535)
                     ->columnSpanFull(),
 
                 Forms\Components\Select::make('sector_id')
-                    ->relationship('sector', 'nombre')
+                    ->relationship('sector','nombre')
                     ->live(),
                 Forms\Components\Select::make('subsector_id')
-                    ->options(fn(Get $get): Collection => Subsector::query()
-                        ->where('sector_id', $get('sector_id'))
-                        ->pluck('nombre', 'id')),
-
-                Forms\Components\TextInput::make('area_prioritaria_pais')
+                    ->label('Subsector')
+                    ->options(fn (Get $get): Collection => Subsector::query()
+                    ->where('sector_id', $get('sector_id'))
+                    ->pluck('nombre','id')),
+                    
+                Forms\Components\TextInput::make('area _prioritaria_pais')
+                    ->label('Área prioritaria país')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('area_conocimiento')
+                    ->label('Área conocimiento')
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('fecha_publicacion'),
+                Forms\Components\DatePicker::make('fecha_publicacion')
+                    ->label('Fecha de publicación'),
                 Forms\Components\Select::make('pais_publicacion')
                     ->label('País de publicación')
                     ->searchable()
@@ -91,13 +89,13 @@ class RegistroResource extends Resource
                 Tables\Columns\IconColumn::make('posicion_autor')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('sector_id')
-                    ->numeric()
-                    ->sortable(),
+                ->numeric()
+                ->sortable(),  
                 Tables\Columns\TextColumn::make('subsector_id')
-                    ->numeric()
-                    ->sortable(),
-
-
+                ->numeric()
+                ->sortable(),
+                    
+                
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('area_conocimiento')
@@ -134,20 +132,20 @@ class RegistroResource extends Resource
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
             ])
-
-            ->emptyStateDescription('Once you write your soul here  first post, it will appear here.');
-
-
+            
+            ->emptyStateDescription('Once you write your first post, it will appear here.');
+            
+            
 
     }
-
+    
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-
+    
     public static function getPages(): array
     {
         return [
@@ -155,5 +153,5 @@ class RegistroResource extends Resource
             'create' => Pages\CreateRegistro::route('/create'),
             'edit' => Pages\EditRegistro::route('/{record}/edit'),
         ];
-    }
+    }    
 }
