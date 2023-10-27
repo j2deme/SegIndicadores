@@ -26,9 +26,10 @@ class RegistroResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
+                Forms\Components\Select::make('user_id')
                     ->required()
-                    ->numeric(),
+                    ->relationship('user', 'name')
+                    ->label('Propietario'),
                 Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(255),
@@ -43,16 +44,16 @@ class RegistroResource extends Resource
                     ->columnSpanFull(),
 
                 Forms\Components\Select::make('sector_id')
-                    ->relationship('sector','nombre')
+                    ->relationship('sector', 'nombre')
                     ->live(),
                 Forms\Components\Select::make('subsector_id')
-                    ->options(fn (Get $get): Collection => Subsector::query()
-                    ->where('sector_id', $get('sector_id'))
-                    ->pluck('nombre','id')),
-                    
+                    ->options(fn(Get $get): Collection => Subsector::query()
+                        ->where('sector_id', $get('sector_id'))
+                        ->pluck('nombre', 'id')),
+
                 Forms\Components\TextInput::make('area _prioritaria_pais')
 
-               
+
                     ->maxLength(255),
                 Forms\Components\TextInput::make('area_conocimiento')
                     ->maxLength(255),
@@ -81,13 +82,13 @@ class RegistroResource extends Resource
                 Tables\Columns\IconColumn::make('posicion_autor')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('sector_id')
-                ->numeric()
-                ->sortable(),  
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('subsector_id')
-                ->numeric()
-                ->sortable(),
-                    
-                
+                    ->numeric()
+                    ->sortable(),
+
+
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('area_conocimiento')
@@ -122,20 +123,20 @@ class RegistroResource extends Resource
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
             ])
-            
+
             ->emptyStateDescription('Once you write your first post, it will appear here.');
-            
-            
+
+
 
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -143,5 +144,5 @@ class RegistroResource extends Resource
             'create' => Pages\CreateRegistro::route('/create'),
             'edit' => Pages\EditRegistro::route('/{record}/edit'),
         ];
-    }    
+    }
 }
