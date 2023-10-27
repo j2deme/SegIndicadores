@@ -18,6 +18,8 @@ class PrototipoResource extends Resource
     protected static ?string $model = Prototipo::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-beaker';
+    
+    protected static ?string $modelLabel = 'Prototipo';
 
     protected static ?string $pluralModelLabel = "Prototipos";
     
@@ -27,17 +29,17 @@ class PrototipoResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('Nombre instituto')
+                Forms\Components\TextInput::make('nombre_instituto')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('Objetivo')
+                Forms\Components\Textarea::make('objetivo')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('Caracteristicas')
+                Forms\Components\TextInput::make('caracteristicas')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Tipo')
+                Forms\Components\TextInput::make('tipo')
                     ->required()
                     ->maxLength(255),
             ]);

@@ -10,6 +10,7 @@ class ListCapitulols extends ListRecords
 {
     protected static string $resource = CapitulolResource::class;
 
+
     protected function getHeaderActions(): array
     {
         return [

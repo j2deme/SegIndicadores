@@ -26,31 +26,34 @@ class RegistroResource extends Resource
                 Forms\Components\TextInput::make('user_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('Nombre')
+                Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Proposito')
+                Forms\Components\TextInput::make('proposito')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Autores')
+                Forms\Components\TextInput::make('autores')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('Posicion autor'),
-                Forms\Components\Textarea::make('Descripcion')
+                Forms\Components\Toggle::make('posicion_autor'),
+                Forms\Components\Textarea::make('descripcion')
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\Select::make('sector_id')
-                    ->relationship('sector', 'nombre'),
-                Forms\Components\Select::make('subsector_id')
+
+                Forms\Components\TextInput::make('sector_id')
                     ->relationship('sector','nombre'),
-                    
-                Forms\Components\TextInput::make('Area prioritaria_pais')
+                Forms\Components\TextInput::make('subsector_id')
+                    ->relationship('sector','nombre'),
+                Forms\Components\TextInput::make('area _prioritaria_pais')
+
+               
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Area conocimiento')
+                Forms\Components\TextInput::make('area_conocimiento')
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('Fecha publicacion'),
-                Forms\Components\TextInput::make('Pais publicacion')
+                Forms\Components\DatePicker::make('fecha_publicacion'),
+                Forms\Components\TextInput::make('pais_publicacion')
+                    ->label('Pais publicación')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Evidencia')
+                Forms\Components\TextInput::make('evidencia')
                     ->maxLength(255),
             ]);
     }
