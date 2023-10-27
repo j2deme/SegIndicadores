@@ -29,6 +29,7 @@ class RegistroResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
+                    ->label("Propietario")
                     ->relationship('user', 'name')
                     ->required(),
                 Forms\Components\TextInput::make('nombre')
