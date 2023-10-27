@@ -20,4 +20,14 @@ class Subsector extends Model
     {
         return $this->belongsTo(Sector::class);
     }
+
+    /**
+     * Get all of the registro for the Subsector
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function registros(): HasMany
+    {
+        return $this->hasMany(Registro::class);
+    }
 }

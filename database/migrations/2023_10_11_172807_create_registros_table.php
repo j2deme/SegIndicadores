@@ -18,17 +18,17 @@ return new class extends Migration
             $table->string('autores');
             $table->tinyInteger('posicion_autor')->nullable();
             $table->text('descripcion')->nullable();
-            $table->unsignedBigInteger('sector_estrategico')->nullable(); # FK
-            $table->unsignedBigInteger('subsector_estrategico')->nullable(); #FK
+            $table->foreignId('sector_id')->nullable()->constrained('sectores');
+            $table->foreignId('subsector_id')->nullable()->constrained('subsectores'); 
             $table->string('area_prioritaria_pais')->nullable();
             $table->string('area_conocimiento')->nullable();
             $table->date('fecha_publicacion')->nullable();
             $table->string('pais_publicacion')->nullable();
             $table->string('evidencia')->nullable();
-            $table->unsignedBigInteger('user_id'); # FK -> Users
+            $table->foreignId('user_id')->constrained(); # FK -> Users
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
+         
         });
     }
 
