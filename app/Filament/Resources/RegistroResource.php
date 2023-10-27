@@ -12,6 +12,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Get;
+use App\Models\Subsector;
+use Illuminate\Support\Collection;
 
 class RegistroResource extends Resource
 {
@@ -40,9 +43,12 @@ class RegistroResource extends Resource
                     ->columnSpanFull(),
 
                 Forms\Components\Select::make('sector_id')
-                    ->relationship('sector','nombre'),
+                    ->relationship('sector','nombre')
+                    ->live(),
                 Forms\Components\Select::make('subsector_id')
-                    ->relationship('sector','nombre'),
+                    ->options(fn (Get $get): Collection => Subsector::query()
+                    ->where('sector_id', $get('sector_id'))
+                    ->pluck('nombre','id')),
                     
                 Forms\Components\TextInput::make('area _prioritaria_pais')
 

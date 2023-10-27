@@ -11,9 +11,12 @@ class Sector extends Model
 
     protected $table = 'sectores';
 
-    protected $fillable = ['nombre', 'subsector_id'];
+    protected $fillable = [
+        'nombre', 
+        
+    ];
 
-    public function subsectores()
+    public function subsector()
     {
         return $this->hasMany(Subsector::class);
     }
