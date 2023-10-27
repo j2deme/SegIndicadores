@@ -73,12 +73,11 @@ class RegistroResource extends Resource
                     ->searchable(),
                 Tables\Columns\IconColumn::make('posicion_autor')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('sector_estrategico')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('subsector_estrategico')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('sector_id')
+                    ->relationship('sector','nombre'),
+                Tables\Columns\TextColumn::make('subsector_id'),
+                    
+                
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('area_conocimiento')
