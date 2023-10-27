@@ -17,7 +17,7 @@ class CapitulomResource extends Resource
 {
     protected static ?string $model = Capitulom::class;
 
-    protected static ?string $navigationIcon = 'heroicon-s-eye';
+    protected static ?string $navigationIcon = 'heroicon-s-document-minus';
 
     protected static ?string $modelLabel = 'Capitulo Memoria';
 
