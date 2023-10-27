@@ -38,10 +38,10 @@ class RegistroResource extends Resource
                 Forms\Components\Textarea::make('descripcion')
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('sector_estrategico')
-                    ->numeric(),
-                Forms\Components\TextInput::make('subsector_estrategico')
-                    ->numeric(),
+                Forms\Components\TextInput::make('sector_id')
+                    ->relationship('sector','nombre'),
+                Forms\Components\TextInput::make('subsector_id')
+                    ->relationship('sector','nombre'),
                 Forms\Components\TextInput::make('area _prioritaria_pais')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('area_conocimiento')
