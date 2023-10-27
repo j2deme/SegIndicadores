@@ -33,12 +33,15 @@ class RegistroResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('proposito')
+                    ->label('Propósito')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('autores')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('posicion_autor'),
+                Forms\Components\Toggle::make('posicion_autor')
+                    ->label('Posición Autor'),
                 Forms\Components\Textarea::make('descripcion')
+                    ->label('Descripción')
                     ->maxLength(65535)
                     ->columnSpanFull(),
 
@@ -46,19 +49,21 @@ class RegistroResource extends Resource
                     ->relationship('sector','nombre')
                     ->live(),
                 Forms\Components\Select::make('subsector_id')
+                    ->label('Subsector')
                     ->options(fn (Get $get): Collection => Subsector::query()
                     ->where('sector_id', $get('sector_id'))
                     ->pluck('nombre','id')),
                     
                 Forms\Components\TextInput::make('area _prioritaria_pais')
-
-               
+                    ->label('Área prioritaria país')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('area_conocimiento')
+                    ->label('Área conocimiento')
                     ->maxLength(255),
-                Forms\Components\DatePicker::make('fecha_publicacion'),
+                Forms\Components\DatePicker::make('fecha_publicacion')
+                    ->label('Fecha publicación'),
                 Forms\Components\TextInput::make('pais_publicacion')
-                    ->label('Pais publicación')
+                    ->label('País publicación')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('evidencia')
                     ->maxLength(255),
