@@ -132,7 +132,7 @@ class RegistroResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ])
 
-            ->emptyStateDescription('Once you write your first post, it will appear here.');
+            ->emptyStateDescription('Once you write your soul here  first post, it will appear here.');
 
 
 
