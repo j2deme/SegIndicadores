@@ -41,8 +41,15 @@ class RegistroResource extends Resource
                 Forms\Components\TextInput::make('autores')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('posicion_autor')
-                    ->label('Posición Autor'),
+                Forms\Components\Select::make('posicion_autor')
+                    ->label('Posición Autor')
+                    ->options([
+                        '1' => 'Primer autor',
+                        '2' => 'Segundo autor',
+                        '3' => 'Tercer autor',
+                        '4' => 'Cuarto autor',
+                        '5' => 'Quinto autor',
+                    ]),
                 Forms\Components\Textarea::make('descripcion')
                     ->label('Descripción')
                     ->maxLength(65535)
@@ -69,8 +76,8 @@ class RegistroResource extends Resource
                     ->label('País de publicación')
                     ->searchable()
                     ->options(RegistroResource::$paises),
-                Forms\Components\FileUpload::make('evidencia')
-                    ->multiple(),
+                Forms\Components\Textinput::make('evidencia'),
+                    
             ]);
     }
 
@@ -106,6 +113,7 @@ class RegistroResource extends Resource
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$paises[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('evidencia')
+                    
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
