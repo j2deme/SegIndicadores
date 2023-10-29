@@ -30,18 +30,30 @@ class PrototipoResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('nombre_instituto')
+                    ->label("Nombre Instituto")
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('objetivo')
+                    
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('caracteristicas')
+                ->label("Características")
+                
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('tipo')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Select::make('tipo')
+                ->label("Tipo de prototipo")
+                ->options([
+                    'arquitectonico' => 'Arquitectónico',
+                    'programa de computo' => 'Programa de computo',
+                    'diseño industrial' => 'Diseño industrial',
+                    'desarrollo industrial' => 'Desarrollo industrial',
+                    
+                ])
+                
+                    
             ]);
     }
 

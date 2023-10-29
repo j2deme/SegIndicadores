@@ -33,6 +33,7 @@ class PonenciaResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('fecha_evento')
+                
                     ->required(),
             ]);
     }
