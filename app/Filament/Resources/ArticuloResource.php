@@ -25,6 +25,10 @@ class ArticuloResource extends Resource
     
     protected static ?string $slug = "articulos";
 
+    public static $estatus = ["Sometido","Aceptado","Publicado"];
+
+    public static $tipos = ["Divulgacion","Arbitrado","Indexado"];
+
     public static function form(Form $form): Form
     {
         return $form
@@ -33,14 +37,14 @@ class ArticuloResource extends Resource
                     ->label('Revista')     
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('estatus')
+                Forms\Components\Select::make('estatus')
                     ->label('Estatus')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('tipo')
+                    ->options(ArticuloResource::$estatus),
+                Forms\Components\Select::make('tipo')
                     ->label('Tipo')
                     ->required()
-                    ->maxLength(255),
+                    ->options(ArticuloResource::$tipos),
                 Forms\Components\TextInput::make('volumen')
                     ->label('Volumen')
                     ->required()
