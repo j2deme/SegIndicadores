@@ -50,6 +50,7 @@ class CapitulolResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('edicion')
+                ->label('Edición')
                     ->required()
                     ->numeric(),
             ]);
