@@ -29,13 +29,19 @@ class IndustrialResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('tipo')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Select::make('tipo')
+                ->label("Tipo de propiedad")
+                ->options([
+                    'denominacion de origen' => 'Denominación de origen',
+                    'marca' => 'Marca',
+                    'modelo de utilidad' => 'Modelo de utilidad',
+                    'patente' => 'Patente',
+                ]),
                 Forms\Components\TextInput::make('clave')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('fecha_registro')
+                ->label("Fecha de registro")
                     ->required(),
             ]);
     }

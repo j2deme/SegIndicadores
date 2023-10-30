@@ -28,9 +28,10 @@ class RegistroResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('user_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('user_id')
+                    ->label("Propietario")
+                    ->relationship('user', 'name')
+                    ->required(),
                 Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(255),
@@ -40,22 +41,29 @@ class RegistroResource extends Resource
                 Forms\Components\TextInput::make('autores')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('posicion_autor')
-                    ->label('Posición Autor'),
+                Forms\Components\Select::make('posicion_autor')
+                    ->label('Posición Autor')
+                    ->options([
+                        '1' => 'Primer autor',
+                        '2' => 'Segundo autor',
+                        '3' => 'Tercer autor',
+                        '4' => 'Cuarto autor',
+                        '5' => 'Quinto autor',
+                    ]),
                 Forms\Components\Textarea::make('descripcion')
                     ->label('Descripción')
                     ->maxLength(65535)
                     ->columnSpanFull(),
 
                 Forms\Components\Select::make('sector_id')
-                    ->relationship('sector','nombre')
+                    ->relationship('sector', 'nombre')
                     ->live(),
                 Forms\Components\Select::make('subsector_id')
                     ->label('Subsector')
-                    ->options(fn (Get $get): Collection => Subsector::query()
-                    ->where('sector_id', $get('sector_id'))
-                    ->pluck('nombre','id')),
-                    
+                    ->options(fn(Get $get): Collection => Subsector::query()
+                        ->where('sector_id', $get('sector_id'))
+                        ->pluck('nombre', 'id')),
+
                 Forms\Components\TextInput::make('area _prioritaria_pais')
                     ->label('Área prioritaria país')
                     ->maxLength(255),
@@ -68,8 +76,8 @@ class RegistroResource extends Resource
                     ->label('País de publicación')
                     ->searchable()
                     ->options(RegistroResource::$paises),
-                Forms\Components\FileUpload::make('evidencia')
-                    ->multiple(),
+                Forms\Components\Textinput::make('evidencia'),
+                    
             ]);
     }
 
@@ -89,13 +97,11 @@ class RegistroResource extends Resource
                 Tables\Columns\IconColumn::make('posicion_autor')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('sector_id')
-                ->numeric()
-                ->sortable(),  
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('subsector_id')
-                ->numeric()
-                ->sortable(),
-                    
-                
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('area_conocimiento')
@@ -107,6 +113,7 @@ class RegistroResource extends Resource
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$paises[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('evidencia')
+                    
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -132,20 +139,16 @@ class RegistroResource extends Resource
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
             ])
-            
-            ->emptyStateDescription('Once you write your first post, it will appear here.');
-            
-            
-
+            ->emptyStateDescription('');
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -153,5 +156,5 @@ class RegistroResource extends Resource
             'create' => Pages\CreateRegistro::route('/create'),
             'edit' => Pages\EditRegistro::route('/{record}/edit'),
         ];
-    }    
+    }
 }
