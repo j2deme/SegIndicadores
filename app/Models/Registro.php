@@ -25,6 +25,10 @@ class Registro extends Model
         'evidencia'
     ];
 
+    protected $casts = [
+        'evidencia' => 'array',
+    ];
+
     /**
      * Get the user that owns the Registro
      *

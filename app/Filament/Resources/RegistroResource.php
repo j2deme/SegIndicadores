@@ -76,7 +76,8 @@ class RegistroResource extends Resource
                     ->label('País de publicación')
                     ->searchable()
                     ->options(RegistroResource::$paises),
-                Forms\Components\Textinput::make('evidencia'),
+                Forms\Components\FileUpload::make('evidencia')
+                    ->multiple(),
                     
             ]);
     }
