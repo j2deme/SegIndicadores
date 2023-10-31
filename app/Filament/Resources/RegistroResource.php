@@ -24,6 +24,12 @@ class RegistroResource extends Resource
 
     public static $paises = ["Afganistán", "Albania", "Alemania", "Andorra", "Angola", "Antigua y Barbuda", "Arabia Saudita", "Argelia", "Argentina", "Armenia", "Australia", "Austria", "Azerbaiyán", "Bahamas", "Bangladés", "Barbados", "Baréin", "Bélgica", "Belice", "Benín", "Bielorrusia", "Birmania", "Bolivia", "Bosnia y Herzegovina", "Botsuana", "Brasil", "Brunéi", "Bulgaria", "Burkina Faso", "Burundi", "Bután", "Cabo Verde", "Camboya", "Camerún", "Canadá", "Catar", "Chad", "Chile", "China", "Chipre", "Ciudad del Vaticano", "Colombia", "Comoras", "Corea del Norte", "Corea del Sur", "Costa de Marfil", "Costa Rica", "Croacia", "Cuba", "Dinamarca", "Dominica", "Ecuador", "Egipto", "El Salvador", "Emiratos Árabes Unidos", "Eritrea", "Eslovaquia", "Eslovenia", "España", "Estados Unidos", "Estonia", "Etiopía", "Filipinas", "Finlandia", "Fiyi", "Francia", "Gabón", "Gambia", "Georgia", "Ghana", "Granada", "Grecia", "Guatemala", "Guyana", "Guinea", "Guinea ecuatorial", "Guinea-Bisáu", "Haití", "Honduras", "Hungría", "India", "Indonesia", "Irak", "Irán", "Irlanda", "Islandia", "Islas Marshall", "Islas Salomón", "Israel", "Italia", "Jamaica", "Japón", "Jordania", "Kazajistán", "Kenia", "Kirguistán", "Kiribati", "Kuwait", "Laos", "Lesoto", "Letonia", "Líbano", "Liberia", "Libia", "Liechtenstein", "Lituania", "Luxemburgo", "Madagascar", "Malasia", "Malaui", "Maldivas", "Malí", "Malta", "Marruecos", "Mauricio", "Mauritania", "México", "Micronesia", "Moldavia", "Mónaco", "Mongolia", "Montenegro", "Mozambique", "Namibia", "Nauru", "Nepal", "Nicaragua", "Níger", "Nigeria", "Noruega", "Nueva Zelanda", "Omán", "Países Bajos", "Pakistán", "Palaos", "Palestina", "Panamá", "Papúa Nueva Guinea", "Paraguay", "Perú", "Polonia", "Portugal", "Reino Unido", "República Centroafricana", "República Checa", "República de Macedonia", "República del Congo", "República Democrática del Congo", "República Dominicana", "República Sudafricana", "Ruanda", "Rumanía", "Rusia", "Samoa", "San Cristóbal y Nieves", "San Marino", "San Vicente y las Granadinas", "Santa Lucía", "Santo Tomé y Príncipe", "Senegal", "Serbia", "Seychelles", "Sierra Leona", "Singapur", "Siria", "Somalia", "Sri Lanka", "Suazilandia", "Sudán", "Sudán del Sur", "Suecia", "Suiza", "Surinam", "Tailandia", "Tanzania", "Tayikistán", "Timor Oriental", "Togo", "Tonga", "Trinidad y Tobago", "Túnez", "Turkmenistán", "Turquía", "Tuvalu", "Ucrania", "Uganda", "Uruguay", "Uzbekistán", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Yibuti", "Zambia", "Zimbabue"];
 
+    public static $propositos = ["Asimilacion de tecnologia", "Creacion", "Desarrollo tecnologico", "Difucion", "Generacion de conocimiento", "Investigacion aplicada", "Transferencia de tecnologia"];
+
+    public static $aprioritaria = ["Salud", "Quimica", "Mecanica", "Electrica", "Bioquimica", "Computacion", "Agropecuarias", "Administracion"];
+    
+    public static $aconocimiento = ["Ciencias agricolas y forestales", "Ciencias biologicas", "Ciencias de la computacion,sistemas computacionales,informatica", "Ciencias de la educacion", "Ciencias de la tierra y del medio ambiente", "Ciencias de los materiales,polimeros", "Ciencias del mar", "Ciencias quimicas", "Ingenieria electrica,electronica", "Ingenieria industrial,administracion y desarrollo regional", "Ingenieria mecanica,mecatronica", "Ingenieria quimica , bioquimica,alimentes,biotecnologia"];
+
     public static function form(Form $form): Form
     {
         return $form
@@ -35,9 +41,9 @@ class RegistroResource extends Resource
                 Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('proposito')
+                Forms\Components\Select::make('proposito')
                     ->label('Propósito')
-                    ->maxLength(255),
+                    ->options(RegistroResource::$propositos),
                 Forms\Components\TextInput::make('autores')
                     ->required()
                     ->maxLength(255),
@@ -64,12 +70,12 @@ class RegistroResource extends Resource
                         ->where('sector_id', $get('sector_id'))
                         ->pluck('nombre', 'id')),
 
-                Forms\Components\TextInput::make('area_prioritaria_pais')
+                Forms\Components\Select::make('area_prioritaria_pais')
                     ->label('Área prioritaria país')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('area_conocimiento')
+                    ->options(RegistroResource::$aprioritaria),
+                Forms\Components\Select::make('area_conocimiento')
                     ->label('Área conocimiento')
-                    ->maxLength(255),
+                   ->options(RegistroResource::$aconocimiento),
                 Forms\Components\DatePicker::make('fecha_publicacion')
                     ->label('Fecha de publicación'),
                 Forms\Components\Select::make('pais_publicacion')
@@ -92,6 +98,7 @@ class RegistroResource extends Resource
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('proposito')
+                    ->formatStateUsing(fn(string $state): string => RegistroResource::$propositos[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('autores')
                     ->searchable(),
@@ -101,11 +108,13 @@ class RegistroResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('subsector_id')
-                    ->numeric()
+                    
                     ->sortable(),
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
+                    ->formatStateUsing(fn(string $state): string => RegistroResource::$aprioritaria[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('area_conocimiento')
+                    ->formatStateUsing(fn(string $state): string => RegistroResource::$aconocimiento[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('fecha_publicacion')
                     ->date()
