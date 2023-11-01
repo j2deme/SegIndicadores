@@ -19,11 +19,11 @@ class CapitulomResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-document-minus';
 
-    protected static ?string $modelLabel = 'Capitulo Memoria';
+    protected static ?string $modelLabel = 'Capítulo de Memoria';
 
-    protected static ?string $pluralModelLabel = "Capitulos Memoria";
+    protected static ?string $pluralModelLabel = "Capítulos de Memoria";
     
-    protected static ?string $slug = "capituloms";
+    protected static ?string $slug = "Capitulos-Memoria";
 
     public static function form(Form $form): Form
     {

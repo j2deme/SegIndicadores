@@ -23,7 +23,7 @@ class IndustrialResource extends Resource
 
     protected static ?string $pluralModelLabel = "Industriales";
     
-    protected static ?string $slug = "industriales";
+    protected static ?string $slug = "Industriales";
 
     public static function form(Form $form): Form
     {
