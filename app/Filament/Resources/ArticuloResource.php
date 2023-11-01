@@ -19,11 +19,10 @@ class ArticuloResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
     
-    protected static ?string $modelLabel = 'Articulo';
+    protected static ?string $modelLabel = 'Artículo';
 
-    protected static ?string $pluralModelLabel = "Articulos";
-    
-    protected static ?string $slug = "articulos";
+    protected static ?string $pluralModelLabel = "Artículos";    
+    protected static ?string $slug = "Articulos";
 
     public static $estatus = ["Sometido","Aceptado","Publicado"];
 

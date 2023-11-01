@@ -30,6 +30,12 @@ class RegistroResource extends Resource
 
     public static $areas_conocimiento = ["Ciencias Agrícolas y Forestales", "Ciencias Biológicas", "Ciencias de la Computación, Sistemas Computacionales, Informática", "Ciencias de la Educación", "Ciencias de la Tierra y del Medio Ambiente", "Ciencias de los Materiales,Polímeros", "Ciencias del Mar", "Ciencias Químicas", "Ingeniería Eléctrica, Electrónica", "Ingenieria Industrial, Administración y Desarrollo Regional", "Ingeniería Mecánica, Mecatrónica", "Ingeniería Química, Bioquímica, Alimentos, Biotecnología"];
 
+    protected static ?string $modelLabel = 'Registro';
+
+    protected static ?string $pluralModelLabel = "Registros";
+    
+    protected static ?string $slug = "registros";
+
     public static function form(Form $form): Form
     {
         return $form
@@ -90,26 +96,32 @@ class RegistroResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label('Autor')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('proposito')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$propositos[$state])
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Propósito'),
                 Tables\Columns\TextColumn::make('autores')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('posicion_autor')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('posicion_autor')
+                    ->sortable()
+                    ->label('Posición Autor'),
                 Tables\Columns\TextColumn::make('sector.nombre')
+                    ->label('Sector')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('subsector.nombre')
+                    ->label('Subsector')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$areas_prioritarias[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('area_conocimiento')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$areas_conocimiento[$state])
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault:true),
                 Tables\Columns\TextColumn::make('fecha_publicacion')
                     ->date()
                     ->sortable(),

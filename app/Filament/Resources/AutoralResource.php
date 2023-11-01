@@ -23,7 +23,7 @@ class AutoralResource extends Resource
 
     protected static ?string $pluralModelLabel = "Autorales";
     
-    protected static ?string $slug = "autorals";
+    protected static ?string $slug = "Autorales";
 
      public static $tipos = ["Arquitectónica","Arte aplicado","Audiovisual", "Base de datos","Caricatura","Cinematográfica","Danza","De carácter plástico","Dibujo","Dramática","Escultórica","Fotográfica","Historieta","Literaria","Música con letra","Música sin letra","Pictórica","Programa de cómputo","Programa de radio","Programa de television"];
 

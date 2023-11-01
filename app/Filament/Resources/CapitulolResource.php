@@ -19,11 +19,11 @@ class CapitulolResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
-    protected static ?string $modelLabel = 'Capitulo Libro';
+    protected static ?string $modelLabel = 'Capítulo de Libro';
     
-    protected static ?string $pluralModelLabel = "Capitulos Libro";
+    protected static ?string $pluralModelLabel = "Capítulos de Libro";
     
-    protected static ?string $slug = "capitulols";
+    protected static ?string $slug = "Capitulos-Libro";
 
     protected static?string $recordTitleAttribute = "text";
 

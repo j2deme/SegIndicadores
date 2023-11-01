@@ -23,7 +23,7 @@ class OtroResource extends Resource
 
     protected static ?string $pluralModelLabel = "Otros";
     
-    protected static ?string $slug = "otros";
+    protected static ?string $slug = "Otros";
 
     public static function form(Form $form): Form
     {

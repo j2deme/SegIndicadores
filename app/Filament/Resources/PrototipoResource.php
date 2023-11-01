@@ -23,7 +23,7 @@ class PrototipoResource extends Resource
 
     protected static ?string $pluralModelLabel = "Prototipos";
     
-    protected static ?string $slug = "prototipo";
+    protected static ?string $slug = "Prototipo";
 
     public static function form(Form $form): Form
     {

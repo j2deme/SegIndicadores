@@ -23,7 +23,7 @@ class PonenciaResource extends Resource
 
     protected static ?string $pluralModelLabel = "Ponencias";
     
-    protected static ?string $slug = "ponencia";
+    protected static ?string $slug = "Ponencia";
 
     public static function form(Form $form): Form
     {
