@@ -89,8 +89,7 @@ class RegistroResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
@@ -101,10 +100,9 @@ class RegistroResource extends Resource
                     ->searchable(),
                 Tables\Columns\IconColumn::make('posicion_autor')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('sector_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('sector.nombre')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('subsector_id')
+                Tables\Columns\TextColumn::make('subsector.nombre')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$areas_prioritarias[$state])
