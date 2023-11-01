@@ -94,28 +94,33 @@ class RegistroResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('user_id')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Autor'),
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('proposito')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$propositos[$state])
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Propósito'),
                 Tables\Columns\TextColumn::make('autores')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('posicion_autor')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('posicion_autor')
+                    ->sortable()
+                    ->label('Posición Autor'),
                 Tables\Columns\TextColumn::make('sector_id')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Sector'),
                 Tables\Columns\TextColumn::make('subsector_id')
-                    
+                    ->label('Subsector')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$aprioritaria[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('area_conocimiento')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$aconocimiento[$state])
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault:true),
                 Tables\Columns\TextColumn::make('fecha_publicacion')
                     ->date()
                     ->sortable(),
