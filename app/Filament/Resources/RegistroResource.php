@@ -24,11 +24,11 @@ class RegistroResource extends Resource
 
     public static $paises = ["Afganistán", "Albania", "Alemania", "Andorra", "Angola", "Antigua y Barbuda", "Arabia Saudita", "Argelia", "Argentina", "Armenia", "Australia", "Austria", "Azerbaiyán", "Bahamas", "Bangladés", "Barbados", "Baréin", "Bélgica", "Belice", "Benín", "Bielorrusia", "Birmania", "Bolivia", "Bosnia y Herzegovina", "Botsuana", "Brasil", "Brunéi", "Bulgaria", "Burkina Faso", "Burundi", "Bután", "Cabo Verde", "Camboya", "Camerún", "Canadá", "Catar", "Chad", "Chile", "China", "Chipre", "Ciudad del Vaticano", "Colombia", "Comoras", "Corea del Norte", "Corea del Sur", "Costa de Marfil", "Costa Rica", "Croacia", "Cuba", "Dinamarca", "Dominica", "Ecuador", "Egipto", "El Salvador", "Emiratos Árabes Unidos", "Eritrea", "Eslovaquia", "Eslovenia", "España", "Estados Unidos", "Estonia", "Etiopía", "Filipinas", "Finlandia", "Fiyi", "Francia", "Gabón", "Gambia", "Georgia", "Ghana", "Granada", "Grecia", "Guatemala", "Guyana", "Guinea", "Guinea ecuatorial", "Guinea-Bisáu", "Haití", "Honduras", "Hungría", "India", "Indonesia", "Irak", "Irán", "Irlanda", "Islandia", "Islas Marshall", "Islas Salomón", "Israel", "Italia", "Jamaica", "Japón", "Jordania", "Kazajistán", "Kenia", "Kirguistán", "Kiribati", "Kuwait", "Laos", "Lesoto", "Letonia", "Líbano", "Liberia", "Libia", "Liechtenstein", "Lituania", "Luxemburgo", "Madagascar", "Malasia", "Malaui", "Maldivas", "Malí", "Malta", "Marruecos", "Mauricio", "Mauritania", "México", "Micronesia", "Moldavia", "Mónaco", "Mongolia", "Montenegro", "Mozambique", "Namibia", "Nauru", "Nepal", "Nicaragua", "Níger", "Nigeria", "Noruega", "Nueva Zelanda", "Omán", "Países Bajos", "Pakistán", "Palaos", "Palestina", "Panamá", "Papúa Nueva Guinea", "Paraguay", "Perú", "Polonia", "Portugal", "Reino Unido", "República Centroafricana", "República Checa", "República de Macedonia", "República del Congo", "República Democrática del Congo", "República Dominicana", "República Sudafricana", "Ruanda", "Rumanía", "Rusia", "Samoa", "San Cristóbal y Nieves", "San Marino", "San Vicente y las Granadinas", "Santa Lucía", "Santo Tomé y Príncipe", "Senegal", "Serbia", "Seychelles", "Sierra Leona", "Singapur", "Siria", "Somalia", "Sri Lanka", "Suazilandia", "Sudán", "Sudán del Sur", "Suecia", "Suiza", "Surinam", "Tailandia", "Tanzania", "Tayikistán", "Timor Oriental", "Togo", "Tonga", "Trinidad y Tobago", "Túnez", "Turkmenistán", "Turquía", "Tuvalu", "Ucrania", "Uganda", "Uruguay", "Uzbekistán", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Yibuti", "Zambia", "Zimbabue"];
 
-    public static $propositos = ["Asimilacion de tecnologia", "Creacion", "Desarrollo tecnologico", "Difucion", "Generacion de conocimiento", "Investigacion aplicada", "Transferencia de tecnologia"];
+    public static $propositos = ["Asimilación de Tecnología", "Creación", "Desarrollo Tecnológico", "Difusión", "Generación de Conocimiento", "Investigación Aplicada", "Transferencia de Tecnología"];
 
-    public static $aprioritaria = ["Salud", "Quimica", "Mecanica", "Electrica", "Bioquimica", "Computacion", "Agropecuarias", "Administracion"];
-    
-    public static $aconocimiento = ["Ciencias agricolas y forestales", "Ciencias biologicas", "Ciencias de la computacion,sistemas computacionales,informatica", "Ciencias de la educacion", "Ciencias de la tierra y del medio ambiente", "Ciencias de los materiales,polimeros", "Ciencias del mar", "Ciencias quimicas", "Ingenieria electrica,electronica", "Ingenieria industrial,administracion y desarrollo regional", "Ingenieria mecanica,mecatronica", "Ingenieria quimica , bioquimica,alimentes,biotecnologia"];
+    public static $areas_prioritarias = ["Salud", "Química", "Mecánica", "Electrica", "Bioquímica", "Computación", "Agropecuarias", "Administración"];
+
+    public static $areas_conocimiento = ["Ciencias Agrícolas y Forestales", "Ciencias Biológicas", "Ciencias de la Computación, Sistemas Computacionales, Informática", "Ciencias de la Educación", "Ciencias de la Tierra y del Medio Ambiente", "Ciencias de los Materiales,Polímeros", "Ciencias del Mar", "Ciencias Químicas", "Ingeniería Eléctrica, Electrónica", "Ingenieria Industrial, Administración y Desarrollo Regional", "Ingeniería Mecánica, Mecatrónica", "Ingeniería Química, Bioquímica, Alimentos, Biotecnología"];
 
     public static function form(Form $form): Form
     {
@@ -60,7 +60,6 @@ class RegistroResource extends Resource
                     ->label('Descripción')
                     ->maxLength(65535)
                     ->columnSpanFull(),
-
                 Forms\Components\Select::make('sector_id')
                     ->relationship('sector', 'nombre')
                     ->live(),
@@ -69,13 +68,12 @@ class RegistroResource extends Resource
                     ->options(fn(Get $get): Collection => Subsector::query()
                         ->where('sector_id', $get('sector_id'))
                         ->pluck('nombre', 'id')),
-
                 Forms\Components\Select::make('area_prioritaria_pais')
                     ->label('Área prioritaria país')
-                    ->options(RegistroResource::$aprioritaria),
+                    ->options(RegistroResource::$areas_prioritarias),
                 Forms\Components\Select::make('area_conocimiento')
                     ->label('Área conocimiento')
-                   ->options(RegistroResource::$aconocimiento),
+                    ->options(RegistroResource::$areas_conocimiento),
                 Forms\Components\DatePicker::make('fecha_publicacion')
                     ->label('Fecha de publicación'),
                 Forms\Components\Select::make('pais_publicacion')
@@ -84,7 +82,6 @@ class RegistroResource extends Resource
                     ->options(RegistroResource::$paises),
                 Forms\Components\FileUpload::make('evidencia')
                     ->multiple(),
-                    
             ]);
     }
 
@@ -92,8 +89,7 @@ class RegistroResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
@@ -104,17 +100,15 @@ class RegistroResource extends Resource
                     ->searchable(),
                 Tables\Columns\IconColumn::make('posicion_autor')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('sector_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('sector.nombre')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('subsector_id')
-                    
+                Tables\Columns\TextColumn::make('subsector.nombre')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
-                    ->formatStateUsing(fn(string $state): string => RegistroResource::$aprioritaria[$state])
+                    ->formatStateUsing(fn(string $state): string => RegistroResource::$areas_prioritarias[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('area_conocimiento')
-                    ->formatStateUsing(fn(string $state): string => RegistroResource::$aconocimiento[$state])
+                    ->formatStateUsing(fn(string $state): string => RegistroResource::$areas_conocimiento[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('fecha_publicacion')
                     ->date()
@@ -123,7 +117,6 @@ class RegistroResource extends Resource
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$paises[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('evidencia')
-                    
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
