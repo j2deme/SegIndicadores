@@ -25,6 +25,13 @@ class PrototipoResource extends Resource
     
     protected static ?string $slug = "Prototipo";
 
+    public static $tipo_prototipo = [
+    'arquitectonico',
+    'programa de computo',
+    'diseño industrial' ,
+    'desarrollo industrial',];
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -34,7 +41,6 @@ class PrototipoResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('objetivo')
-                    
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
@@ -45,13 +51,7 @@ class PrototipoResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Select::make('tipo')
                 ->label("Tipo de prototipo")
-                ->options([
-                    'arquitectonico' => 'Arquitectónico',
-                    'programa de computo' => 'Programa de computo',
-                    'diseño industrial' => 'Diseño industrial',
-                    'desarrollo industrial' => 'Desarrollo industrial',
-                    
-                ])
+                ->options(PrototipoResource::$tipo_prototipo),
                 
                     
             ]);
@@ -63,9 +63,13 @@ class PrototipoResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre_instituto')
                     ->searchable(),
+                
+                    
                 Tables\Columns\TextColumn::make('caracteristicas')
                     ->searchable(),
+                
                 Tables\Columns\TextColumn::make('tipo')
+                ->formatStateUsing(fn(string $state): string => PrototipoResource::$tipo_prototipo[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
