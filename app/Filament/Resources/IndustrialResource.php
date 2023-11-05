@@ -24,6 +24,11 @@ class IndustrialResource extends Resource
     protected static ?string $pluralModelLabel = "Industriales";
     
     protected static ?string $slug = "Industriales";
+    public static $tipo_propiedad = [
+        'denominacion de origen',
+        'marca',
+        'modelo de utilidad',
+        'patente',];
 
     public static function form(Form $form): Form
     {
@@ -31,12 +36,7 @@ class IndustrialResource extends Resource
             ->schema([
                 Forms\Components\Select::make('tipo')
                 ->label("Tipo de propiedad")
-                ->options([
-                    'denominacion de origen' => 'Denominación de origen',
-                    'marca' => 'Marca',
-                    'modelo de utilidad' => 'Modelo de utilidad',
-                    'patente' => 'Patente',
-                ]),
+                ->options(IndustrialResource::$tipo_propiedad),
                 Forms\Components\TextInput::make('clave')
                     ->required()
                     ->maxLength(255),
@@ -50,11 +50,12 @@ class IndustrialResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('Tipo')
+                Tables\Columns\TextColumn::make('tipo')
+                ->formatStateUsing(fn(string $state): string => IndustrialResource::$tipo_propiedad[$state])
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Clave')
+                Tables\Columns\TextColumn::make('clave')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Fecha registro')
+                Tables\Columns\TextColumn::make('fecha_registro')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

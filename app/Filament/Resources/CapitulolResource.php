@@ -37,7 +37,7 @@ class CapitulolResource extends Resource
                 Forms\Components\TextInput::make('pagina_inicio')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('pagina_inicio')
+                Forms\Components\TextInput::make('pagina_fin')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('isbn')
@@ -69,8 +69,10 @@ class CapitulolResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('isbn')
+                    ->label('ISBN')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('issn')
+                    ->label('ISSN')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('casa_editorial')
                     ->searchable(),

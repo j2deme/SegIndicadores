@@ -25,7 +25,7 @@ class AutoralResource extends Resource
     
     protected static ?string $slug = "Autorales";
 
-     public static $tipos = ["Arquitectónica","Arte aplicado","Audiovisual", "Base de datos","Caricatura","Cinematográfica","Danza","De carácter plástico","Dibujo","Dramática","Escultórica","Fotográfica","Historieta","Literaria","Música con letra","Música sin letra","Pictórica","Programa de cómputo","Programa de radio","Programa de television"];
+     public static $tipo_autoral = ["Arquitectónica","Arte aplicado","Audiovisual", "Base de datos","Caricatura","Cinematográfica","Danza","De carácter plástico","Dibujo","Dramática","Escultórica","Fotográfica","Historieta","Literaria","Música con letra","Música sin letra","Pictórica","Programa de cómputo","Programa de radio","Programa de television"];
 
 
     public static function form(Form $form): Form
@@ -33,8 +33,9 @@ class AutoralResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('tipo')
+
                     ->required()
-                    ->options(AutoralResource::$tipos),
+                    ->options(AutoralResource::$tipo_autoral),
                 Forms\Components\TextInput::make('clave')
                     ->required()
                     ->maxLength(255),
@@ -49,6 +50,7 @@ class AutoralResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('tipo')
+                ->formatStateUsing(fn(string $state): string => AutoralResource::$tipo_autoral[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('clave')
                     ->searchable(),

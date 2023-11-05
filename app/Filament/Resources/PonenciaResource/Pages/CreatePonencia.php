@@ -9,4 +9,8 @@ use Filament\Resources\Pages\CreateRecord;
 class CreatePonencia extends CreateRecord
 {
     protected static string $resource = PonenciaResource::class;
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }

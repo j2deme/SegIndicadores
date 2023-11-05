@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Ponencia extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        
+        'evento',
+        'fecha_evento',
+        
+       
+    ];
 }

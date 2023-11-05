@@ -81,30 +81,32 @@ class ArticuloResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('Revista')
+                Tables\Columns\TextColumn::make('revista')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Estatus')
+                Tables\Columns\TextColumn::make('estatus')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Tipo')
+                Tables\Columns\TextColumn::make('tipo')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Volumen')
+                Tables\Columns\TextColumn::make('volumen')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('Indice')
+                Tables\Columns\TextColumn::make('indice')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Url')
+                Tables\Columns\TextColumn::make('url')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Pagina Inicio')
+                Tables\Columns\TextColumn::make('pagina_inicio')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('Pagina Fin')
+                Tables\Columns\TextColumn::make('pagina_fin')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('ISBN')
+                Tables\Columns\TextColumn::make('isbn')
+                ->label('ISBN')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('ISSN')
+                Tables\Columns\TextColumn::make('issn')
+                    ->label('ISSN')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Casa editorial')
+                Tables\Columns\TextColumn::make('casa_editorial')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

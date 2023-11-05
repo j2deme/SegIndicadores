@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Otro extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        
+        'titulo',
+        
+        
+       
+    ];
+    
 }

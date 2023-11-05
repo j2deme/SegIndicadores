@@ -75,8 +75,10 @@ class CapitulomResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('isbn')
+                    ->label('ISBN')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('issn')
+                    ->label('ISSN')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

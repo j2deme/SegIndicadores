@@ -9,4 +9,9 @@ class Autoral extends Model
 {
     use HasFactory;
     protected $table = 'autorales';
+    protected $fillable = [
+        'tipo',
+        'clave',
+        'fecha_registro',
+    ];
 }

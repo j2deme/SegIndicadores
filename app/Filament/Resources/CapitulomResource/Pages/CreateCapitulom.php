@@ -9,4 +9,8 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateCapitulom extends CreateRecord
 {
     protected static string $resource = CapitulomResource::class;
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
