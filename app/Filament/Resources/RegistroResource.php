@@ -107,6 +107,15 @@ class RegistroResource extends Resource
                 Tables\Columns\TextColumn::make('autores')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('posicion_autor')
+                ->formatStateUsing(function($state){
+                if(in_array($state,[1,3])){
+                    return $state."er";
+                 }if ($state = 2){
+                    return $state."do";
+                }else{
+                    return $state."to";
+                     }
+                     })
                     ->sortable()
                     ->label('Posición Autor'),
                 Tables\Columns\TextColumn::make('sector.nombre')
