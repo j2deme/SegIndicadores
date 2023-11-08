@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->string('grado_estudios')->nullable();
             $table->string('titulo')->nullable();
             $table->string('cedula')->nullable();
-            $table->foreignId('departamento_id')->nullable()->constrained('departamentos');
+       
             $table->rememberToken();
             $table->timestamps();
         });
