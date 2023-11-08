@@ -25,10 +25,10 @@ class IndustrialResource extends Resource
     
     protected static ?string $slug = "Industriales";
     public static $tipo_propiedad = [
-        'denominacion de origen',
-        'marca',
-        'modelo de utilidad',
-        'patente',];
+        'Denominación de origen',
+        'Marca',
+        'Modelo de utilidad',
+        'Patente',];
 
     public static function form(Form $form): Form
     {

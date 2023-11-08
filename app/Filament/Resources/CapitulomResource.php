@@ -63,6 +63,7 @@ class CapitulomResource extends Resource
                 Tables\Columns\TextColumn::make('congreso')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('estado_region')
+                ->label('Estado')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('ciudad')
                     ->searchable(),
