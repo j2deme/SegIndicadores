@@ -26,7 +26,7 @@ class ArticuloResource extends Resource
 
     public static $estatus = ["Sometido","Aceptado","Publicado"];
 
-    public static $tipos = ["Divulgacion","Arbitrado","Indexado"];
+    public static $tipos = ["Divulgación","Arbitrado","Indexado"];
 
     public static function form(Form $form): Form
     {

@@ -26,10 +26,10 @@ class PrototipoResource extends Resource
     protected static ?string $slug = "Prototipo";
 
     public static $tipo_prototipo = [
-    'arquitectonico',
-    'programa de computo',
-    'diseño industrial' ,
-    'desarrollo industrial',];
+    'Arquitectónico',
+    'Programa de computo',
+    'Diseño industrial' ,
+    'Desarrollo industrial',];
 
 
     public static function form(Form $form): Form
