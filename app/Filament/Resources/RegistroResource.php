@@ -75,19 +75,20 @@ class RegistroResource extends Resource
                         ->where('sector_id', $get('sector_id'))
                         ->pluck('nombre', 'id')),
                 Forms\Components\Select::make('area_prioritaria_pais')
-                    ->label('Área prioritaria país')
+                    ->label('Área Prioritaria')
                     ->options(RegistroResource::$areas_prioritarias),
                 Forms\Components\Select::make('area_conocimiento')
-                    ->label('Área conocimiento')
+                    ->label('Área de Conocimiento')
                     ->options(RegistroResource::$areas_conocimiento),
                 Forms\Components\DatePicker::make('fecha_publicacion')
-                    ->label('Fecha de publicación'),
+                    ->label('Fecha de Publicación'),
                 Forms\Components\Select::make('pais_publicacion')
-                    ->label('País de publicación')
+                    ->label('País de Publicación')
                     ->searchable()
                     ->options(RegistroResource::$paises),
                 Forms\Components\FileUpload::make('evidencia')
-                    ->multiple(),
+                    ->multiple()
+                    ->label('Evidencia'),
             ]);
     }
 

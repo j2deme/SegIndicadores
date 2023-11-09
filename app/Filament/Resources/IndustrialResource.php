@@ -39,9 +39,10 @@ class IndustrialResource extends Resource
                 ->options(IndustrialResource::$tipo_propiedad),
                 Forms\Components\TextInput::make('clave')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Clave'),
                 Forms\Components\DatePicker::make('fecha_registro')
-                ->label("Fecha de registro")
+                ->label("Fecha de Registro")
                     ->required(),
             ]);
     }
@@ -54,7 +55,8 @@ class IndustrialResource extends Resource
                 ->formatStateUsing(fn(string $state): string => IndustrialResource::$tipo_propiedad[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('clave')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Clave'),
                 Tables\Columns\TextColumn::make('fecha_registro')
                     ->date()
                     ->sortable(),

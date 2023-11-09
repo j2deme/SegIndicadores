@@ -25,28 +25,36 @@ class CapitulomResource extends Resource
     
     protected static ?string $slug = "Capitulos-Memoria";
 
+    public static $revision = ["Sin Arbitraje","Arbitrado"];
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('congreso')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Congreso'),
                 Forms\Components\TextInput::make('estado_region')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Lugar'),
                 Forms\Components\TextInput::make('ciudad')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('revision')
+                    ->maxLength(255)
+                    ->label('Ciudad'),
+                Forms\Components\Select::make('revision')
                     ->required()
-                    ->maxLength(255),
+                    ->options(CapitulomResource::$revision)
+                    ->label('Revisión'),
                 Forms\Components\TextInput::make('pagina_inicio')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->label('Página Inicio'),
                 Forms\Components\TextInput::make('pagina_fin')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->label('Página Fin'),
                 Forms\Components\TextInput::make('isbn')
                     ->label('ISBN')
                     ->maxLength(255),
@@ -66,15 +74,18 @@ class CapitulomResource extends Resource
                 ->label('Estado')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('ciudad')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Ciudad'),
                 Tables\Columns\TextColumn::make('revision')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('pagina_inicio')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Página Inicio'),
                 Tables\Columns\TextColumn::make('pagina_fin')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Página Fin'),
                 Tables\Columns\TextColumn::make('isbn')
                     ->label('ISBN')
                     ->searchable(),

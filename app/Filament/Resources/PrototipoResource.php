@@ -43,7 +43,8 @@ class PrototipoResource extends Resource
                 Forms\Components\Textarea::make('objetivo')
                     ->required()
                     ->maxLength(65535)
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->label('Objetivo'),
                 Forms\Components\TextInput::make('caracteristicas')
                 ->label("Características")
                 

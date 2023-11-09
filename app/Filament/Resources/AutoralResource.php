@@ -33,14 +33,15 @@ class AutoralResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('tipo')
-
+                    ->label('Tipo')
                     ->required()
                     ->options(AutoralResource::$tipo_autoral),
                 Forms\Components\TextInput::make('clave')
+                    ->label('Clave')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('fecha_registro')
-                    ->label('Fecha registro')
+                    ->label('Fecha Registro')
                     ->required(),
             ]);
     }

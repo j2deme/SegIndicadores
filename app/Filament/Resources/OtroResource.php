@@ -31,7 +31,8 @@ class OtroResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('titulo')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Título'),
             ]);
     }
 
