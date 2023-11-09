@@ -82,24 +82,31 @@ class ArticuloResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('revista')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Revista'),
                 Tables\Columns\TextColumn::make('estatus')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Estatus'),
                 Tables\Columns\TextColumn::make('tipo')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Tipo'),
                 Tables\Columns\TextColumn::make('volumen')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Volumen'),
                 Tables\Columns\TextColumn::make('indice')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Índice'),
                 Tables\Columns\TextColumn::make('url')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('pagina_inicio')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Página Inicio'),
                 Tables\Columns\TextColumn::make('pagina_fin')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Página Fin'),
                 Tables\Columns\TextColumn::make('isbn')
                 ->label('ISBN')
                     ->searchable(),
@@ -107,7 +114,8 @@ class ArticuloResource extends Resource
                     ->label('ISSN')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('casa_editorial')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Casa Editorial'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

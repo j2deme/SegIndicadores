@@ -53,13 +53,15 @@ class IndustrialResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('tipo')
                 ->formatStateUsing(fn(string $state): string => IndustrialResource::$tipo_propiedad[$state])
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Tipo'),
                 Tables\Columns\TextColumn::make('clave')
                     ->searchable()
                     ->label('Clave'),
                 Tables\Columns\TextColumn::make('fecha_registro')
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Fecha de Registro'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

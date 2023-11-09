@@ -106,7 +106,8 @@ class RegistroResource extends Resource
                     ->searchable()
                     ->label('Propósito'),
                 Tables\Columns\TextColumn::make('autores')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault:true),
                 Tables\Columns\TextColumn::make('posicion_autor')
                 ->formatStateUsing(function($state){
                 if(in_array($state,[1,3])){
@@ -118,28 +119,36 @@ class RegistroResource extends Resource
                      }
                      })
                     ->sortable()
-                    ->label('Posición Autor'),
+                    ->label('Posición Autor')
+                    ->toggleable(isToggledHiddenByDefault:true),
                 Tables\Columns\TextColumn::make('sector.nombre')
                     ->label('Sector')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('subsector.nombre')
                     ->label('Subsector')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault:true),
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$areas_prioritarias[$state])
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Área Prioritaria'),
                 Tables\Columns\TextColumn::make('area_conocimiento')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$areas_conocimiento[$state])
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault:true),
                 Tables\Columns\TextColumn::make('fecha_publicacion')
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault:true)
+                    ->label('Fecha de Publicación'),
                 Tables\Columns\TextColumn::make('pais_publicacion')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$paises[$state])
-                    ->searchable(),
+                    ->searchable()
+                    ->label('País de Publicación'),
                 Tables\Columns\TextColumn::make('evidencia')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault:true)
+                    ->label('Evidencia'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

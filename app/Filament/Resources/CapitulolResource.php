@@ -54,8 +54,7 @@ class CapitulolResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('edicion')
                 ->label('Edición')
-                    ->required()
-                    ->numeric(),
+                    ->required(),
             ]);
     }
 
@@ -64,13 +63,16 @@ class CapitulolResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('libro')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Libro'),
                 Tables\Columns\TextColumn::make('pagina_inicio')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Página Inicio'),
                 Tables\Columns\TextColumn::make('pagina_fin')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Página Fin'),
                 Tables\Columns\TextColumn::make('isbn')
                     ->label('ISBN')
                     ->searchable(),
@@ -78,10 +80,12 @@ class CapitulolResource extends Resource
                     ->label('ISSN')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('casa_editorial')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Casa Editorial'),
                 Tables\Columns\TextColumn::make('edicion')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Edición'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

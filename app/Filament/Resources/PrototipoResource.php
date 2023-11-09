@@ -63,15 +63,18 @@ class PrototipoResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nombre_instituto')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Nombre del Instituto'),
                 
                     
                 Tables\Columns\TextColumn::make('caracteristicas')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Características'),
                 
                 Tables\Columns\TextColumn::make('tipo')
                 ->formatStateUsing(fn(string $state): string => PrototipoResource::$tipo_prototipo[$state])
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Tipo'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

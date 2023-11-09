@@ -77,7 +77,8 @@ class CapitulomResource extends Resource
                     ->searchable()
                     ->label('Ciudad'),
                 Tables\Columns\TextColumn::make('revision')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Revisión'),
                 Tables\Columns\TextColumn::make('pagina_inicio')
                     ->numeric()
                     ->sortable()
