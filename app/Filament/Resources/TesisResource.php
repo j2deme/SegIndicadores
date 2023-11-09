@@ -1,0 +1,99 @@
+<?php
+
+namespace App\Filament\Resources;
+
+use App\Filament\Resources\TesisResource\Pages;
+use App\Filament\Resources\TesisResource\RelationManagers;
+use App\Models\Tesis;
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+class TesisResource extends Resource
+{
+    protected static ?string $model = Tesis::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    public static $grado = [
+        'Licenciatura',
+        'Especialización',
+        'Maestría' ,
+        'Doctorado',
+        'Posdoctorado'];
+
+        public static $estatus = [
+            'En proceso',
+            'Trunca',
+            'Concluida' ,
+           ];
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\Select::make('grado')
+                ->options(TesisResource::$grado)
+                    ->label('Grado'),
+                
+                Forms\Components\Select::make('estatus')
+                ->options(TesisResource::$estatus)
+                    ->label('Estatus')
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                Tables\Columns\TextColumn::make('grado')
+                ->formatStateUsing(fn(string $state): string => TesisResource::$grado[$state])
+                    ->label('Grado'),
+                   
+                Tables\Columns\TextColumn::make('estatus')
+                ->formatStateUsing(fn(string $state): string => TesisResource::$estatus[$state])
+                    ->label('Estatus'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
+            ->filters([
+                //
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
+            ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make(),
+            ]);
+    }
+    
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+    
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListTesis::route('/'),
+            'create' => Pages\CreateTesis::route('/create'),
+            'edit' => Pages\EditTesis::route('/{record}/edit'),
+        ];
+    }    
+}
