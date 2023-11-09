@@ -41,7 +41,8 @@ class OtroResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('titulo')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Título'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
