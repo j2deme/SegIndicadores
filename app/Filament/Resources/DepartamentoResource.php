@@ -26,6 +26,11 @@ class DepartamentoResource extends Resource
                 Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('jefe_id')
+                    ->label('Jefe de departamento')
+                    
+                    ->required(),
+                
             ]);
     }
 
