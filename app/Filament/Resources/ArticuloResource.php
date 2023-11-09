@@ -92,8 +92,15 @@ class ArticuloResource extends Resource
                     ->label('Tipo'),
                 Tables\Columns\TextColumn::make('volumen')
                     ->numeric()
-                    ->sortable()
                     ->label('Volumen'),
+                    ->formatStateUsing(fn(string $state): string => ArticuloResource::$estatus[$state])
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('tipo')
+                    ->formatStateUsing(fn(string $state): string => ArticuloResource::$tipos[$state])
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('volumen')
+                    ->numeric(),
+
                 Tables\Columns\TextColumn::make('indice')
                     ->searchable()
                     ->label('Índice'),

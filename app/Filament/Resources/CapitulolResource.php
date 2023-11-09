@@ -83,9 +83,11 @@ class CapitulolResource extends Resource
                     ->searchable()
                     ->label('Casa Editorial'),
                 Tables\Columns\TextColumn::make('edicion')
+
                     ->numeric()
-                    ->sortable()
+                    
                     ->label('Edición'),
+                    ->numeric(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
