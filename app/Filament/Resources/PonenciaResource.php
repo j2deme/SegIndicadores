@@ -31,10 +31,12 @@ class PonenciaResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('evento')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label('Evento'),
                 Forms\Components\DatePicker::make('fecha_evento')
                 
-                    ->required(),
+                    ->required()
+                    ->label('Fecha de Evento'),
             ]);
     }
 

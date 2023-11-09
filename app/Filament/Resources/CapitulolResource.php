@@ -35,9 +35,11 @@ class CapitulolResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('pagina_inicio')
+                    ->label('Página Inicio')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('pagina_fin')
+                    ->label('Página Fin')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('isbn')
@@ -47,6 +49,7 @@ class CapitulolResource extends Resource
                     ->label('ISSN')     
                     ->maxLength(255),
                 Forms\Components\TextInput::make('casa_editorial')
+                    ->label('Casa Editorial')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('edicion')

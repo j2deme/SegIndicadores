@@ -49,7 +49,7 @@ class ArticuloResource extends Resource
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('indice')
-                    ->label('Indice')
+                    ->label('Índice')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('url')
@@ -57,11 +57,11 @@ class ArticuloResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('pagina_inicio')
-                    ->label('Pagina inicio')
+                    ->label('Página Inicio')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('pagina_fin')
-                    ->label('Pagina fin')
+                    ->label('Página Fin')
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('isbn')
@@ -71,7 +71,7 @@ class ArticuloResource extends Resource
                     ->label('ISSN')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('casa_editorial')
-                    ->label('Casa editorial')
+                    ->label('Casa Editorial')
                     ->required()
                     ->maxLength(255),
             ]);
