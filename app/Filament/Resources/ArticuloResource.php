@@ -84,12 +84,13 @@ class ArticuloResource extends Resource
                 Tables\Columns\TextColumn::make('revista')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('estatus')
+                    ->formatStateUsing(fn(string $state): string => ArticuloResource::$estatus[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tipo')
+                    ->formatStateUsing(fn(string $state): string => ArticuloResource::$tipos[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('volumen')
-                    ->numeric()
-                    ->sortable(),
+                    ->numeric(),
                 Tables\Columns\TextColumn::make('indice')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('url')

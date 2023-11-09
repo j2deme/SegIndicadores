@@ -77,6 +77,7 @@ class CapitulomResource extends Resource
                     ->searchable()
                     ->label('Ciudad'),
                 Tables\Columns\TextColumn::make('revision')
+                ->formatStateUsing(fn(string $state): string => CapitulomResource::$revision[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('pagina_inicio')
                     ->numeric()
