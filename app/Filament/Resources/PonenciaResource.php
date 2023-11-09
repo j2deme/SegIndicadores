@@ -45,10 +45,12 @@ class PonenciaResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('evento')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Evento'),
                 Tables\Columns\TextColumn::make('fecha_evento')
                     ->date()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Fecha de Evento'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

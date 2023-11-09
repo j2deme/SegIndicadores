@@ -82,8 +82,17 @@ class ArticuloResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('revista')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Revista'),
                 Tables\Columns\TextColumn::make('estatus')
+                    ->searchable()
+                    ->label('Estatus'),
+                Tables\Columns\TextColumn::make('tipo')
+                    ->searchable()
+                    ->label('Tipo'),
+                Tables\Columns\TextColumn::make('volumen')
+                    ->numeric()
+                    ->label('Volumen'),
                     ->formatStateUsing(fn(string $state): string => ArticuloResource::$estatus[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tipo')
@@ -91,16 +100,20 @@ class ArticuloResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('volumen')
                     ->numeric(),
+
                 Tables\Columns\TextColumn::make('indice')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Índice'),
                 Tables\Columns\TextColumn::make('url')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('pagina_inicio')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Página Inicio'),
                 Tables\Columns\TextColumn::make('pagina_fin')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Página Fin'),
                 Tables\Columns\TextColumn::make('isbn')
                 ->label('ISBN')
                     ->searchable(),
@@ -108,7 +121,8 @@ class ArticuloResource extends Resource
                     ->label('ISSN')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('casa_editorial')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Casa Editorial'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
