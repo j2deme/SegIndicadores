@@ -33,7 +33,7 @@ class RegistroResource extends Resource
     protected static ?string $modelLabel = 'Registro';
 
     protected static ?string $pluralModelLabel = "Registros";
-    
+
     protected static ?string $slug = "registros";
 
     public static function form(Form $form): Form
@@ -109,15 +109,15 @@ class RegistroResource extends Resource
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault:true),
                 Tables\Columns\TextColumn::make('posicion_autor')
-                ->formatStateUsing(function($state){
-                if(in_array($state,[1,3])){
-                    return $state."er";
-                 }if ($state = 2){
-                    return $state."do";
-                }else{
-                    return $state."to";
-                     }
-                     })
+                    ->formatStateUsing(function ($state) {
+                        if (in_array($state, [1, 3])) {
+                            return $state . "er";
+                        }if ($state = 2) {
+                            return $state . "do";
+                        } else {
+                            return $state . "to";
+                        }
+                    })
                     ->sortable()
                     ->label('Posición Autor')
                     ->toggleable(isToggledHiddenByDefault:true),
@@ -135,7 +135,7 @@ class RegistroResource extends Resource
                 Tables\Columns\TextColumn::make('area_conocimiento')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$areas_conocimiento[$state])
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault:true),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('fecha_publicacion')
                     ->date()
                     ->sortable()
@@ -150,10 +150,12 @@ class RegistroResource extends Resource
                     ->toggleable(isToggledHiddenByDefault:true)
                     ->label('Evidencia'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Actualizado')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
