@@ -22,6 +22,7 @@ class ArticuloResource extends Resource
     protected static ?string $modelLabel = 'Artículo';
 
     protected static ?string $pluralModelLabel = "Artículos";    
+    
     protected static ?string $slug = "Articulos";
 
     public static $estatus = ["Sometido","Aceptado","Publicado"];
