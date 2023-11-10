@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -21,6 +23,15 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'apellidos',
+        'curp',
+        'rfc',
+        'telefono',
+        'grado_estudios',
+        'titulo',
+        'cedula',
+        'departamento_id',
+        'es_admin'
     ];
 
     /**
@@ -44,12 +55,24 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get all of the comments for the User
+     * Obtiene los registros del usuario.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function registros(): HasMany
     {
         return $this->hasMany(Registro::class);
+    }
+
+    /**
+     * Obtiene el departamento de adscripción del usuario.
+     * 
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+
+    public function departamento(): BelongsTo
+    {
+        return $this->belongsTo(Departamento::class);
     }
 }
