@@ -17,7 +17,7 @@ class ArticuloResource extends Resource
 {
     protected static ?string $model = Articulo::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+    protected static ?string $navigationIcon = 'heroicon-s-newspaper';
     
     protected static ?string $modelLabel = 'Artículo';
 

@@ -17,7 +17,7 @@ class LibroResource extends Resource
 {
     protected static ?string $model = Libro::class;
 
-    protected static ?string $navigationIcon = 'heroicon-s-book-open';
+    protected static ?string $navigationIcon = 'heroicon-s-bookmark-square';
 
     protected static ?string $modelLabel = 'Libro';
 

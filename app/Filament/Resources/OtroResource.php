@@ -17,7 +17,7 @@ class OtroResource extends Resource
 {
     protected static ?string $model = Otro::class;
 
-    protected static ?string $navigationIcon = 'heroicon-m-squares-plus';
+    protected static ?string $navigationIcon = 'heroicon-s-squares-plus';
 
     protected static ?string $modelLabel = 'Otro';
 

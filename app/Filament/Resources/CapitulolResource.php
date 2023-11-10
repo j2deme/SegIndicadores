@@ -17,7 +17,7 @@ class CapitulolResource extends Resource
 {
     protected static ?string $model = Capitulol::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-book-open';
+    protected static ?string $navigationIcon = 'heroicon-s-book-open';
 
     protected static ?string $modelLabel = 'Capítulo de Libro';
     
