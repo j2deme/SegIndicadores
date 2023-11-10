@@ -80,8 +80,8 @@ class CapitulomResource extends Resource
 
                     ->searchable()
                     ->label('Revisión')
-
-                ->formatStateUsing(fn(string $state): string => CapitulomResource::$revision[$state])
+                    ->formatStateUsing(fn(string $state): string => CapitulomResource::$revision[$state])
+                    ->formatStateUsing(fn(string $state): string => CapitulomResource::$revision[$state])
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('pagina_inicio')
