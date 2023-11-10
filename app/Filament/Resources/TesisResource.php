@@ -19,7 +19,9 @@ class TesisResource extends Resource
     
     protected static ?string $modelLabel = 'Tesis';
 
-    protected static ?string $pluralModelLabel = "Tesis Dirigida";    
+    protected static ?string $pluralModelLabel = "Tesis Dirigida";
+    
+    protected static ?string $slug = "Tesis";
     
     protected static ?string $navigationIcon = 'heroicon-s-pencil-square';
 
