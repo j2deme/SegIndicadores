@@ -19,6 +19,8 @@ class DepartamentoResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-rectangle-stack';
 
+    protected static ?string $slug = "Departamentos";
+ 
     public static function form(Form $form): Form
     {
         return $form

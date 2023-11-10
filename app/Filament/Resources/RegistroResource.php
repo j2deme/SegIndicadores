@@ -34,7 +34,7 @@ class RegistroResource extends Resource
 
     protected static ?string $pluralModelLabel = "Registros";
 
-    protected static ?string $slug = "registros";
+    protected static ?string $slug = "Registros";
 
     public static function form(Form $form): Form
     {
