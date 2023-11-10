@@ -30,7 +30,8 @@ class User extends Authenticatable
         'grado_estudios',
         'titulo',
         'cedula',
-        'departamento_id'
+        'departamento_id',
+        'es_admin'
     ];
 
     /**
