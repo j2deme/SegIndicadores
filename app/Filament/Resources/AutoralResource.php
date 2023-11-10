@@ -17,7 +17,7 @@ class AutoralResource extends Resource
 {
     protected static ?string $model = Autoral::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user';
+    protected static ?string $navigationIcon = 'heroicon-s-user';
 
     protected static ?string $modelLabel = 'Autoral';
 
