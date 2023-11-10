@@ -31,8 +31,18 @@ class AppPanelProvider extends PanelProvider
             ->login()
             ->resources([
                 \App\Filament\Resources\RegistroResource::class,
+                \App\Filament\Resources\ArticuloResource::class,
+                \App\Filament\Resources\AutoralResource::class,
+                \App\Filament\Resources\IndustrialResource::class,
+                \App\Filament\Resources\LibroResource::class,
+                \App\Filament\Resources\CapitulolResource::class,
+                \App\Filament\Resources\CapitulomResource::class,
+                \App\Filament\Resources\TesisResource::class,
                 \App\Filament\Resources\PrototipoResource::class,
                 \App\Filament\Resources\PonenciaResource::class,
+                \App\Filament\Resources\OtroResource::class,
+                
+                
             ])
             //->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
@@ -44,6 +54,9 @@ class AppPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
+
+
+
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
