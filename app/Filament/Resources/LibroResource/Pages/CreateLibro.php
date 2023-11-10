@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateLibro extends CreateRecord
 {
     protected static string $resource = LibroResource::class;
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
 }

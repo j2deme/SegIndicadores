@@ -92,7 +92,7 @@ class ArticuloResource extends Resource
                     ->label('Tipo'),
                 Tables\Columns\TextColumn::make('volumen')
                     ->numeric()
-                    ->label('Volumen'),
+                    ->label('Volumen')
                     ->formatStateUsing(fn(string $state): string => ArticuloResource::$estatus[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tipo')
