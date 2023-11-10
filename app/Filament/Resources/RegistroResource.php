@@ -107,7 +107,7 @@ class RegistroResource extends Resource
                     ->label('Propósito'),
                 Tables\Columns\TextColumn::make('autores')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault:true),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('posicion_autor')
                     ->formatStateUsing(function ($state) {
                         if (in_array($state, [1, 3])) {
@@ -120,14 +120,14 @@ class RegistroResource extends Resource
                     })
                     ->sortable()
                     ->label('Posición Autor')
-                    ->toggleable(isToggledHiddenByDefault:true),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('sector.nombre')
                     ->label('Sector')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('subsector.nombre')
                     ->label('Subsector')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault:true),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$areas_prioritarias[$state])
                     ->searchable()
@@ -139,7 +139,7 @@ class RegistroResource extends Resource
                 Tables\Columns\TextColumn::make('fecha_publicacion')
                     ->date()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault:true)
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->label('Fecha de Publicación'),
                 Tables\Columns\TextColumn::make('pais_publicacion')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$paises[$state])
@@ -147,7 +147,7 @@ class RegistroResource extends Resource
                     ->label('País de Publicación'),
                 Tables\Columns\TextColumn::make('evidencia')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault:true)
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->label('Evidencia'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creado')

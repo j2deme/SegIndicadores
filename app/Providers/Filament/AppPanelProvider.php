@@ -18,30 +18,28 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class AdminPanelProvider extends PanelProvider
+class AppPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
-            ->id('admin')
-            ->path('admin')
-            ->login()
-            ->profile()
+            ->id('app')
+            ->path('app')
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::Amber,
             ])
+            ->login()
             ->resources([
-                \App\Filament\Resources\UserResource::class,
-                \App\Filament\Resources\DepartamentoResource::class,
                 \App\Filament\Resources\RegistroResource::class,
+                \App\Filament\Resources\PrototipoResource::class,
+                \App\Filament\Resources\PonenciaResource::class,
             ])
             //->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
@@ -59,7 +57,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ])
-            ->sidebarCollapsibleOnDesktop();
+            ]);
     }
 }
