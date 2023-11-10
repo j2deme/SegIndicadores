@@ -22,6 +22,7 @@ class ArticuloResource extends Resource
     protected static ?string $modelLabel = 'Artículo';
 
     protected static ?string $pluralModelLabel = "Artículos";    
+    
     protected static ?string $slug = "Articulos";
 
     public static $estatus = ["Sometido","Aceptado","Publicado"];
@@ -92,7 +93,7 @@ class ArticuloResource extends Resource
                     ->label('Tipo'),
                 Tables\Columns\TextColumn::make('volumen')
                     ->numeric()
-                    ->label('Volumen'),
+                    ->label('Volumen')
                     ->formatStateUsing(fn(string $state): string => ArticuloResource::$estatus[$state])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tipo')

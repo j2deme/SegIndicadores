@@ -79,7 +79,7 @@ class CapitulomResource extends Resource
                 Tables\Columns\TextColumn::make('revision')
 
                     ->searchable()
-                    ->label('Revisión'),
+                    ->label('Revisión')
 
                 ->formatStateUsing(fn(string $state): string => CapitulomResource::$revision[$state])
                     ->searchable(),

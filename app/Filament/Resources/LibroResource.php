@@ -17,28 +17,43 @@ class LibroResource extends Resource
 {
     protected static ?string $model = Libro::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-book-open';
+
+    protected static ?string $modelLabel = 'Libro';
+
+    protected static ?string $pluralModelLabel = "Libros";    
+    
+    protected static ?string $slug = "Libros";
+
+
+    public static $tipo_participacion = ['Autor','Editor','Traductor']; 
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('tipo_participacion_autor')
+                Forms\Components\Select::make('tipo_participacion_autor')
                     ->required()
-                    ->maxLength(255),
+                    ->options(LibroResource::$tipo_participacion)
+                    ->label("Tipo de Participación"),
                 Forms\Components\TextInput::make('paginas')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->label("No. de Páginas"),
                 Forms\Components\TextInput::make('isbn')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label("ISBN"),
                 Forms\Components\TextInput::make('issn')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label("ISSN"),
                 Forms\Components\TextInput::make('casa_editorial')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->label("Casa Editorial"),
                 Forms\Components\TextInput::make('edicion')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->label("Edición"),
             ]);
     }
 

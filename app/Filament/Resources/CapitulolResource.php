@@ -86,7 +86,7 @@ class CapitulolResource extends Resource
 
                     ->numeric()
                     
-                    ->label('Edición'),
+                    ->label('Edición')
                     ->numeric(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
