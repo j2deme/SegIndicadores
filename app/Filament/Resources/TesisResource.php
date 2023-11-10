@@ -25,18 +25,9 @@ class TesisResource extends Resource
 
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    public static $grado = [
-        'Licenciatura',
-        'Especialización',
-        'Maestría' ,
-        'Doctorado',
-        'Posdoctorado'];
+    public static $grado = ['Licenciatura', 'Especialización', 'Maestría', 'Doctorado', 'Posdoctorado'];
 
-        public static $estatus = [
-            'En proceso',
-            'Trunca',
-            'Concluida' ,
-           ];
+        public static $estatus = ['En proceso', 'Trunca','Concluida'];
 
     public static function form(Form $form): Form
     {

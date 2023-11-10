@@ -62,19 +62,26 @@ class LibroResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('tipo_participacion_autor')
-                    ->searchable(),
+                    ->sortable()
+                    ->label("Tipo de Participación")
+                    ->formatStateUsing(fn(string $state): string => LibroResource::$tipo_participacion[$state]),
                 Tables\Columns\TextColumn::make('paginas')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label("No. de Páginas"),
                 Tables\Columns\TextColumn::make('isbn')
-                    ->searchable(),
+                    ->searchable()
+                    ->label("ISBN"),
                 Tables\Columns\TextColumn::make('issn')
-                    ->searchable(),
+                    ->searchable()
+                    ->label("ISSN"),
                 Tables\Columns\TextColumn::make('casa_editorial')
-                    ->searchable(),
+                    ->searchable()
+                    ->label("Casa Editorial"),
                 Tables\Columns\TextColumn::make('edicion')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label("Edición"),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
