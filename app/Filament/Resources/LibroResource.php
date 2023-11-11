@@ -21,12 +21,12 @@ class LibroResource extends Resource
 
     protected static ?string $modelLabel = 'Libro';
 
-    protected static ?string $pluralModelLabel = "Libros";    
-    
+    protected static ?string $pluralModelLabel = "Libros";
+
     protected static ?string $slug = "Libros";
 
 
-    public static $tipo_participacion = ['Autor','Editor','Traductor']; 
+    public static $tipo_participacion = ['Autor', 'Editor', 'Traductor'];
 
     public static function form(Form $form): Form
     {
@@ -106,14 +106,14 @@ class LibroResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -121,5 +121,15 @@ class LibroResource extends Resource
             'create' => Pages\CreateLibro::route('/create'),
             'edit' => Pages\EditLibro::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
 }

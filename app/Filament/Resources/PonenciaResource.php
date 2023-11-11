@@ -22,7 +22,7 @@ class PonenciaResource extends Resource
     protected static ?string $modelLabel = 'Ponencia';
 
     protected static ?string $pluralModelLabel = "Ponencias";
-    
+
     protected static ?string $slug = "Ponencia";
 
     public static function form(Form $form): Form
@@ -34,7 +34,7 @@ class PonenciaResource extends Resource
                     ->maxLength(255)
                     ->label('Evento'),
                 Forms\Components\DatePicker::make('fecha_evento')
-                
+
                     ->required()
                     ->label('Fecha de Evento'),
             ]);
@@ -75,14 +75,14 @@ class PonenciaResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -90,5 +90,15 @@ class PonenciaResource extends Resource
             'create' => Pages\CreatePonencia::route('/create'),
             'edit' => Pages\EditPonencia::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
 }

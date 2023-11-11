@@ -22,10 +22,10 @@ class AutoralResource extends Resource
     protected static ?string $modelLabel = 'Autoral';
 
     protected static ?string $pluralModelLabel = "Autorales";
-    
+
     protected static ?string $slug = "Autorales";
 
-     public static $tipo_autoral = ["Arquitectónica","Arte aplicado","Audiovisual", "Base de datos","Caricatura","Cinematográfica","Danza","De carácter plástico","Dibujo","Dramática","Escultórica","Fotográfica","Historieta","Literaria","Música con letra","Música sin letra","Pictórica","Programa de cómputo","Programa de radio","Programa de televisión"];
+    public static $tipo_autoral = ["Arquitectónica", "Arte aplicado", "Audiovisual", "Base de datos", "Caricatura", "Cinematográfica", "Danza", "De carácter plástico", "Dibujo", "Dramática", "Escultórica", "Fotográfica", "Historieta", "Literaria", "Música con letra", "Música sin letra", "Pictórica", "Programa de cómputo", "Programa de radio", "Programa de televisión"];
 
 
     public static function form(Form $form): Form
@@ -51,7 +51,7 @@ class AutoralResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('tipo')
-                ->formatStateUsing(fn(string $state): string => AutoralResource::$tipo_autoral[$state])
+                    ->formatStateUsing(fn(string $state): string => AutoralResource::$tipo_autoral[$state])
                     ->searchable()
                     ->label('Tipo'),
                 Tables\Columns\TextColumn::make('clave')
@@ -85,14 +85,14 @@ class AutoralResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -100,5 +100,15 @@ class AutoralResource extends Resource
             'create' => Pages\CreateAutoral::route('/create'),
             'edit' => Pages\EditAutoral::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
 }

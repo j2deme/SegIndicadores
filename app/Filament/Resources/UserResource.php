@@ -17,7 +17,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationIcon = 'heroicon-s-users';
 
     protected static ?string $modelLabel = 'Usuario';
 
@@ -49,7 +49,6 @@ class UserResource extends Resource
                     ->label('Correo Electrónico')
                     ->email()
                     ->required(),
-                //Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->label('Contraseña')
                     ->password()
@@ -160,5 +159,15 @@ class UserResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->where('es_admin', false);
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->es_admin;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->es_admin;
     }
 }

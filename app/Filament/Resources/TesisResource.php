@@ -16,29 +16,29 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class TesisResource extends Resource
 {
     protected static ?string $model = Tesis::class;
-    
+
     protected static ?string $modelLabel = 'Tesis';
 
     protected static ?string $pluralModelLabel = "Tesis Dirigida";
-    
+
     protected static ?string $slug = "Tesis";
-    
+
     protected static ?string $navigationIcon = 'heroicon-s-pencil-square';
 
     public static $grado = ['Licenciatura', 'Especialización', 'Maestría', 'Doctorado', 'Posdoctorado'];
 
-    public static $estatus = ['En proceso', 'Trunca','Concluida'];
+    public static $estatus = ['En proceso', 'Trunca', 'Concluida'];
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('grado')
-                ->options(TesisResource::$grado)
+                    ->options(TesisResource::$grado)
                     ->label('Grado'),
-                
+
                 Forms\Components\Select::make('estatus')
-                ->options(TesisResource::$estatus)
+                    ->options(TesisResource::$estatus)
                     ->label('Estatus')
             ]);
     }
@@ -48,11 +48,11 @@ class TesisResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('grado')
-                ->formatStateUsing(fn(string $state): string => TesisResource::$grado[$state])
+                    ->formatStateUsing(fn(string $state): string => TesisResource::$grado[$state])
                     ->label('Grado'),
-                   
+
                 Tables\Columns\TextColumn::make('estatus')
-                ->formatStateUsing(fn(string $state): string => TesisResource::$estatus[$state])
+                    ->formatStateUsing(fn(string $state): string => TesisResource::$estatus[$state])
                     ->label('Estatus'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -78,14 +78,14 @@ class TesisResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -93,5 +93,15 @@ class TesisResource extends Resource
             'create' => Pages\CreateTesis::route('/create'),
             'edit' => Pages\EditTesis::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
 }

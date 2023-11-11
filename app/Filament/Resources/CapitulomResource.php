@@ -22,10 +22,10 @@ class CapitulomResource extends Resource
     protected static ?string $modelLabel = 'Capítulo de Memoria';
 
     protected static ?string $pluralModelLabel = "Capítulos de Memoria";
-    
+
     protected static ?string $slug = "Capitulos-Memoria";
 
-    public static $revision = ["Sin Arbitraje","Arbitrado"];
+    public static $revision = ["Sin Arbitraje", "Arbitrado"];
 
     public static function form(Form $form): Form
     {
@@ -71,7 +71,7 @@ class CapitulomResource extends Resource
                 Tables\Columns\TextColumn::make('congreso')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('estado_region')
-                ->label('Estado')
+                    ->label('Estado')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('ciudad')
                     ->searchable()
@@ -121,14 +121,14 @@ class CapitulomResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -136,5 +136,15 @@ class CapitulomResource extends Resource
             'create' => Pages\CreateCapitulom::route('/create'),
             'edit' => Pages\EditCapitulom::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
 }

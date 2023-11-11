@@ -18,18 +18,19 @@ class PrototipoResource extends Resource
     protected static ?string $model = Prototipo::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-beaker';
-    
+
     protected static ?string $modelLabel = 'Prototipo';
 
     protected static ?string $pluralModelLabel = "Prototipos";
-    
+
     protected static ?string $slug = "Prototipo";
 
     public static $tipo_prototipo = [
-    'Arquitectónico',
-    'Programa de computo',
-    'Diseño industrial' ,
-    'Desarrollo industrial',];
+        'Arquitectónico',
+        'Programa de computo',
+        'Diseño industrial',
+        'Desarrollo industrial',
+    ];
 
 
     public static function form(Form $form): Form
@@ -46,15 +47,15 @@ class PrototipoResource extends Resource
                     ->columnSpanFull()
                     ->label('Objetivo'),
                 Forms\Components\TextInput::make('caracteristicas')
-                ->label("Características")
-                
+                    ->label("Características")
+
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('tipo')
-                ->label("Tipo de prototipo")
-                ->options(PrototipoResource::$tipo_prototipo),
-                
-                    
+                    ->label("Tipo de prototipo")
+                    ->options(PrototipoResource::$tipo_prototipo),
+
+
             ]);
     }
 
@@ -65,14 +66,14 @@ class PrototipoResource extends Resource
                 Tables\Columns\TextColumn::make('nombre_instituto')
                     ->searchable()
                     ->label('Nombre del Instituto'),
-                
-                    
+
+
                 Tables\Columns\TextColumn::make('caracteristicas')
                     ->searchable()
                     ->label('Características'),
-                
+
                 Tables\Columns\TextColumn::make('tipo')
-                ->formatStateUsing(fn(string $state): string => PrototipoResource::$tipo_prototipo[$state])
+                    ->formatStateUsing(fn(string $state): string => PrototipoResource::$tipo_prototipo[$state])
                     ->searchable()
                     ->label('Tipo'),
                 Tables\Columns\TextColumn::make('created_at')
@@ -99,14 +100,14 @@ class PrototipoResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -114,5 +115,15 @@ class PrototipoResource extends Resource
             'create' => Pages\CreatePrototipo::route('/create'),
             'edit' => Pages\EditPrototipo::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
 }

@@ -22,7 +22,7 @@ class OtroResource extends Resource
     protected static ?string $modelLabel = 'Otro';
 
     protected static ?string $pluralModelLabel = "Otros";
-    
+
     protected static ?string $slug = "Otros";
 
     public static function form(Form $form): Form
@@ -67,14 +67,14 @@ class OtroResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -82,5 +82,15 @@ class OtroResource extends Resource
             'create' => Pages\CreateOtro::route('/create'),
             'edit' => Pages\EditOtro::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
 }
