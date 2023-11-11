@@ -6,6 +6,7 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasName;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -59,6 +60,10 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
 
     protected $appends = ['nombre_completo'];
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return (str_ends_with($this->email, '@tecvalles.mx'));
+    }
 
     public function getFilamentAvatarUrl(): ?string
     {
