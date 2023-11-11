@@ -17,13 +17,15 @@ class TesisResource extends Resource
 {
     protected static ?string $model = Tesis::class;
 
+    protected static ?string $navigationIcon = 'heroicon-s-pencil-square';
+
+    protected static ?string $navigationGroup = 'Investigación';
+
     protected static ?string $modelLabel = 'Tesis';
 
-    protected static ?string $pluralModelLabel = "Tesis Dirigida";
+    protected static ?string $pluralModelLabel = "Tesis";
 
     protected static ?string $slug = "Tesis";
-
-    protected static ?string $navigationIcon = 'heroicon-s-pencil-square';
 
     public static $grado = ['Licenciatura', 'Especialización', 'Maestría', 'Doctorado', 'Posdoctorado'];
 

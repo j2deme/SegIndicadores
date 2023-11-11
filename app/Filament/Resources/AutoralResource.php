@@ -19,6 +19,8 @@ class AutoralResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-user';
 
+    protected static ?string $navigationGroup = 'Investigación';
+
     protected static ?string $modelLabel = 'Autoral';
 
     protected static ?string $pluralModelLabel = "Autorales";

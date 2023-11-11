@@ -19,6 +19,8 @@ class CapitulolResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-book-open';
 
+    protected static ?string $navigationGroup = 'Investigación';
+
     protected static ?string $modelLabel = 'Capítulo de Libro';
 
     protected static ?string $pluralModelLabel = "Capítulos de Libro";

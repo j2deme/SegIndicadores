@@ -19,6 +19,8 @@ class ArticuloResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-newspaper';
 
+    protected static ?string $navigationGroup = 'Investigación';
+
     protected static ?string $modelLabel = 'Artículo';
 
     protected static ?string $pluralModelLabel = "Artículos";

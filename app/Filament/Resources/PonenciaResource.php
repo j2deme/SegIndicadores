@@ -19,6 +19,8 @@ class PonenciaResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-presentation-chart-line';
 
+    protected static ?string $navigationGroup = 'Extensión';
+
     protected static ?string $modelLabel = 'Ponencia';
 
     protected static ?string $pluralModelLabel = "Ponencias";

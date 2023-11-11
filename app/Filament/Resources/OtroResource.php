@@ -19,6 +19,10 @@ class OtroResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-squares-plus';
 
+    protected static ?string $navigationGroup = 'Extensión';
+
+    protected static ?int $navigationSort = 10;
+
     protected static ?string $modelLabel = 'Otro';
 
     protected static ?string $pluralModelLabel = "Otros";

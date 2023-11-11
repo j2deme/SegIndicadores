@@ -19,6 +19,8 @@ class PrototipoResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-beaker';
 
+    protected static ?string $navigationGroup = 'Creación';
+
     protected static ?string $modelLabel = 'Prototipo';
 
     protected static ?string $pluralModelLabel = "Prototipos";

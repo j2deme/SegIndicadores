@@ -19,6 +19,8 @@ class LibroResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-bookmark-square';
 
+    protected static ?string $navigationGroup = 'Investigación';
+
     protected static ?string $modelLabel = 'Libro';
 
     protected static ?string $pluralModelLabel = "Libros";

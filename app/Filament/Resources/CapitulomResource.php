@@ -19,6 +19,8 @@ class CapitulomResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-document-minus';
 
+    protected static ?string $navigationGroup = 'Investigación';
+
     protected static ?string $modelLabel = 'Capítulo de Memoria';
 
     protected static ?string $pluralModelLabel = "Capítulos de Memoria";
