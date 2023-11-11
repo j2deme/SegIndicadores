@@ -27,11 +27,16 @@ class DepartamentoResource extends Resource
                 Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('jefe_id')
+                Forms\Components\Select::make('jefe.nombre_completo')
                     ->label('Jefe de departamento')
-                    
-                    ->required(),
-                
+                    ->relationship(
+                        name: 'jefe',
+                        titleAttribute: 'nombre_completo',
+                        modifyQueryUsing: fn(Builder $query) => $query->orderBy('name')->orderBy('apellidos'),
+                    )
+                    ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} {$record->apellidos}")
+                    ->native(false)
+                //->searchable(['name', 'apellidos'])
             ]);
     }
 
@@ -40,6 +45,10 @@ class DepartamentoResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('nombre')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('jefe.nombre_completo')
+                    ->label('Jefe de Departamento')
+                    ->default('Sin asignar')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -55,6 +64,7 @@ class DepartamentoResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
