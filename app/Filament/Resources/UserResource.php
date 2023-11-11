@@ -63,6 +63,7 @@ class UserResource extends Resource
                         'Postdoctorado' => 'Postdoctorado',
                         'Especialidad' => 'Especialidad',
                     ])
+                    ->native(false)
                     ->hiddenOn(Pages\CreateUser::class),
                 Forms\Components\TextInput::make('titulo')
                     ->hint('Escriba el título completo')
@@ -74,6 +75,7 @@ class UserResource extends Resource
                 Forms\Components\Select::make('departamento_id')
                     ->label('Departamento de Adscripción')
                     ->relationship('departamento', 'nombre')
+                    ->native(false)
             ]);
     }
 
