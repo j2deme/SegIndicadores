@@ -202,6 +202,11 @@ class RegistroResource extends Resource
         ];
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+    }
+
     public static function shouldRegisterNavigation(): bool
     {
         return !auth()->user()->es_admin;
