@@ -10,6 +10,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -56,9 +57,11 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'es_admin' => 'boolean',
+        'es_jefe' => 'boolean'
     ];
 
-    protected $appends = ['nombre_completo'];
+    protected $appends = ['nombre_completo', 'es_jefe'];
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -86,6 +89,11 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
         return "{$this->name} {$this->apellidos}";
     }
 
+    public function getEsJefeAttribute(): bool
+    {
+        return Departamento::where('jefe_id', $this->id)->first() ? true : false;
+    }
+
     /**
      * Obtiene los registros del usuario.
      *
@@ -106,5 +114,10 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
     public function departamento(): BelongsTo
     {
         return $this->belongsTo(Departamento::class);
+    }
+
+    public function jefatura(): HasOne
+    {
+        return $this->hasOne(Departamento::class, 'jefe_id', 'id');
     }
 }
