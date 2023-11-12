@@ -47,18 +47,11 @@ class DepartamentoResource extends Resource
                 Tables\Columns\TextColumn::make('nombre')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('jefe.nombre_completo')
-                    ->label('Jefe de Departamento')
+                    ->label('Jefe del Departamento')
                     ->default('Sin asignar')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('nombre')
             ->filters([
                 //
             ])
