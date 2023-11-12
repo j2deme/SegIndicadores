@@ -87,44 +87,33 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->label('Nombre')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('apellidos')
-                    ->sortable()
+                Tables\Columns\ImageColumn::make('avatar')
+                    ->label('')
+                    ->defaultImageUrl(fn(User $user) => $user->getFilamentAvatarUrl()),
+                Tables\Columns\TextColumn::make('nombre_completo')
+                    ->label('Nombre Completo')
+                    ->sortable(['name', 'apellidos'])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('curp')
-                    ->label('CURP')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('rfc')
-                    ->label('RFC')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('grado_estudios')
-                    ->label('Grado de Estudios')
-                    ->sortable()
+                    ->label('Correo Electrónico')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('departamento.nombre')
-                    ->label('Departamento')
+                    ->label('Adscripción')
+                    ->wrap()
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('jefatura.nombre')
+                    ->label('Jefe Depto.')
+                    ->wrap()
+                    ->default('-')
+                    ->searchable(),
+                Tables\Columns\BooleanColumn::make('es_jefe')
+                    ->label('Jefe')
+                    ->alignCenter()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\BooleanColumn::make('es_admin')
                     ->label('Administrador')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Creado')
-                    ->dateTime()
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Actualizado')
-                    ->dateTime()
-                    ->sortable()
+                    ->alignCenter()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
