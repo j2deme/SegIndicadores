@@ -41,17 +41,8 @@ class RegistroResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->label("Propietario")
-                    ->relationship(
-                        name: 'user',
-                        titleAttribute: 'nombre_completo',
-                        modifyQueryUsing: fn(Builder $query) => $query->where('es_admin', false)->orderBy('name')->orderBy('apellidos'),
-                    )
-                    ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} {$record->apellidos}")
-                    ->native(false)
-                    ->default(auth()->user()->id)
-                    ->required(),
+                Forms\Components\Hidden::make('user_id')
+                    ->default(auth()->user()->id),
                 Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(255),
