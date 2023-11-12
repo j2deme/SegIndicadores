@@ -88,8 +88,7 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar')
-                    ->label('')
-                    ->defaultImageUrl(fn(User $user) => $user->getFilamentAvatarUrl()),
+                    ->label(''),
                 Tables\Columns\TextColumn::make('nombre_completo')
                     ->label('Nombre Completo')
                     ->sortable(['name', 'apellidos'])

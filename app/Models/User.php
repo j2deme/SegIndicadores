@@ -61,7 +61,7 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
         'es_jefe' => 'boolean'
     ];
 
-    protected $appends = ['nombre_completo', 'es_jefe'];
+    protected $appends = ['nombre_completo', 'es_jefe', 'avatar'];
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -94,6 +94,11 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
         return Departamento::where('jefe_id', $this->id)->first() ? true : false;
     }
 
+    public function getAvatarAttribute(): string
+    {
+        return $this->getFilamentAvatarUrl();
+    }
+
     /**
      * Obtiene los registros del usuario.
      *
@@ -115,6 +120,13 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
     {
         return $this->belongsTo(Departamento::class);
     }
+
+    /**
+     * Obtiene la jefatura del usuario.
+     * 
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
 
     public function jefatura(): HasOne
     {
