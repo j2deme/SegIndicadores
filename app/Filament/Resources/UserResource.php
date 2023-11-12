@@ -75,7 +75,11 @@ class UserResource extends Resource
                 Forms\Components\Select::make('departamento_id')
                     ->label('Departamento de Adscripción')
                     ->relationship('departamento', 'nombre')
-                    ->native(false)
+                    ->native(false),
+                Forms\Components\TextInput::make('jefatura')
+                    ->label('Jefatura de Departamento')
+                    ->formatStateUsing(fn($state, User $user) => !$user->jefatura ? '-' : $user->jefatura->nombre)
+                    ->hiddenOn(['create', 'edit']),
             ]);
     }
 
