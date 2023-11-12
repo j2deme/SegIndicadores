@@ -55,6 +55,6 @@ class SectorSeeder extends Seeder
             }
         }
 
-        $this->command->info('Sectores y subsectores creados correctamente.');
+        $this->command->info('Sectores y subsectores creados.');
     }
 }
