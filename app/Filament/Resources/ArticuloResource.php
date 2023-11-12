@@ -42,11 +42,13 @@ class ArticuloResource extends Resource
                 Forms\Components\Select::make('estatus')
                     ->label('Estatus')
                     ->required()
-                    ->options(ArticuloResource::$estatus),
+                    ->options(ArticuloResource::$estatus)
+                    ->native(false),
                 Forms\Components\Select::make('tipo')
                     ->label('Tipo')
                     ->required()
-                    ->options(ArticuloResource::$tipos),
+                    ->options(ArticuloResource::$tipos)
+                    ->native(false),
                 Forms\Components\TextInput::make('volumen')
                     ->label('Volumen')
                     ->required()
@@ -103,7 +105,6 @@ class ArticuloResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('volumen')
                     ->numeric(),
-
                 Tables\Columns\TextColumn::make('indice')
                     ->searchable()
                     ->label('Índice'),
