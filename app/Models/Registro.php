@@ -22,7 +22,9 @@ class Registro extends Model
         'area_conocimiento',
         'fecha_publicacion',
         'pais_publicacion',
-        'evidencia'
+        'evidencia',
+        'registrable_id',
+        'registrable_type',
     ];
 
     protected $casts = [
@@ -52,5 +54,10 @@ class Registro extends Model
     public function subsector()
     {
         return $this->belongsTo(Subsector::class);
+    }
+
+    public function registrable(): \Illuminate\Database\Eloquent\Relations\MorphTo
+    {
+        return $this->morphTo();
     }
 }
