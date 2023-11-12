@@ -37,14 +37,14 @@ class UserResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('curp')
                     ->label('CURP')
-                    ->hiddenOn(Pages\CreateUser::class),
+                    ->hiddenOn('create'),
                 Forms\Components\TextInput::make('rfc')
                     ->label('RFC')
-                    ->hiddenOn(Pages\CreateUser::class),
+                    ->hiddenOn('create'),
                 Forms\Components\TextInput::make('telefono')
                     ->label('Teléfono')
                     ->tel()
-                    ->hiddenOn(Pages\CreateUser::class),
+                    ->hiddenOn('create'),
                 Forms\Components\TextInput::make('email')
                     ->label('Correo Electrónico')
                     ->email()
@@ -64,14 +64,14 @@ class UserResource extends Resource
                         'Especialidad' => 'Especialidad',
                     ])
                     ->native(false)
-                    ->hiddenOn(Pages\CreateUser::class),
+                    ->hiddenOn('create'),
                 Forms\Components\TextInput::make('titulo')
                     ->hint('Escriba el título completo')
-                    ->hiddenOn(Pages\CreateUser::class),
+                    ->hiddenOn('create'),
                 Forms\Components\TextInput::make('cedula')
                     ->hint('Del último grado de estudios')
                     ->label('Cédula Profesional')
-                    ->hiddenOn(Pages\CreateUser::class),
+                    ->hiddenOn('create'),
                 Forms\Components\Select::make('departamento_id')
                     ->label('Departamento de Adscripción')
                     ->relationship('departamento', 'nombre')
