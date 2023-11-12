@@ -3,18 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RegistroResource\Pages;
-use App\Filament\Resources\RegistroResource\RelationManagers;
 use App\Models\Registro;
+use App\Models\Subsector;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Get;
-use App\Models\Subsector;
 use Illuminate\Support\Collection;
 
 class RegistroResource extends Resource
@@ -43,7 +41,7 @@ class RegistroResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user.nombre_completo')
+                Forms\Components\Select::make('user_id')
                     ->label("Propietario")
                     ->relationship(
                         name: 'user',
