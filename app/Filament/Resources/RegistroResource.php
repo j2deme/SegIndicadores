@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Get;
 use App\Models\Subsector;
@@ -42,9 +43,16 @@ class RegistroResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
+                Forms\Components\Select::make('user.nombre_completo')
                     ->label("Propietario")
-                    ->relationship('user', 'name')
+                    ->relationship(
+                        name: 'user',
+                        titleAttribute: 'nombre_completo',
+                        modifyQueryUsing: fn(Builder $query) => $query->where('es_admin', false)->orderBy('name')->orderBy('apellidos'),
+                    )
+                    ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} {$record->apellidos}")
+                    ->native(false)
+                    ->default(auth()->user()->id)
                     ->required(),
                 Forms\Components\TextInput::make('nombre')
                     ->required()
