@@ -117,7 +117,10 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                \Filament\Tables\Filters\SelectFilter::make('departamento')
+                    ->label('Adscripción')
+                    ->attribute('departamento.nombre')
+                    ->native(false),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
