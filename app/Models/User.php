@@ -3,14 +3,19 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
+use Filament\Models\Contracts\HasName;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -52,7 +57,47 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'es_admin' => 'boolean',
+        'es_jefe' => 'boolean'
     ];
+
+    protected $appends = ['nombre_completo', 'es_jefe', 'avatar'];
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return (str_ends_with($this->email, '@tecvalles.mx'));
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        $name = str($this->name . ' ' . $this->apellidos)
+            ->trim()
+            ->explode(' ')
+            ->map(fn(string $segment): string => filled($segment) ? mb_substr($segment, 0, 1) : '')
+            ->join(' ');
+
+        return 'https://source.boringavatars.com/beam/120/' . urlencode($name) . '?colors=3a3132,0f4571,386dbd,009ddd,05d3f8';
+    }
+
+    public function getFilamentName(): string
+    {
+        return "{$this->name} {$this->apellidos}";
+    }
+
+    public function getNombreCompletoAttribute(): string
+    {
+        return "{$this->name} {$this->apellidos}";
+    }
+
+    public function getEsJefeAttribute(): bool
+    {
+        return Departamento::where('jefe_id', $this->id)->first() ? true : false;
+    }
+
+    public function getAvatarAttribute(): string
+    {
+        return $this->getFilamentAvatarUrl();
+    }
 
     /**
      * Obtiene los registros del usuario.
@@ -74,5 +119,17 @@ class User extends Authenticatable
     public function departamento(): BelongsTo
     {
         return $this->belongsTo(Departamento::class);
+    }
+
+    /**
+     * Obtiene la jefatura del usuario.
+     * 
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+
+    public function jefatura(): HasOne
+    {
+        return $this->hasOne(Departamento::class, 'jefe_id', 'id');
     }
 }

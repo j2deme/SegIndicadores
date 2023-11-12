@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Get;
 use App\Models\Subsector;
@@ -22,6 +23,14 @@ class RegistroResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-rectangle-stack';
 
+    protected static ?int $navigationSort = 1;
+
+    protected static ?string $modelLabel = 'Registro';
+
+    protected static ?string $pluralModelLabel = "Registros";
+
+    protected static ?string $slug = "Registros";
+
     public static $paises = ["Afganistán", "Albania", "Alemania", "Andorra", "Angola", "Antigua y Barbuda", "Arabia Saudita", "Argelia", "Argentina", "Armenia", "Australia", "Austria", "Azerbaiyán", "Bahamas", "Bangladés", "Barbados", "Baréin", "Bélgica", "Belice", "Benín", "Bielorrusia", "Birmania", "Bolivia", "Bosnia y Herzegovina", "Botsuana", "Brasil", "Brunéi", "Bulgaria", "Burkina Faso", "Burundi", "Bután", "Cabo Verde", "Camboya", "Camerún", "Canadá", "Catar", "Chad", "Chile", "China", "Chipre", "Ciudad del Vaticano", "Colombia", "Comoras", "Corea del Norte", "Corea del Sur", "Costa de Marfil", "Costa Rica", "Croacia", "Cuba", "Dinamarca", "Dominica", "Ecuador", "Egipto", "El Salvador", "Emiratos Árabes Unidos", "Eritrea", "Eslovaquia", "Eslovenia", "España", "Estados Unidos", "Estonia", "Etiopía", "Filipinas", "Finlandia", "Fiyi", "Francia", "Gabón", "Gambia", "Georgia", "Ghana", "Granada", "Grecia", "Guatemala", "Guyana", "Guinea", "Guinea ecuatorial", "Guinea-Bisáu", "Haití", "Honduras", "Hungría", "India", "Indonesia", "Irak", "Irán", "Irlanda", "Islandia", "Islas Marshall", "Islas Salomón", "Israel", "Italia", "Jamaica", "Japón", "Jordania", "Kazajistán", "Kenia", "Kirguistán", "Kiribati", "Kuwait", "Laos", "Lesoto", "Letonia", "Líbano", "Liberia", "Libia", "Liechtenstein", "Lituania", "Luxemburgo", "Madagascar", "Malasia", "Malaui", "Maldivas", "Malí", "Malta", "Marruecos", "Mauricio", "Mauritania", "México", "Micronesia", "Moldavia", "Mónaco", "Mongolia", "Montenegro", "Mozambique", "Namibia", "Nauru", "Nepal", "Nicaragua", "Níger", "Nigeria", "Noruega", "Nueva Zelanda", "Omán", "Países Bajos", "Pakistán", "Palaos", "Palestina", "Panamá", "Papúa Nueva Guinea", "Paraguay", "Perú", "Polonia", "Portugal", "Reino Unido", "República Centroafricana", "República Checa", "República de Macedonia", "República del Congo", "República Democrática del Congo", "República Dominicana", "República Sudafricana", "Ruanda", "Rumanía", "Rusia", "Samoa", "San Cristóbal y Nieves", "San Marino", "San Vicente y las Granadinas", "Santa Lucía", "Santo Tomé y Príncipe", "Senegal", "Serbia", "Seychelles", "Sierra Leona", "Singapur", "Siria", "Somalia", "Sri Lanka", "Suazilandia", "Sudán", "Sudán del Sur", "Suecia", "Suiza", "Surinam", "Tailandia", "Tanzania", "Tayikistán", "Timor Oriental", "Togo", "Tonga", "Trinidad y Tobago", "Túnez", "Turkmenistán", "Turquía", "Tuvalu", "Ucrania", "Uganda", "Uruguay", "Uzbekistán", "Vanuatu", "Venezuela", "Vietnam", "Yemen", "Yibuti", "Zambia", "Zimbabue"];
 
     public static $propositos = ["Asimilación de Tecnología", "Creación", "Desarrollo Tecnológico", "Difusión", "Generación de Conocimiento", "Investigación Aplicada", "Transferencia de Tecnología"];
@@ -30,19 +39,20 @@ class RegistroResource extends Resource
 
     public static $areas_conocimiento = ["Ciencias Agrícolas y Forestales", "Ciencias Biológicas", "Ciencias de la Computación, Sistemas Computacionales, Informática", "Ciencias de la Educación", "Ciencias de la Tierra y del Medio Ambiente", "Ciencias de los Materiales,Polímeros", "Ciencias del Mar", "Ciencias Químicas", "Ingeniería Eléctrica, Electrónica", "Ingenieria Industrial, Administración y Desarrollo Regional", "Ingeniería Mecánica, Mecatrónica", "Ingeniería Química, Bioquímica, Alimentos, Biotecnología"];
 
-    protected static ?string $modelLabel = 'Registro';
-
-    protected static ?string $pluralModelLabel = "Registros";
-
-    protected static ?string $slug = "Registros";
-
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
+                Forms\Components\Select::make('user.nombre_completo')
                     ->label("Propietario")
-                    ->relationship('user', 'name')
+                    ->relationship(
+                        name: 'user',
+                        titleAttribute: 'nombre_completo',
+                        modifyQueryUsing: fn(Builder $query) => $query->where('es_admin', false)->orderBy('name')->orderBy('apellidos'),
+                    )
+                    ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} {$record->apellidos}")
+                    ->native(false)
+                    ->default(auth()->user()->id)
                     ->required(),
                 Forms\Components\TextInput::make('nombre')
                     ->required()
@@ -192,5 +202,15 @@ class RegistroResource extends Resource
             'create' => Pages\CreateRegistro::route('/create'),
             'edit' => Pages\EditRegistro::route('/{record}/edit'),
         ];
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return !auth()->user()->es_admin;
     }
 }

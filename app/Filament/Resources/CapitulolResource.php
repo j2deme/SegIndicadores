@@ -19,13 +19,15 @@ class CapitulolResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-book-open';
 
+    protected static ?string $navigationGroup = 'Investigación';
+
     protected static ?string $modelLabel = 'Capítulo de Libro';
-    
+
     protected static ?string $pluralModelLabel = "Capítulos de Libro";
-    
+
     protected static ?string $slug = "Capitulos-Libro";
 
-    protected static?string $recordTitleAttribute = "text";
+    protected static ?string $recordTitleAttribute = "text";
 
     public static function form(Form $form): Form
     {
@@ -46,14 +48,14 @@ class CapitulolResource extends Resource
                     ->maxLength(255)
                     ->label('ISBN'),
                 Forms\Components\TextInput::make('issn')
-                    ->label('ISSN')     
+                    ->label('ISSN')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('casa_editorial')
                     ->label('Casa Editorial')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('edicion')
-                ->label('Edición')
+                    ->label('Edición')
                     ->required(),
             ]);
     }
@@ -83,7 +85,7 @@ class CapitulolResource extends Resource
                     ->searchable()
                     ->label('Casa Editorial'),
                 Tables\Columns\TextColumn::make('edicion')
-                    ->numeric()        
+                    ->numeric()
                     ->label('Edición'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -109,14 +111,14 @@ class CapitulolResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -124,5 +126,15 @@ class CapitulolResource extends Resource
             'create' => Pages\CreateCapitulol::route('/create'),
             'edit' => Pages\EditCapitulol::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
 }

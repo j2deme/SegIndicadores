@@ -18,23 +18,25 @@ class ArticuloResource extends Resource
     protected static ?string $model = Articulo::class;
 
     protected static ?string $navigationIcon = 'heroicon-s-newspaper';
-    
+
+    protected static ?string $navigationGroup = 'Investigación';
+
     protected static ?string $modelLabel = 'Artículo';
 
-    protected static ?string $pluralModelLabel = "Artículos";    
-    
+    protected static ?string $pluralModelLabel = "Artículos";
+
     protected static ?string $slug = "Articulos";
 
-    public static $estatus = ["Sometido","Aceptado","Publicado"];
+    public static $estatus = ["Sometido", "Aceptado", "Publicado"];
 
-    public static $tipos = ["Divulgación","Arbitrado","Indexado"];
+    public static $tipos = ["Divulgación", "Arbitrado", "Indexado"];
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('revista')
-                    ->label('Revista')     
+                    ->label('Revista')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('estatus')
@@ -66,7 +68,7 @@ class ArticuloResource extends Resource
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('isbn')
-                    ->label('ISBN')    
+                    ->label('ISBN')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('issn')
                     ->label('ISSN')
@@ -116,7 +118,7 @@ class ArticuloResource extends Resource
                     ->sortable()
                     ->label('Página Fin'),
                 Tables\Columns\TextColumn::make('isbn')
-                ->label('ISBN')
+                    ->label('ISBN')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('issn')
                     ->label('ISSN')
@@ -148,14 +150,14 @@ class ArticuloResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -163,5 +165,15 @@ class ArticuloResource extends Resource
             'create' => Pages\CreateArticulo::route('/create'),
             'edit' => Pages\EditArticulo::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
 }

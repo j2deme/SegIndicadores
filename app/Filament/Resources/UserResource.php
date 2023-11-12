@@ -17,7 +17,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationIcon = 'heroicon-s-users';
 
     protected static ?string $modelLabel = 'Usuario';
 
@@ -37,19 +37,18 @@ class UserResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('curp')
                     ->label('CURP')
-                    ->hiddenOn(Pages\CreateUser::class),
+                    ->hiddenOn('create'),
                 Forms\Components\TextInput::make('rfc')
                     ->label('RFC')
-                    ->hiddenOn(Pages\CreateUser::class),
+                    ->hiddenOn('create'),
                 Forms\Components\TextInput::make('telefono')
                     ->label('Teléfono')
                     ->tel()
-                    ->hiddenOn(Pages\CreateUser::class),
+                    ->hiddenOn('create'),
                 Forms\Components\TextInput::make('email')
                     ->label('Correo Electrónico')
                     ->email()
                     ->required(),
-                //Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('password')
                     ->label('Contraseña')
                     ->password()
@@ -64,17 +63,23 @@ class UserResource extends Resource
                         'Postdoctorado' => 'Postdoctorado',
                         'Especialidad' => 'Especialidad',
                     ])
-                    ->hiddenOn(Pages\CreateUser::class),
+                    ->native(false)
+                    ->hiddenOn('create'),
                 Forms\Components\TextInput::make('titulo')
                     ->hint('Escriba el título completo')
-                    ->hiddenOn(Pages\CreateUser::class),
+                    ->hiddenOn('create'),
                 Forms\Components\TextInput::make('cedula')
                     ->hint('Del último grado de estudios')
                     ->label('Cédula Profesional')
-                    ->hiddenOn(Pages\CreateUser::class),
+                    ->hiddenOn('create'),
                 Forms\Components\Select::make('departamento_id')
                     ->label('Departamento de Adscripción')
                     ->relationship('departamento', 'nombre')
+                    ->native(false),
+                Forms\Components\TextInput::make('jefatura')
+                    ->label('Jefatura de Departamento')
+                    ->formatStateUsing(fn($state, User $user) => !$user->jefatura ? '-' : $user->jefatura->nombre)
+                    ->hiddenOn(['create', 'edit']),
             ]);
     }
 
@@ -82,48 +87,39 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->label('Nombre')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('apellidos')
-                    ->sortable()
+                Tables\Columns\ImageColumn::make('avatar')
+                    ->label(''),
+                Tables\Columns\TextColumn::make('nombre_completo')
+                    ->label('Nombre Completo')
+                    ->sortable(['name', 'apellidos'])
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('curp')
-                    ->label('CURP')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('rfc')
-                    ->label('RFC')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('grado_estudios')
-                    ->label('Grado de Estudios')
-                    ->sortable()
+                    ->label('Correo Electrónico')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('departamento.nombre')
-                    ->label('Departamento')
+                    ->label('Adscripción')
+                    ->wrap()
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('jefatura.nombre')
+                    ->label('Jefe Depto.')
+                    ->wrap()
+                    ->default('-')
+                    ->searchable(),
+                Tables\Columns\BooleanColumn::make('es_jefe')
+                    ->label('Jefe')
+                    ->alignCenter()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\BooleanColumn::make('es_admin')
                     ->label('Administrador')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Creado')
-                    ->dateTime()
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Actualizado')
-                    ->dateTime()
-                    ->sortable()
+                    ->alignCenter()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                \Filament\Tables\Filters\SelectFilter::make('departamento')
+                    ->label('Adscripción')
+                    ->attribute('departamento.nombre')
+                    ->native(false),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -160,5 +156,15 @@ class UserResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->where('es_admin', false);
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->user()->es_admin;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->es_admin;
     }
 }

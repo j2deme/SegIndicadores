@@ -19,30 +19,33 @@ class IndustrialResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-s-wrench-screwdriver';
 
+    protected static ?string $navigationGroup = 'Creación';
+
     protected static ?string $modelLabel = 'Industrial';
 
     protected static ?string $pluralModelLabel = "Industriales";
-    
+
     protected static ?string $slug = "Industriales";
     public static $tipo_propiedad = [
         'Denominación de origen',
         'Marca',
         'Modelo de utilidad',
-        'Patente',];
+        'Patente',
+    ];
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('tipo')
-                ->label("Tipo de propiedad")
-                ->options(IndustrialResource::$tipo_propiedad),
+                    ->label("Tipo de propiedad")
+                    ->options(IndustrialResource::$tipo_propiedad),
                 Forms\Components\TextInput::make('clave')
                     ->required()
                     ->maxLength(255)
                     ->label('Clave'),
                 Forms\Components\DatePicker::make('fecha_registro')
-                ->label("Fecha de Registro")
+                    ->label("Fecha de Registro")
                     ->required(),
             ]);
     }
@@ -52,7 +55,7 @@ class IndustrialResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('tipo')
-                ->formatStateUsing(fn(string $state): string => IndustrialResource::$tipo_propiedad[$state])
+                    ->formatStateUsing(fn(string $state): string => IndustrialResource::$tipo_propiedad[$state])
                     ->searchable()
                     ->label('Tipo'),
                 Tables\Columns\TextColumn::make('clave')
@@ -86,14 +89,14 @@ class IndustrialResource extends Resource
                 Tables\Actions\CreateAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
         return [
             //
         ];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -101,5 +104,15 @@ class IndustrialResource extends Resource
             'create' => Pages\CreateIndustrial::route('/create'),
             'edit' => Pages\EditIndustrial::route('/{record}/edit'),
         ];
-    }    
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return !auth()->user()->es_admin;
+    }
 }
