@@ -4,7 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ArticuloResource\Pages;
 use App\Filament\Resources\ArticuloResource\RelationManagers;
+use App\Filament\Resources\RegistroResource;
 use App\Models\Articulo;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,6 +37,8 @@ class ArticuloResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Hidden::make('user_id')
+                    ->default(auth()->user()->id),
                 Forms\Components\TextInput::make('revista')
                     ->label('Revista')
                     ->required()
@@ -79,6 +83,10 @@ class ArticuloResource extends Resource
                     ->label('Casa Editorial')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
             ]);
     }
 
@@ -166,6 +174,11 @@ class ArticuloResource extends Resource
             'create' => Pages\CreateArticulo::route('/create'),
             'edit' => Pages\EditArticulo::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
     }
 
     public static function shouldRegisterNavigation(): bool
