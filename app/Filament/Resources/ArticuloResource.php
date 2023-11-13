@@ -4,7 +4,9 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\ArticuloResource\Pages;
 use App\Filament\Resources\ArticuloResource\RelationManagers;
+use App\Filament\Resources\RegistroResource;
 use App\Models\Articulo;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,6 +37,8 @@ class ArticuloResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Hidden::make('user_id')
+                    ->default(auth()->user()->id),
                 Forms\Components\TextInput::make('revista')
                     ->label('Revista')
                     ->required()
@@ -42,11 +46,13 @@ class ArticuloResource extends Resource
                 Forms\Components\Select::make('estatus')
                     ->label('Estatus')
                     ->required()
-                    ->options(ArticuloResource::$estatus),
+                    ->options(ArticuloResource::$estatus)
+                    ->native(false),
                 Forms\Components\Select::make('tipo')
                     ->label('Tipo')
                     ->required()
-                    ->options(ArticuloResource::$tipos),
+                    ->options(ArticuloResource::$tipos)
+                    ->native(false),
                 Forms\Components\TextInput::make('volumen')
                     ->label('Volumen')
                     ->required()
@@ -77,6 +83,10 @@ class ArticuloResource extends Resource
                     ->label('Casa Editorial')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
             ]);
     }
 
@@ -103,7 +113,6 @@ class ArticuloResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('volumen')
                     ->numeric(),
-
                 Tables\Columns\TextColumn::make('indice')
                     ->searchable()
                     ->label('Índice'),
@@ -165,6 +174,11 @@ class ArticuloResource extends Resource
             'create' => Pages\CreateArticulo::route('/create'),
             'edit' => Pages\EditArticulo::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
     }
 
     public static function shouldRegisterNavigation(): bool

@@ -88,7 +88,8 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar')
-                    ->label(''),
+                    ->label('')
+                    ->alignCenter(),
                 Tables\Columns\TextColumn::make('nombre_completo')
                     ->label('Nombre Completo')
                     ->sortable(['name', 'apellidos'])
@@ -105,16 +106,14 @@ class UserResource extends Resource
                     ->label('Jefe Depto.')
                     ->wrap()
                     ->default('-')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\BooleanColumn::make('es_jefe')
-                    ->label('Jefe')
-                    ->alignCenter()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\BooleanColumn::make('es_admin')
-                    ->label('Administrador')
+                    ->label('Es Jefe')
                     ->alignCenter()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort(fn(Builder $query) => $query->orderBy('name')->orderBy('apellidos'))
             ->filters([
                 \Filament\Tables\Filters\SelectFilter::make('departamento')
                     ->label('Adscripción')

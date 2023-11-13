@@ -26,5 +26,11 @@ class DatabaseSeeder extends Seeder
             'password' => 'admin123',
             'es_admin' => true,
         ]);
+
+        User::factory(5)->create();
+
+        $this->call(SectorSeeder::class);
+
+        $this->call(DepartamentoSeeder::class);
     }
 }

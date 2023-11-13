@@ -20,7 +20,16 @@ class Articulo extends Model
         'isbn',
         'issn',
         'casa_editorial',
-
-
+        'user_id'
     ];
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function registro(): \Illuminate\Database\Eloquent\Relations\MorphOne
+    {
+        return $this->morphOne(Registro::class, 'registrable');
+    }
 }

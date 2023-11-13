@@ -3,18 +3,16 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\RegistroResource\Pages;
-use App\Filament\Resources\RegistroResource\RelationManagers;
 use App\Models\Registro;
+use App\Models\Subsector;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Get;
-use App\Models\Subsector;
 use Illuminate\Support\Collection;
 
 class RegistroResource extends Resource
@@ -43,23 +41,15 @@ class RegistroResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user.nombre_completo')
-                    ->label("Propietario")
-                    ->relationship(
-                        name: 'user',
-                        titleAttribute: 'nombre_completo',
-                        modifyQueryUsing: fn(Builder $query) => $query->where('es_admin', false)->orderBy('name')->orderBy('apellidos'),
-                    )
-                    ->getOptionLabelFromRecordUsing(fn(Model $record) => "{$record->name} {$record->apellidos}")
-                    ->native(false)
-                    ->default(auth()->user()->id)
-                    ->required(),
+                Forms\Components\Hidden::make('user_id')
+                    ->default(auth()->user()->id),
                 Forms\Components\TextInput::make('nombre')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('proposito')
                     ->label('Propósito')
-                    ->options(RegistroResource::$propositos),
+                    ->options(RegistroResource::$propositos)
+                    ->native(false),
                 Forms\Components\TextInput::make('autores')
                     ->required()
                     ->maxLength(255),
@@ -71,31 +61,39 @@ class RegistroResource extends Resource
                         '3' => 'Tercer autor',
                         '4' => 'Cuarto autor',
                         '5' => 'Quinto autor',
-                    ]),
+                    ])
+                    ->native(false),
                 Forms\Components\Textarea::make('descripcion')
                     ->label('Descripción')
                     ->maxLength(65535)
                     ->columnSpanFull(),
                 Forms\Components\Select::make('sector_id')
+                    ->label('Sector')
                     ->relationship('sector', 'nombre')
+                    ->native(false)
                     ->live(),
                 Forms\Components\Select::make('subsector_id')
                     ->label('Subsector')
                     ->options(fn(Get $get): Collection => Subsector::query()
                         ->where('sector_id', $get('sector_id'))
-                        ->pluck('nombre', 'id')),
+                        ->pluck('nombre', 'id'))
+                    ->native(false)
+                    ->live(),
                 Forms\Components\Select::make('area_prioritaria_pais')
                     ->label('Área Prioritaria')
-                    ->options(RegistroResource::$areas_prioritarias),
+                    ->options(RegistroResource::$areas_prioritarias)
+                    ->native(false),
                 Forms\Components\Select::make('area_conocimiento')
                     ->label('Área de Conocimiento')
-                    ->options(RegistroResource::$areas_conocimiento),
+                    ->options(RegistroResource::$areas_conocimiento)
+                    ->native(false),
                 Forms\Components\DatePicker::make('fecha_publicacion')
                     ->label('Fecha de Publicación'),
                 Forms\Components\Select::make('pais_publicacion')
                     ->label('País de Publicación')
                     ->searchable()
-                    ->options(RegistroResource::$paises),
+                    ->options(RegistroResource::$paises)
+                    ->native(false),
                 Forms\Components\FileUpload::make('evidencia')
                     ->multiple()
                     ->label('Evidencia'),
@@ -202,6 +200,11 @@ class RegistroResource extends Resource
             'create' => Pages\CreateRegistro::route('/create'),
             'edit' => Pages\EditRegistro::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
     }
 
     public static function shouldRegisterNavigation(): bool
