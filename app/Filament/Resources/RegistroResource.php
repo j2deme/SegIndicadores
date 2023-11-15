@@ -65,28 +65,32 @@ class RegistroResource extends Resource
                     ->native(false),
                 Forms\Components\Textarea::make('descripcion')
                     ->label('Descripción')
-                    ->maxLength(65535)
+                    ->maxLength(2000)
                     ->columnSpanFull(),
-                Forms\Components\Select::make('sector_id')
-                    ->label('Sector')
-                    ->relationship('sector', 'nombre')
-                    ->native(false)
-                    ->live(),
-                Forms\Components\Select::make('subsector_id')
-                    ->label('Subsector')
-                    ->options(fn(Get $get): Collection => Subsector::query()
-                        ->where('sector_id', $get('sector_id'))
-                        ->pluck('nombre', 'id'))
-                    ->native(false)
-                    ->live(),
-                Forms\Components\Select::make('area_prioritaria_pais')
-                    ->label('Área Prioritaria')
-                    ->options(RegistroResource::$areas_prioritarias)
-                    ->native(false),
-                Forms\Components\Select::make('area_conocimiento')
-                    ->label('Área de Conocimiento')
-                    ->options(RegistroResource::$areas_conocimiento)
-                    ->native(false),
+                Forms\Components\Fieldset::make('Área, Sector y Disciplina')
+                    ->schema([
+                        Forms\Components\Select::make('area_prioritaria_pais')
+                            ->label('Área Prioritaria')
+                            ->options(RegistroResource::$areas_prioritarias)
+                            ->native(false),
+                        Forms\Components\Select::make('area_conocimiento')
+                            ->label('Área de Conocimiento')
+                            ->options(RegistroResource::$areas_conocimiento)
+                            ->native(false),
+                        Forms\Components\Select::make('sector_id')
+                            ->label('Sector')
+                            ->relationship('sector', 'nombre')
+                            ->native(false)
+                            ->live(),
+                        Forms\Components\Select::make('subsector_id')
+                            ->label('Subsector')
+                            ->options(fn(Get $get): Collection => Subsector::query()
+                                ->where('sector_id', $get('sector_id'))
+                                ->pluck('nombre', 'id'))
+                            ->native(false)
+                            ->live(),
+                    ]),
+
                 Forms\Components\DatePicker::make('fecha_publicacion')
                     ->label('Fecha de Publicación'),
                 Forms\Components\Select::make('pais_publicacion')
@@ -97,7 +101,6 @@ class RegistroResource extends Resource
                 Forms\Components\FileUpload::make('evidencia')
                     ->multiple()
                     ->label('Evidencia'),
-                    
             ]);
     }
 
@@ -105,11 +108,24 @@ class RegistroResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('user.nombre_completo')
                     ->label('Autor')
-                    ->sortable(),
+                    ->sortable()
+                    ->hidden(fn(): bool => !auth()->user()->es_jefe),
                 Tables\Columns\TextColumn::make('nombre')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('registrable_type')
+                    ->label('Tipo ')
+                    ->formatStateUsing(function ($state): string {
+                        if (str($state)->endsWith('Capitulom')) {
+                            return 'Capítulo de Memoria';
+                        } elseif (str($state)->endsWith('Capitulol')) {
+                            return 'Capítulo de Libro';
+                        } else {
+                            return str_replace('App\\Models\\', '', $state);
+                        }
+                    }),
                 Tables\Columns\TextColumn::make('proposito')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$propositos[$state])
                     ->searchable()
@@ -132,42 +148,30 @@ class RegistroResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('sector.nombre')
                     ->label('Sector')
+                    ->wrap()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('subsector.nombre')
                     ->label('Subsector')
+                    ->wrap()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$areas_prioritarias[$state])
                     ->searchable()
+                    ->wrap()
                     ->label('Área Prioritaria'),
                 Tables\Columns\TextColumn::make('area_conocimiento')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$areas_conocimiento[$state])
                     ->searchable()
+                    ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('fecha_publicacion')
-                    ->date()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->label('Fecha de Publicación'),
                 Tables\Columns\TextColumn::make('pais_publicacion')
                     ->formatStateUsing(fn(string $state): string => RegistroResource::$paises[$state])
                     ->searchable()
                     ->label('País de Publicación'),
                 Tables\Columns\TextColumn::make('evidencia')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true)
                     ->label('Evidencia'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Creado')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Actualizado')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
