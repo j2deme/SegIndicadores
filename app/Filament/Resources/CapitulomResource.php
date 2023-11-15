@@ -57,10 +57,12 @@ class CapitulomResource extends Resource
                 Forms\Components\TextInput::make('pagina_inicio')
                     ->required()
                     ->numeric()
+                    ->minValue(0)
                     ->label('Página Inicio'),
                 Forms\Components\TextInput::make('pagina_fin')
                     ->required()
                     ->numeric()
+                    ->minValue(0)
                     ->label('Página Fin'),
                 Forms\Components\TextInput::make('isbn')
                     ->label('ISBN')

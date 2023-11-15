@@ -46,6 +46,7 @@ class LibroResource extends Resource
                 Forms\Components\TextInput::make('paginas')
                     ->required()
                     ->numeric()
+                    ->minValue(0)
                     ->label("No. de Páginas"),
                 Forms\Components\TextInput::make('isbn')
                     ->maxLength(255)
