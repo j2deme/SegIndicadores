@@ -14,6 +14,14 @@ class EditIndustrial extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            
         ];
+       
+
+        
+    }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 }

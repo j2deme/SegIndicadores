@@ -21,4 +21,7 @@ class EditRegistro extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+
+    
 }
