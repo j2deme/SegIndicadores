@@ -22,7 +22,7 @@ class UserFactory extends Factory
         $fullName = $name . ' ' . $lastName;
 
         return [
-            'name' => $fullName,
+            'name' => $name,
             'apellidos' => $lastName,
             'email' => strtolower($name) . "." . strtolower($lastName) . "@tecvalles.mx",
             'email_verified_at' => now(),

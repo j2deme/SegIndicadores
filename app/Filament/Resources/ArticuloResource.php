@@ -39,54 +39,65 @@ class ArticuloResource extends Resource
             ->schema([
                 Forms\Components\Hidden::make('user_id')
                     ->default(auth()->user()->id),
-                Forms\Components\TextInput::make('revista')
-                    ->label('Revista')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('estatus')
-                    ->label('Estatus')
-                    ->required()
-                    ->options(ArticuloResource::$estatus)
-                    ->native(false),
-                Forms\Components\Select::make('tipo')
-                    ->label('Tipo')
-                    ->required()
-                    ->options(ArticuloResource::$tipos)
-                    ->native(false),
-                Forms\Components\TextInput::make('volumen')
-                    ->label('Volumen')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('indice')
-                    ->label('Índice')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('url')
-                    ->label('URL')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('pagina_inicio')
-                    ->label('Página Inicio')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('pagina_fin')
-                    ->label('Página Fin')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('isbn')
-                    ->label('ISBN')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('issn')
-                    ->label('ISSN')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('casa_editorial')
-                    ->label('Casa Editorial')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Section::make('Información de Registro')
+                Forms\Components\Section::make('Información del Artículo')
+                    ->collapsible()
                     ->relationship('registro')
                     ->schema(RegistroResource::form($form)->getComponents())
                     ->columns(2),
+                Forms\Components\Section::make('Información Adicional')
+                    ->collapsible()
+                    ->schema([
+                        Forms\Components\TextInput::make('revista')
+                            ->label('Revista')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('casa_editorial')
+                            ->label('Casa Editorial')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('estatus')
+                            ->label('Estatus')
+                            ->required()
+                            ->options(ArticuloResource::$estatus)
+                            ->native(false),
+                        Forms\Components\Select::make('tipo')
+                            ->label('Tipo')
+                            ->required()
+                            ->options(ArticuloResource::$tipos)
+                            ->native(false),
+                        Forms\Components\TextInput::make('volumen')
+                            ->label('Volumen')
+                            ->required()
+                            ->numeric(),
+                        Forms\Components\TextInput::make('indice')
+                            ->label('Índice')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Grid::make()
+                            ->schema([
+                                Forms\Components\TextInput::make('pagina_inicio')
+                                    ->label('Página Inicio')
+                                    ->required()
+                                    ->numeric(),
+                                Forms\Components\TextInput::make('pagina_fin')
+                                    ->label('Página Fin')
+                                    ->required()
+                                    ->numeric(),
+                                Forms\Components\TextInput::make('isbn')
+                                    ->label('ISBN')
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('issn')
+                                    ->label('ISSN')
+                                    ->maxLength(255),
+                            ])
+                            ->columns(4),
+                        Forms\Components\TextInput::make('url')
+                            ->label('URL')
+                            ->required()
+                            ->maxLength(255),
+                    ])
+                    ->columns(2),
+
             ]);
     }
 
