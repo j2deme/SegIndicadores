@@ -97,6 +97,7 @@ class RegistroResource extends Resource
                 Forms\Components\FileUpload::make('evidencia')
                     ->multiple()
                     ->label('Evidencia'),
+                    
             ]);
     }
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('objetivo');
             $table->string('caracteristicas');
             $table->string('tipo');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

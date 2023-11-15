@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\RegistroResource;
+use App\Models\User;
 
 class OtroResource extends Resource
 {
@@ -33,10 +35,17 @@ class OtroResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Hidden::make('user_id')
+                ->default(auth()->user()->id),
                 Forms\Components\TextInput::make('titulo')
                     ->required()
                     ->maxLength(255)
                     ->label('Título'),
+                 Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
+             
             ]);
     }
 
@@ -87,6 +96,10 @@ class OtroResource extends Resource
             'edit' => Pages\EditOtro::route('/{record}/edit'),
         ];
     }
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+}
 
     public static function shouldRegisterNavigation(): bool
     {

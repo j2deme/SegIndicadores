@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\RegistroResource;
+use App\Models\User;
 
 class CapitulolResource extends Resource
 {
@@ -33,6 +35,8 @@ class CapitulolResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Hidden::make('user_id')
+                ->default(auth()->user()->id),
                 Forms\Components\TextInput::make('libro')
                     ->required()
                     ->maxLength(255),
@@ -57,7 +61,12 @@ class CapitulolResource extends Resource
                 Forms\Components\TextInput::make('edicion')
                     ->label('Edición')
                     ->required(),
-            ]);
+
+                    Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
+              ]);           
     }
 
     public static function table(Table $table): Table
@@ -127,6 +136,10 @@ class CapitulolResource extends Resource
             'edit' => Pages\EditCapitulol::route('/{record}/edit'),
         ];
     }
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+}
 
     public static function shouldRegisterNavigation(): bool
     {

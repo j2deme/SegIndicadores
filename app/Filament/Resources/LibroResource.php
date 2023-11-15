@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\RegistroResource;
+use App\Models\User;
 
 class LibroResource extends Resource
 {
@@ -34,6 +36,9 @@ class LibroResource extends Resource
     {
         return $form
             ->schema([
+
+                Forms\Components\Hidden::make('user_id')
+                ->default(auth()->user()->id),
                 Forms\Components\Select::make('tipo_participacion_autor')
                     ->required()
                     ->options(LibroResource::$tipo_participacion)
@@ -56,6 +61,11 @@ class LibroResource extends Resource
                     ->required()
                     ->numeric()
                     ->label("Edición"),
+                Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
+             
             ]);
     }
 
@@ -63,6 +73,8 @@ class LibroResource extends Resource
     {
         return $table
             ->columns([
+               
+
                 Tables\Columns\TextColumn::make('tipo_participacion_autor')
                     ->sortable()
                     ->label("Tipo de Participación")
@@ -124,6 +136,10 @@ class LibroResource extends Resource
             'edit' => Pages\EditLibro::route('/{record}/edit'),
         ];
     }
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+}
 
     public static function shouldRegisterNavigation(): bool
     {

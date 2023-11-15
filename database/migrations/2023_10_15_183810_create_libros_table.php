@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('issn')->nullable();
             $table->string('casa_editorial');
             $table->integer('edicion');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

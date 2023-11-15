@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\RegistroResource;
+use App\Models\User;
 
 class CapitulomResource extends Resource
 {
@@ -33,6 +35,9 @@ class CapitulomResource extends Resource
     {
         return $form
             ->schema([
+
+                Forms\Components\Hidden::make('user_id')
+                ->default(auth()->user()->id),
                 Forms\Components\TextInput::make('congreso')
                     ->required()
                     ->maxLength(255)
@@ -63,6 +68,11 @@ class CapitulomResource extends Resource
                 Forms\Components\TextInput::make('issn')
                     ->label('ISSN')
                     ->maxLength(255),
+                Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
+              
             ]);
     }
 
@@ -70,6 +80,7 @@ class CapitulomResource extends Resource
     {
         return $table
             ->columns([
+                
                 Tables\Columns\TextColumn::make('congreso')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('estado_region')
@@ -139,6 +150,10 @@ class CapitulomResource extends Resource
             'edit' => Pages\EditCapitulom::route('/{record}/edit'),
         ];
     }
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+}
 
     public static function shouldRegisterNavigation(): bool
     {

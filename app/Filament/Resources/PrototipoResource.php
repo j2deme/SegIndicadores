@@ -10,8 +10,11 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use App\Filament\Resources\RegistroResource;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+
 
 class PrototipoResource extends Resource
 {
@@ -39,6 +42,8 @@ class PrototipoResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Hidden::make('user_id')
+                ->default(auth()->user()->id),
                 Forms\Components\TextInput::make('nombre_instituto')
                     ->label("Nombre Instituto")
                     ->required()
@@ -57,8 +62,20 @@ class PrototipoResource extends Resource
                     ->label("Tipo de prototipo")
                     ->options(PrototipoResource::$tipo_prototipo),
 
+        
+                Forms\Components\Section::make('Información de Registro')
+                     ->relationship('registro')
+                     ->schema(RegistroResource::form($form)->getComponents())
+                     ->columns(2),
 
-            ]);
+               
+               ]);
+             
+
+                
+
+
+            
     }
 
     public static function table(Table $table): Table
@@ -118,6 +135,11 @@ class PrototipoResource extends Resource
             'edit' => Pages\EditPrototipo::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+}
 
     public static function shouldRegisterNavigation(): bool
     {

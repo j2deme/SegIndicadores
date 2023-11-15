@@ -5,6 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AutoralResource\Pages;
 use App\Filament\Resources\AutoralResource\RelationManagers;
 use App\Models\Autoral;
+use App\Filament\Resources\RegistroResource;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -34,6 +36,8 @@ class AutoralResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Hidden::make('user_id')
+                ->default(auth()->user()->id),
                 Forms\Components\Select::make('tipo')
                     ->label('Tipo')
                     ->required()
@@ -45,6 +49,12 @@ class AutoralResource extends Resource
                 Forms\Components\DatePicker::make('fecha_registro')
                     ->label('Fecha Registro')
                     ->required(),
+
+                Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
+             
             ]);
     }
 
@@ -103,6 +113,10 @@ class AutoralResource extends Resource
             'edit' => Pages\EditAutoral::route('/{record}/edit'),
         ];
     }
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+}
 
     public static function shouldRegisterNavigation(): bool
     {

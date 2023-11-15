@@ -16,6 +16,19 @@ class Prototipo extends Model
         'tipo',
         'objetivo',
         'caracteristicas',
+        'user_id',
        
     ];
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+    
+    public function registro(): \Illuminate\Database\Eloquent\Relations\MorphOne
+    {
+        return $this->morphOne(Registro::class, 'registrable');
+    }
+
+
+
 }

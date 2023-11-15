@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('evento');
             $table->date('fecha_evento');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

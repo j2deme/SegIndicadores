@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\RegistroResource;
+use App\Models\User;
 
 class TesisResource extends Resource
 {
@@ -35,14 +37,23 @@ class TesisResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Hidden::make('user_id')
+                ->default(auth()->user()->id),
+                
                 Forms\Components\Select::make('grado')
                     ->options(TesisResource::$grado)
                     ->label('Grado'),
 
                 Forms\Components\Select::make('estatus')
                     ->options(TesisResource::$estatus)
-                    ->label('Estatus')
-            ]);
+                    ->label('Estatus'),
+                Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
+              ]);
+                
+           
     }
 
     public static function table(Table $table): Table
@@ -96,6 +107,11 @@ class TesisResource extends Resource
             'edit' => Pages\EditTesis::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+}
 
     public static function shouldRegisterNavigation(): bool
     {

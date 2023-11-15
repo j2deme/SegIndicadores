@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('tipo');
             $table->string('clave');
             $table->date('fecha_registro');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

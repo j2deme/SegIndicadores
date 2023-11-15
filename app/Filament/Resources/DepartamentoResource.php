@@ -12,6 +12,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+
 class DepartamentoResource extends Resource
 {
     protected static ?string $model = Departamento::class;
@@ -84,6 +85,7 @@ class DepartamentoResource extends Resource
             'edit' => Pages\EditDepartamento::route('/{record}/edit'),
         ];
     }
+
 
     public static function shouldRegisterNavigation(): bool
     {

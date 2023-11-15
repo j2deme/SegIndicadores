@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\RegistroResource;
+use App\Models\User;
 
 class IndustrialResource extends Resource
 {
@@ -37,6 +39,8 @@ class IndustrialResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Hidden::make('user_id')
+                ->default(auth()->user()->id),
                 Forms\Components\Select::make('tipo')
                     ->label("Tipo de propiedad")
                     ->options(IndustrialResource::$tipo_propiedad),
@@ -47,7 +51,13 @@ class IndustrialResource extends Resource
                 Forms\Components\DatePicker::make('fecha_registro')
                     ->label("Fecha de Registro")
                     ->required(),
-            ]);
+
+                    Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
+              ]);
+            
     }
 
     public static function table(Table $table): Table
@@ -105,6 +115,10 @@ class IndustrialResource extends Resource
             'edit' => Pages\EditIndustrial::route('/{record}/edit'),
         ];
     }
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+}
 
     public static function shouldRegisterNavigation(): bool
     {

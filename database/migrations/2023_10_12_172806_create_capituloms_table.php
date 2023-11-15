@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('pagina_fin');
             $table->string('isbn')->nullable();
             $table->string('issn')->nullable();
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

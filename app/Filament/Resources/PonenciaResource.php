@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\RegistroResource;
+use App\Models\User;
 
 class PonenciaResource extends Resource
 {
@@ -31,6 +33,8 @@ class PonenciaResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Hidden::make('user_id')
+                ->default(auth()->user()->id),
                 Forms\Components\TextInput::make('evento')
                     ->required()
                     ->maxLength(255)
@@ -39,6 +43,11 @@ class PonenciaResource extends Resource
 
                     ->required()
                     ->label('Fecha de Evento'),
+                    Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
+             
             ]);
     }
 
@@ -46,6 +55,7 @@ class PonenciaResource extends Resource
     {
         return $table
             ->columns([
+                
                 Tables\Columns\TextColumn::make('evento')
                     ->searchable()
                     ->label('Evento'),
@@ -93,6 +103,10 @@ class PonenciaResource extends Resource
             'edit' => Pages\EditPonencia::route('/{record}/edit'),
         ];
     }
+    public static function getEloquentQuery(): Builder
+{
+    return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+}
 
     public static function shouldRegisterNavigation(): bool
     {
