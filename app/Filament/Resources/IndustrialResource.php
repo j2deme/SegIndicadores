@@ -41,6 +41,18 @@ class IndustrialResource extends Resource
             ->schema([
                 Forms\Components\Hidden::make('user_id')
                 ->default(auth()->user()->id),
+                Forms\Components\Section::make('Información de Registro')
+                ->relationship('registro')
+                ->schema(RegistroResource::form($form)->getComponents())
+                ->columns(2),
+
+                Forms\Components\Section::make('Información Adicional')
+                    ->collapsible()
+                    ->schema([
+
+                Forms\Components\Grid::make()
+                        ->schema([
+                
                 Forms\Components\Select::make('tipo')
                     ->label("Tipo de propiedad")
                     ->options(IndustrialResource::$tipo_propiedad),
@@ -51,11 +63,11 @@ class IndustrialResource extends Resource
                 Forms\Components\DatePicker::make('fecha_registro')
                     ->label("Fecha de Registro")
                     ->required(),
+                    ])
+                    ->columns(3)
+                    ])
 
-                    Forms\Components\Section::make('Información de Registro')
-                    ->relationship('registro')
-                    ->schema(RegistroResource::form($form)->getComponents())
-                    ->columns(2),
+                    
               ]);
             
     }

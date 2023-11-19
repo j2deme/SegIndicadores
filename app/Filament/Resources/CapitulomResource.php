@@ -38,10 +38,28 @@ class CapitulomResource extends Resource
 
                 Forms\Components\Hidden::make('user_id')
                 ->default(auth()->user()->id),
+
+                Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
+
+                    Forms\Components\Section::make('Información Adicional')
+                ->collapsible()
+                ->schema([
+
+                    Forms\Components\Grid::make()
+                    ->schema([
+
+                
                 Forms\Components\TextInput::make('congreso')
                     ->required()
                     ->maxLength(255)
                     ->label('Congreso'),
+                Forms\Components\Select::make('revision')
+                    ->required()
+                    ->options(CapitulomResource::$revision)
+                    ->label('Revisión'),
                 Forms\Components\TextInput::make('estado_region')
                     ->required()
                     ->maxLength(255)
@@ -50,10 +68,13 @@ class CapitulomResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->label('Ciudad'),
-                Forms\Components\Select::make('revision')
-                    ->required()
-                    ->options(CapitulomResource::$revision)
-                    ->label('Revisión'),
+                
+
+                    ])
+                    ->columns(2),
+
+                    Forms\Components\Grid::make()
+                    ->schema([
                 Forms\Components\TextInput::make('pagina_inicio')
                     ->required()
                     ->numeric()
@@ -70,10 +91,11 @@ class CapitulomResource extends Resource
                 Forms\Components\TextInput::make('issn')
                     ->label('ISSN')
                     ->maxLength(255),
-                Forms\Components\Section::make('Información de Registro')
-                    ->relationship('registro')
-                    ->schema(RegistroResource::form($form)->getComponents())
-                    ->columns(2),
+                    ])
+                    ->columns(4),
+
+                ])
+                
               
             ]);
     }
@@ -98,6 +120,8 @@ class CapitulomResource extends Resource
                     ->formatStateUsing(fn(string $state): string => CapitulomResource::$revision[$state])
                     ->searchable(),
 
+                 
+
                 Tables\Columns\TextColumn::make('pagina_inicio')
                     ->numeric()
                     ->sortable()
@@ -112,6 +136,8 @@ class CapitulomResource extends Resource
                 Tables\Columns\TextColumn::make('issn')
                     ->label('ISSN')
                     ->searchable(),
+
+                    
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

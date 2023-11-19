@@ -37,9 +37,36 @@ class CapitulolResource extends Resource
             ->schema([
                 Forms\Components\Hidden::make('user_id')
                 ->default(auth()->user()->id),
+
+                Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
+
+                    Forms\Components\Section::make('Información Adicional')
+                ->collapsible()
+                ->schema([
+
+                    Forms\Components\Grid::make()
+                    ->schema([
                 Forms\Components\TextInput::make('libro')
                     ->required()
                     ->maxLength(255),
+                   
+                   
+                    Forms\Components\TextInput::make('casa_editorial')
+                    ->label('Casa Editorial')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('edicion')
+                    ->label('Edición')
+                    ->required(),
+                    ])
+                    ->columns(2),
+
+                    Forms\Components\Grid::make()
+                    ->schema([
+
                 Forms\Components\TextInput::make('pagina_inicio')
                     ->label('Página Inicio')
                     ->required()
@@ -56,18 +83,15 @@ class CapitulolResource extends Resource
                 Forms\Components\TextInput::make('issn')
                     ->label('ISSN')
                     ->maxLength(13),
-                Forms\Components\TextInput::make('casa_editorial')
-                    ->label('Casa Editorial')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('edicion')
-                    ->label('Edición')
-                    ->required(),
+                    ])
+                    ->columns(4),
+               
 
-                    Forms\Components\Section::make('Información de Registro')
-                    ->relationship('registro')
-                    ->schema(RegistroResource::form($form)->getComponents())
-                    ->columns(2),
+                   
+
+                ])
+
+                    
               ]);           
     }
 
@@ -75,6 +99,7 @@ class CapitulolResource extends Resource
     {
         return $table
             ->columns([
+                
                 Tables\Columns\TextColumn::make('libro')
                     ->searchable()
                     ->label('Libro'),

@@ -44,9 +44,21 @@ class PrototipoResource extends Resource
             ->schema([
                 Forms\Components\Hidden::make('user_id')
                 ->default(auth()->user()->id),
+
+                Forms\Components\Section::make('Información de Registro')
+                     ->relationship('registro')
+                     ->schema(RegistroResource::form($form)->getComponents())
+                     ->columns(2),
+
+                Forms\Components\Section::make('Información Adicional')
+                     ->collapsible()
+                     ->schema([
+                Forms\Components\Grid::make()
+                        ->schema([
                 Forms\Components\TextInput::make('nombre_instituto')
                     ->label("Nombre Instituto")
                     ->required()
+                    ->columnSpanFull()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('objetivo')
                     ->required()
@@ -61,12 +73,13 @@ class PrototipoResource extends Resource
                 Forms\Components\Select::make('tipo')
                     ->label("Tipo de prototipo")
                     ->options(PrototipoResource::$tipo_prototipo),
+                        ])
+                        ->columns(2)
+
+                     ])
 
         
-                Forms\Components\Section::make('Información de Registro')
-                     ->relationship('registro')
-                     ->schema(RegistroResource::form($form)->getComponents())
-                     ->columns(2),
+                
 
                
                ]);

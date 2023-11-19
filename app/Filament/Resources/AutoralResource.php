@@ -38,6 +38,19 @@ class AutoralResource extends Resource
             ->schema([
                 Forms\Components\Hidden::make('user_id')
                 ->default(auth()->user()->id),
+
+                Forms\Components\Section::make('Información de Registro')
+                ->relationship('registro')
+                ->schema(RegistroResource::form($form)->getComponents())
+                ->columns(2),
+
+                Forms\Components\Section::make('Información Adicional')
+                ->collapsible()
+                ->schema([
+
+                    Forms\Components\Grid::make()
+                            ->schema([
+
                 Forms\Components\Select::make('tipo')
                     ->label('Tipo')
                     ->required()
@@ -49,11 +62,11 @@ class AutoralResource extends Resource
                 Forms\Components\DatePicker::make('fecha_registro')
                     ->label('Fecha Registro')
                     ->required(),
+                            ])
+                            ->columns(3),
+                ])
 
-                Forms\Components\Section::make('Información de Registro')
-                    ->relationship('registro')
-                    ->schema(RegistroResource::form($form)->getComponents())
-                    ->columns(2),
+                
              
             ]);
     }
