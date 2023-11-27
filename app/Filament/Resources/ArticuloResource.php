@@ -75,6 +75,8 @@ class ArticuloResource extends Resource
                             ->maxLength(255),
                         Forms\Components\Grid::make()
                             ->schema([
+
+                                
                                 Forms\Components\TextInput::make('pagina_inicio')
                                     ->label('Página Inicio')
                                     ->required()

@@ -39,10 +39,34 @@ class LibroResource extends Resource
 
                 Forms\Components\Hidden::make('user_id')
                 ->default(auth()->user()->id),
+                Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
+                Forms\Components\Section::make('Información Adicional')
+                    ->collapsible()
+                    ->schema([
+
+                 Forms\Components\Grid::make()
+                        ->schema([
+                
                 Forms\Components\Select::make('tipo_participacion_autor')
                     ->required()
                     ->options(LibroResource::$tipo_participacion)
                     ->label("Tipo de Participación"),
+                Forms\Components\TextInput::make('casa_editorial')
+                    ->required()
+                    ->maxLength(255)
+                    ->label("Casa Editorial"),
+                Forms\Components\TextInput::make('edicion')
+                    ->required()
+                    ->numeric()
+                    ->label("Edición"),
+                        ])
+                        ->columns(3),
+                Forms\Components\Grid::make()
+                        ->schema([
+                
                 Forms\Components\TextInput::make('paginas')
                     ->required()
                     ->numeric()
@@ -54,18 +78,12 @@ class LibroResource extends Resource
                 Forms\Components\TextInput::make('issn')
                     ->maxLength(255)
                     ->label("ISSN"),
-                Forms\Components\TextInput::make('casa_editorial')
-                    ->required()
-                    ->maxLength(255)
-                    ->label("Casa Editorial"),
-                Forms\Components\TextInput::make('edicion')
-                    ->required()
-                    ->numeric()
-                    ->label("Edición"),
-                Forms\Components\Section::make('Información de Registro')
-                    ->relationship('registro')
-                    ->schema(RegistroResource::form($form)->getComponents())
-                    ->columns(2),
+                        ])
+                        ->columns(3)
+
+                    ])
+            
+                
              
             ]);
     }

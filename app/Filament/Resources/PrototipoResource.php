@@ -44,27 +44,32 @@ class PrototipoResource extends Resource
             ->schema([
                 Forms\Components\Hidden::make('user_id')
                     ->default(auth()->user()->id),
-                Forms\Components\TextInput::make('nombre_instituto')
-                    ->label("Institución")
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('objetivo')
-                    ->required()
-                    ->maxLength(65535)
-                    ->columnSpanFull()
-                    ->label('Objetivo'),
-                Forms\Components\TextInput::make('caracteristicas')
-                    ->label("Características")
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('tipo')
-                    ->label("Tipo de prototipo")
-                    ->options(PrototipoResource::$tipo_prototipo)
-                    ->native(false),
                 Forms\Components\Section::make('Información de Registro')
                     ->relationship('registro')
                     ->schema(RegistroResource::form($form)->getComponents())
                     ->columns(2),
+
+                Forms\Components\Section::make('Información Adicional')
+                    ->schema([
+                        Forms\Components\TextInput::make('nombre_instituto')
+                            ->label("Institución")
+                            ->required()
+                            ->columnSpanFull()
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('objetivo')
+                            ->required()
+                            ->maxLength(65535)
+                            ->columnSpanFull()
+                            ->label('Objetivo'),
+                        Forms\Components\TextInput::make('caracteristicas')
+                            ->label("Características")
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('tipo')
+                            ->label("Tipo de prototipo")
+                            ->options(PrototipoResource::$tipo_prototipo)
+                            ->native(false)
+                    ])->columns(2),
             ]);
     }
 

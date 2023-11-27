@@ -34,6 +34,16 @@ class IndustrialResource extends Resource
         'Modelo de utilidad',
         'Patente',
     ];
+    public static $clasificacion = [
+        'Necesidades corrientes de la vida',
+        'Técnicas industriales diversas; transportes',
+        'Química; Metalurgia',
+        'Textiles; papel',
+        'Construcciones fijas',
+        'Mecánica; iluminación; Calefacción; Armamento; Voladura;',
+        'Física',
+        'Electrónica',
+    ];
 
     public static function form(Form $form): Form
     {
@@ -41,6 +51,18 @@ class IndustrialResource extends Resource
             ->schema([
                 Forms\Components\Hidden::make('user_id')
                 ->default(auth()->user()->id),
+                Forms\Components\Section::make('Información de Registro')
+                ->relationship('registro')
+                ->schema(RegistroResource::form($form)->getComponents())
+                ->columns(2),
+
+                Forms\Components\Section::make('Información Adicional')
+                    ->collapsible()
+                    ->schema([
+
+                Forms\Components\Grid::make()
+                        ->schema([
+                
                 Forms\Components\Select::make('tipo')
                     ->label("Tipo de propiedad")
                     ->options(IndustrialResource::$tipo_propiedad),
@@ -48,14 +70,17 @@ class IndustrialResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->label('Clave'),
+                Forms\Components\Select::make('clasificacion')
+                    ->label("Clasificación IMPI")
+                    ->options(IndustrialResource::$clasificacion),
                 Forms\Components\DatePicker::make('fecha_registro')
                     ->label("Fecha de Registro")
                     ->required(),
+                    ])
+                    ->columns(3)
+                    ])
 
-                    Forms\Components\Section::make('Información de Registro')
-                    ->relationship('registro')
-                    ->schema(RegistroResource::form($form)->getComponents())
-                    ->columns(2),
+                    
               ]);
             
     }
@@ -71,6 +96,10 @@ class IndustrialResource extends Resource
                 Tables\Columns\TextColumn::make('clave')
                     ->searchable()
                     ->label('Clave'),
+                Tables\Columns\TextColumn::make('clasificacion')
+                    ->formatStateUsing(fn(string $state): string => IndustrialResource::$clasificacion[$state])
+                    ->searchable()
+                    ->label('Clasificacion IMPI'),
                 Tables\Columns\TextColumn::make('fecha_registro')
                     ->date()
                     ->sortable()

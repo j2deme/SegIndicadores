@@ -35,6 +35,15 @@ class PonenciaResource extends Resource
             ->schema([
                 Forms\Components\Hidden::make('user_id')
                 ->default(auth()->user()->id),
+                Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
+                Forms\Components\Section::make('Información Adicional')
+                     ->collapsible()
+                     ->schema([
+                Forms\Components\Grid::make()
+                        ->schema([
                 Forms\Components\TextInput::make('evento')
                     ->required()
                     ->maxLength(255)
@@ -43,10 +52,10 @@ class PonenciaResource extends Resource
 
                     ->required()
                     ->label('Fecha de Evento'),
-                    Forms\Components\Section::make('Información de Registro')
-                    ->relationship('registro')
-                    ->schema(RegistroResource::form($form)->getComponents())
-                    ->columns(2),
+                        ])
+                        ->columns(2)
+                     ])
+                    
              
             ]);
     }
