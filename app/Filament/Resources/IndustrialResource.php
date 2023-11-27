@@ -34,6 +34,16 @@ class IndustrialResource extends Resource
         'Modelo de utilidad',
         'Patente',
     ];
+    public static $clasificacion = [
+        'Necesidades corrientes de la vida',
+        'Técnicas industriales diversas; transportes',
+        'Química; Metalurgia',
+        'Textiles; papel',
+        'Construcciones fijas',
+        'Mecánica; iluminación; Calefacción; Armamento; Voladura;',
+        'Física',
+        'Electrónica',
+    ];
 
     public static function form(Form $form): Form
     {
@@ -60,6 +70,9 @@ class IndustrialResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->label('Clave'),
+                Forms\Components\Select::make('clasificacion')
+                    ->label("Clasificación IMPI")
+                    ->options(IndustrialResource::$clasificacion),
                 Forms\Components\DatePicker::make('fecha_registro')
                     ->label("Fecha de Registro")
                     ->required(),
@@ -83,6 +96,10 @@ class IndustrialResource extends Resource
                 Tables\Columns\TextColumn::make('clave')
                     ->searchable()
                     ->label('Clave'),
+                Tables\Columns\TextColumn::make('clasificacion')
+                    ->formatStateUsing(fn(string $state): string => IndustrialResource::$clasificacion[$state])
+                    ->searchable()
+                    ->label('Clasificacion IMPI'),
                 Tables\Columns\TextColumn::make('fecha_registro')
                     ->date()
                     ->sortable()

@@ -14,7 +14,8 @@ class Industrial extends Model
         'tipo',
         'clave',
         'fecha_registro',
-        'user_id'
+        'user_id',
+        'clasificacion',
         
        
     ];
