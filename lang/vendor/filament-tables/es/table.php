@@ -62,7 +62,7 @@ return [
 
         'heading' => 'No se encontraron registros',
 
-        'description' => 'Crea un :model para iniciar.',
+        'description' => 'Registra un :model para iniciar.',
 
     ],
 
