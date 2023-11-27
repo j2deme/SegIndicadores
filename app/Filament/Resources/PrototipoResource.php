@@ -43,9 +43,9 @@ class PrototipoResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Hidden::make('user_id')
-                ->default(auth()->user()->id),
+                    ->default(auth()->user()->id),
                 Forms\Components\TextInput::make('nombre_instituto')
-                    ->label("Nombre Instituto")
+                    ->label("Institución")
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('objetivo')
@@ -55,27 +55,17 @@ class PrototipoResource extends Resource
                     ->label('Objetivo'),
                 Forms\Components\TextInput::make('caracteristicas')
                     ->label("Características")
-
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('tipo')
                     ->label("Tipo de prototipo")
-                    ->options(PrototipoResource::$tipo_prototipo),
-
-        
+                    ->options(PrototipoResource::$tipo_prototipo)
+                    ->native(false),
                 Forms\Components\Section::make('Información de Registro')
-                     ->relationship('registro')
-                     ->schema(RegistroResource::form($form)->getComponents())
-                     ->columns(2),
-
-               
-               ]);
-             
-
-                
-
-
-            
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -84,13 +74,10 @@ class PrototipoResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre_instituto')
                     ->searchable()
-                    ->label('Nombre del Instituto'),
-
-
+                    ->label('Institución'),
                 Tables\Columns\TextColumn::make('caracteristicas')
                     ->searchable()
                     ->label('Características'),
-
                 Tables\Columns\TextColumn::make('tipo')
                     ->formatStateUsing(fn(string $state): string => PrototipoResource::$tipo_prototipo[$state])
                     ->searchable()
@@ -137,9 +124,9 @@ class PrototipoResource extends Resource
     }
 
     public static function getEloquentQuery(): Builder
-{
-    return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
-}
+    {
+        return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+    }
 
     public static function shouldRegisterNavigation(): bool
     {
