@@ -44,7 +44,7 @@ class CapitulolResource extends Resource
                     ->columns(2),
 
                     Forms\Components\Section::make('Información Adicional')
-                ->collapsible()
+
                 ->schema([
 
                     Forms\Components\Grid::make()
@@ -61,8 +61,9 @@ class CapitulolResource extends Resource
                 Forms\Components\TextInput::make('edicion')
                     ->label('Edición')
                     ->required(),
+                    
                     ])
-                    ->columns(2),
+                    ->columns(3),
 
                     Forms\Components\Grid::make()
                     ->schema([

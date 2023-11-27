@@ -45,7 +45,6 @@ class AutoralResource extends Resource
                 ->columns(2),
 
                 Forms\Components\Section::make('Información Adicional')
-                ->collapsible()
                 ->schema([
 
                     Forms\Components\Grid::make()

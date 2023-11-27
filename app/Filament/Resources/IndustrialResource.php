@@ -23,11 +23,11 @@ class IndustrialResource extends Resource
 
     protected static ?string $navigationGroup = 'Creación';
 
-    protected static ?string $modelLabel = 'Industrial';
+    protected static ?string $modelLabel = 'Propiedad Intelectual';
 
-    protected static ?string $pluralModelLabel = "Industriales";
+    protected static ?string $pluralModelLabel = "Propiedades Intelectuales";
 
-    protected static ?string $slug = "Industriales";
+    protected static ?string $slug = "Propiedades intelectuales";
     public static $tipo_propiedad = [
         'Denominación de origen',
         'Marca',
@@ -57,7 +57,6 @@ class IndustrialResource extends Resource
                 ->columns(2),
 
                 Forms\Components\Section::make('Información Adicional')
-                    ->collapsible()
                     ->schema([
 
                 Forms\Components\Grid::make()
@@ -77,7 +76,7 @@ class IndustrialResource extends Resource
                     ->label("Fecha de Registro")
                     ->required(),
                     ])
-                    ->columns(3)
+                    ->columns(2)
                     ])
 
                     
