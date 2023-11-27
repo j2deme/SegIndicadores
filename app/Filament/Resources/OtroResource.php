@@ -37,24 +37,14 @@ class OtroResource extends Resource
             ->schema([
                 Forms\Components\Hidden::make('user_id')
                 ->default(auth()->user()->id),
-                
-                 Forms\Components\Section::make('Información de Registro')
-                    ->relationship('registro')
-                    ->schema(RegistroResource::form($form)->getComponents())
-                    ->columns(2),
-                    Forms\Components\Section::make('Información Adicional')
-                   
-                    ->schema([
-
-                Forms\Components\Grid::make()
-                        ->schema([
                 Forms\Components\TextInput::make('titulo')
                     ->required()
                     ->maxLength(255)
                     ->label('Título'),
-                
-                    ])
-                    ])
+                 Forms\Components\Section::make('Información de Registro')
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
              
             ]);
     }

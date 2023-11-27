@@ -40,12 +40,12 @@ class ArticuloResource extends Resource
                 Forms\Components\Hidden::make('user_id')
                     ->default(auth()->user()->id),
                 Forms\Components\Section::make('Información del Artículo')
-                    
+                    ->collapsible()
                     ->relationship('registro')
                     ->schema(RegistroResource::form($form)->getComponents())
                     ->columns(2),
                 Forms\Components\Section::make('Información Adicional')
-                    
+                    ->collapsible()
                     ->schema([
                         Forms\Components\TextInput::make('revista')
                             ->label('Revista')

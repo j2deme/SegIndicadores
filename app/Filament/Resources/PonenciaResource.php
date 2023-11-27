@@ -40,7 +40,7 @@ class PonenciaResource extends Resource
                     ->schema(RegistroResource::form($form)->getComponents())
                     ->columns(2),
                 Forms\Components\Section::make('Información Adicional')
-                     
+                     ->collapsible()
                      ->schema([
                 Forms\Components\Grid::make()
                         ->schema([
