@@ -48,7 +48,6 @@ class PrototipoResource extends Resource
                     ->relationship('registro')
                     ->schema(RegistroResource::form($form)->getComponents())
                     ->columns(2),
-
                 Forms\Components\Section::make('Información Adicional')
                     ->schema([
                         Forms\Components\TextInput::make('nombre_instituto')
