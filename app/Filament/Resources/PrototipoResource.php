@@ -43,52 +43,33 @@ class PrototipoResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Hidden::make('user_id')
-                ->default(auth()->user()->id),
-
+                    ->default(auth()->user()->id),
                 Forms\Components\Section::make('Información de Registro')
-                     ->relationship('registro')
-                     ->schema(RegistroResource::form($form)->getComponents())
-                     ->columns(2),
-
+                    ->relationship('registro')
+                    ->schema(RegistroResource::form($form)->getComponents())
+                    ->columns(2),
                 Forms\Components\Section::make('Información Adicional')
-                     ->collapsible()
-                     ->schema([
-                Forms\Components\Grid::make()
-                        ->schema([
-                Forms\Components\TextInput::make('nombre_instituto')
-                    ->label("Nombre Instituto")
-                    ->required()
-                    ->columnSpanFull()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('objetivo')
-                    ->required()
-                    ->maxLength(65535)
-                    ->columnSpanFull()
-                    ->label('Objetivo'),
-                Forms\Components\TextInput::make('caracteristicas')
-                    ->label("Características")
-
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('tipo')
-                    ->label("Tipo de prototipo")
-                    ->options(PrototipoResource::$tipo_prototipo),
-                        ])
-                        ->columns(2)
-
-                     ])
-
-        
-                
-
-               
-               ]);
-             
-
-                
-
-
-            
+                    ->schema([
+                        Forms\Components\TextInput::make('nombre_instituto')
+                            ->label("Institución")
+                            ->required()
+                            ->columnSpanFull()
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('objetivo')
+                            ->required()
+                            ->maxLength(65535)
+                            ->columnSpanFull()
+                            ->label('Objetivo'),
+                        Forms\Components\TextInput::make('caracteristicas')
+                            ->label("Características")
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('tipo')
+                            ->label("Tipo de prototipo")
+                            ->options(PrototipoResource::$tipo_prototipo)
+                            ->native(false)
+                    ])->columns(2),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -97,13 +78,10 @@ class PrototipoResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nombre_instituto')
                     ->searchable()
-                    ->label('Nombre del Instituto'),
-
-
+                    ->label('Institución'),
                 Tables\Columns\TextColumn::make('caracteristicas')
                     ->searchable()
                     ->label('Características'),
-
                 Tables\Columns\TextColumn::make('tipo')
                     ->formatStateUsing(fn(string $state): string => PrototipoResource::$tipo_prototipo[$state])
                     ->searchable()
@@ -150,9 +128,9 @@ class PrototipoResource extends Resource
     }
 
     public static function getEloquentQuery(): Builder
-{
-    return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
-}
+    {
+        return parent::getEloquentQuery()->where('user_id', auth()->user()->id);
+    }
 
     public static function shouldRegisterNavigation(): bool
     {

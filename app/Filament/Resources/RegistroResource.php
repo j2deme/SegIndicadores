@@ -92,9 +92,9 @@ class RegistroResource extends Resource
                     ]),
 
                 Forms\Components\DatePicker::make('fecha_publicacion')
-                    ->label('Fecha de Publicación'),
+                    ->label('Fecha'),
                 Forms\Components\Select::make('pais_publicacion')
-                    ->label('País de Publicación')
+                    ->label('País')
                     ->searchable()
                     ->options(RegistroResource::$paises)
                     ->native(false),
@@ -178,7 +178,6 @@ class RegistroResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -186,7 +185,7 @@ class RegistroResource extends Resource
                 ]),
             ])
             ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
+                //Tables\Actions\CreateAction::make(),
             ])
             ->emptyStateDescription('');
     }
@@ -202,8 +201,8 @@ class RegistroResource extends Resource
     {
         return [
             'index' => Pages\ListRegistros::route('/'),
-            'create' => Pages\CreateRegistro::route('/create'),
-            'edit' => Pages\EditRegistro::route('/{record}/edit'),
+            //'create' => Pages\CreateRegistro::route('/create'),
+            //'edit' => Pages\EditRegistro::route('/{record}/edit'),
         ];
     }
 
