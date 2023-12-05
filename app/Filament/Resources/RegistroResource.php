@@ -14,6 +14,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Flowframe\Trend\Trend;
 
 class RegistroResource extends Resource
 {
@@ -92,7 +93,8 @@ class RegistroResource extends Resource
                     ]),
 
                 Forms\Components\DatePicker::make('fecha_publicacion')
-                    ->label('Fecha'),
+                    ->label('Fecha')
+                    ->maxDate(now()), 
                 Forms\Components\Select::make('pais_publicacion')
                     ->label('País')
                     ->searchable()

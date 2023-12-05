@@ -50,6 +50,7 @@ class PonenciaResource extends Resource
                 Forms\Components\DatePicker::make('fecha_evento')
 
                     ->required()
+                    ->maxDate(now())
                     ->label('Fecha de Evento'),
                         ])
                         ->columns(2)
