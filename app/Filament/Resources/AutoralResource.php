@@ -60,7 +60,8 @@ class AutoralResource extends Resource
                     ->maxLength(255),
                 Forms\Components\DatePicker::make('fecha_registro')
                     ->label('Fecha Registro')
-                    ->required(),
+                    ->required()
+                    ->maxDate(now()),
                             ])
                             ->columns(3),
                 ])

@@ -78,11 +78,13 @@ class ArticuloResource extends Resource
                                 Forms\Components\TextInput::make('pagina_inicio')
                                     ->label('Página Inicio')
                                     ->required()
-                                    ->numeric(),
+                                    ->numeric()
+                                    ->minValue(0),
                                 Forms\Components\TextInput::make('pagina_fin')
                                     ->label('Página Fin')
                                     ->required()
-                                    ->numeric(),
+                                    ->numeric()
+                                    ->minValue(0),
                                 Forms\Components\TextInput::make('isbn')
                                     ->label('ISBN')
                                     ->maxLength(255),

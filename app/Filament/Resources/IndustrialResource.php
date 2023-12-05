@@ -74,7 +74,8 @@ class IndustrialResource extends Resource
                     ->options(IndustrialResource::$clasificacion),
                 Forms\Components\DatePicker::make('fecha_registro')
                     ->label("Fecha de Registro")
-                    ->required(),
+                    ->required()
+                    ->maxDate(now()),
                     ])
                     ->columns(2)
                     ])
