@@ -91,7 +91,7 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
 
     public function getEsJefeAttribute(): bool
     {
-        return Departamento::where('jefe_id', $this->id)->first() ? true : false;
+        return Departamento::where('jefe_id', $this->id)->exists();
     }
 
     public function getAvatarAttribute(): string
