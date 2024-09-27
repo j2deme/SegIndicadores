@@ -30,6 +30,11 @@
                     @livewire('conteodepartamental3')
                 </div>
             </div>
+            <div class="swiper-slide">
+                <div style="width: 80%; margin-left:90px; padding:40px;" >
+                    @livewire('conteodepartamental4')
+                </div>
+            </div>
         </div>
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>

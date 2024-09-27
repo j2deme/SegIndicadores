@@ -12,7 +12,7 @@ class RegistroDepartamento extends Page
 
     public function getHeading(): string
     {
-        $departamentoNombre = auth()->user()->departamento_id;
+        $departamentoNombre = auth()->user()->departamento->nombre;
         return "Departamento: " . $departamentoNombre;
     }
 
