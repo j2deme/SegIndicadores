@@ -10,8 +10,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 class ProduccionDepartamento extends ChartWidget
 {
     protected static ?string $heading = 'Producción departamental';
-    protected static ?string $maxHeight = '200px';
-    protected static ?string $maxWidth = '200px';
+    protected static ?string $maxHeight = '300px';
 
     protected function getData(): array
     {

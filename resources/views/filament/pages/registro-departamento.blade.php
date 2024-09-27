@@ -37,7 +37,12 @@
 
     </div>
     <div>
-        @livewire('producciondepartamento')
+        <div style="width: 50%; float:left;">
+            @livewire('producciondepartamento')
+        </div>
+        <div style="width: 50%; float:right;">
+            @livewire('producciondepartamentomeses')
+        </div>
     </div>
 
     <script>
