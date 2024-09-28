@@ -7,37 +7,31 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 use App\Models\Departamento;
 use App\Models\Registro;
 
-class ConteoDepartamental extends BaseWidget
+class ConteoDepartamental4 extends BaseWidget
 {
     protected function getStats(): array
     {
         return [
-            Stat::make('Registros Totales',
-                Registro::join('users', 'registros.user_id', '=', 'users.id')
-                    ->where('users.departamento_id', auth()->user()->departamento_id)
-                    ->count()
-            )->icon('heroicon-o-check-circle'),
-            Stat::make('Articulo',
+
+            Stat::make('Tesis',
             Registro::join('users', 'registros.user_id', '=', 'users.id')
                 ->where('users.departamento_id', auth()->user()->departamento_id)
-                ->where('registros.registrable_type', 'App\Models\Articulo')
+                ->where('registros.registrable_type', 'App\Models\Tesis')
                 ->count()
             )
-            ->description('Total de Artículos')
+            ->description('Total de Tesis')
             ->icon('heroicon-o-check-circle')
             ->color('success'),
 
-            Stat::make('Autorales',
+            Stat::make('Propiedades Intelectuales',
             Registro::join('users', 'registros.user_id', '=', 'users.id')
                 ->where('users.departamento_id', auth()->user()->departamento_id)
-                ->where('registros.registrable_type', 'App\Models\Autoral')
+                ->where('registros.registrable_type', 'App\Models\Industrial')
                 ->count()
             )
-            ->description('Total de Registros Autorales')
+            ->description('Total de Prop. Intelectuales')
             ->icon('heroicon-o-check-circle')
             ->color('success'),
-
-
         ];
     }
 }

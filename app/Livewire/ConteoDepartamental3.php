@@ -39,7 +39,7 @@ class ConteoDepartamental3 extends BaseWidget
                     ->where('registros.registrable_type', 'App\Models\Prototipo')
                     ->count()
             )
-            ->description('Total de Otros Prototipos')
+            ->description('Total de Prototipos')
             ->icon('heroicon-o-check-circle')
             ->color('success'),
 

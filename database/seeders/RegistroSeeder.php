@@ -26,12 +26,12 @@ class RegistroSeeder extends Seeder
                 'issn' => null,
                 'casa_editorial' => $faker->company(),
                 'edicion' => $faker->numberBetween(1, 5),
-                'user_id' => $faker->numberBetween(2, 7), 
+                'user_id' => $faker->numberBetween(2, 7),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
 
-            
+
             Registro::create([
                 'nombre' => $capitulo->libro,
                 'proposito' => $faker->sentence(),
@@ -64,7 +64,7 @@ class RegistroSeeder extends Seeder
                 'user_id' => $faker->numberBetween(2, 7),
             ]);
 
-            
+
             Registro::create([
                 'nombre' => $historias->congreso,
                 'proposito' => $faker->sentence(),
@@ -80,7 +80,7 @@ class RegistroSeeder extends Seeder
                 'evidencia' => 'archivo.pdf',
                 'user_id' => $historias->user_id,
                 'registrable_id' => $historias->id,
-                'registrable_type' =>Historias::class,
+                'registrable_type' =>Ponencia::class,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -93,10 +93,10 @@ class RegistroSeeder extends Seeder
                 'casa_editorial'=> $faker->company(),
                 'edicion'=> $faker->numberBetween(1, 5),
                 'user_id'=> $faker->numberBetween(2, 7),
-                
+
             ]);
 
-            
+
             Registro::create([
                 'nombre' => $Libros->tipo_participacion_autor,
                 'proposito' => $faker->sentence(),
@@ -117,7 +117,7 @@ class RegistroSeeder extends Seeder
                 'updated_at' => now(),
             ]);
         }
-        
+
     }
 }
 
