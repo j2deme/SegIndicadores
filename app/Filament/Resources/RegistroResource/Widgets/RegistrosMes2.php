@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\RegistroResource\Widgets;
 
+use Illuminate\Support\Facades\DB;
 use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
@@ -10,33 +11,33 @@ use Carbon\Carbon;
 
 class RegistrosMes2 extends ChartWidget
 {
-    protected static ?string $heading = 'Chart';
+    protected static ?string $heading = 'Producción individual';
 
     protected function getData(): array
     {
-        $data = Trend::model(Registro::class)
-        ->between(
-            start: now()->startOfYear(),
-            end: now()->endOfYear(),
+        $registros = Registro::where('user_id', auth()->user()->id)
+        ->select(
+            DB::raw('QUARTER(created_at) as trimestre'),
+            DB::raw('COUNT(*) as total')
         )
-        ->perMonth()
-        ->count();
- 
-    return [
-        'datasets' => [
-            [
-                'label' => 'Registros',
-                'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
+        ->groupBy('trimestre')
+        ->get();
+
+        $labels = ['Enero-Marzo', 'Abril-Junio', 'Julio-Septiembre', 'Octubre-Diciembre'];
+        $totales = [0, 0, 0, 0];
+        foreach ($registros as $registro) {
+            $totales[$registro->trimestre - 1] = $registro->total;
+        }
+        return [
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'Trimestales',
+                    'data' => $totales,
+                    'backgroundColor' => ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+                ],
             ],
-        ],
-        'labels' => $data->map(function (TrendValue $value){
-            $date = Carbon::createFromFormat('Y-m', $value->date);
-            $formatedDate = $date->format('M');
-
-            return $formatedDate;
-
-        }),
-    ];
+        ];
     }
 
     protected function getType(): string

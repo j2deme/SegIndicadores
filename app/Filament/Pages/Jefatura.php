@@ -25,6 +25,7 @@ class Jefatura extends Page
     ];
 }
 public static function shouldRegisterNavigation():bool{
-    return Departamento::where('jefe_id', auth()->user()->id)->exists();
+    return false;
+    //Departamento::where('jefe_id', auth()->user()->id)->exists();
 }
 }

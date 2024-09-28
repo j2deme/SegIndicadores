@@ -1,28 +1,33 @@
 <?php
-
 namespace App\Livewire;
 
+use Illuminate\Support\Facades\DB;
 use Filament\Widgets\ChartWidget;
-use App\Models\Departamento;
+use Flowframe\Trend\Trend;
+use Flowframe\Trend\TrendValue;
 use App\Models\Registro;
-use App\Models\User;
-use Filament\Widgets\StatsOverviewWidget\Stat;
-class ProduccionDepartamento extends ChartWidget
+use App\Models\Departamento;
+use Carbon\Carbon;
+
+class ProduccionDepartamentoDocentes extends ChartWidget
 {
-    protected static ?string $heading = 'Producción departamental';
-    protected static ?string $maxHeight = '220px';
+    protected static ?string $heading = 'Producción Departamental por Docente';
+    protected static ?string $maxHeight = '200px';
+    protected static ?string $height = '250px';
 
     protected function getData(): array
     {
         $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
-        //->select('registros.*')
         ->where('users.departamento_id', auth()->user()->departamento_id)
-        ->groupBy('registrable_type')
-        ->selectRaw('count(*) as total, registrable_type')
+        ->select(
+            DB::raw('CONCAT(users.name, " ", users.apellidos) as usuario'),
+            DB::raw('COUNT(*) as total')
+        )
+        ->groupBy('usuario')
+        ->orderBy('usuario')
         ->get();
-
-            return [
-                'labels' => $this->tipoLabel($query->pluck('registrable_type')),
+        return [
+            'labels' => $query->pluck('usuario'),
                 'datasets' => [
                     [
                         'label' => 'Producción por departamento de:',
@@ -56,22 +61,6 @@ class ProduccionDepartamento extends ChartWidget
 
     protected function getType(): string
     {
-        return 'pie';
-    }
-
-    private function tipoLabel($tipos): array
-    {
-        $labels = [];
-        foreach ($tipos as $tipo) {
-            if (str($tipo)->endsWith('Capitulom')) {
-                $label = 'Capítulo de Memoria';
-            } elseif (str($tipo)->endsWith('Capitulol')) {
-                $label = 'Capítulo de Libro';
-            } else {
-                $label = str_replace('App\\Models\\', '', $tipo);
-            }
-            array_push($labels, $label);
-        }
-        return $labels;
+        return 'polarArea';
     }
 }

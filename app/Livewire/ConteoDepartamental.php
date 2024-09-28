@@ -12,11 +12,11 @@ class ConteoDepartamental extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Registros Totales del Departamento',
+            Stat::make('Registros Totales',
                 Registro::join('users', 'registros.user_id', '=', 'users.id')
                     ->where('users.departamento_id', auth()->user()->departamento_id)
                     ->count()
-            ),
+            )->icon('heroicon-o-check-circle'),
             Stat::make('Articulo',
             Registro::join('users', 'registros.user_id', '=', 'users.id')
                 ->where('users.departamento_id', auth()->user()->departamento_id)
