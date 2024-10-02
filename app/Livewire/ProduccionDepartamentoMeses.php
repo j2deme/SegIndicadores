@@ -13,7 +13,7 @@ use Carbon\Carbon;
 class ProduccionDepartamentoMeses extends ChartWidget
 {
     protected static ?string $heading = 'Producción Departamental por Trimestre';
-    protected static ?string $maxHeight = '400px';
+    protected static ?string $maxHeight = '230px';
 
     protected function getData(): array
     {

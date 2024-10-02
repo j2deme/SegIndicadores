@@ -1,36 +1,34 @@
 <?php
-namespace App\Livewire;
 
-use Illuminate\Support\Facades\DB;
+namespace App\Filament\Resources\RegistroResource\Widgets;
+
 use Filament\Widgets\ChartWidget;
-use Flowframe\Trend\Trend;
-use Flowframe\Trend\TrendValue;
 use App\Models\Registro;
+use App\Models\User;
 use App\Models\Departamento;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
-class ProduccionDepartamentoDocentes extends ChartWidget
+class RegistrosGeneralesDepartamentosChart extends ChartWidget
 {
-    protected static ?string $heading = 'Producción Departamental por Docente';
-    protected static ?string $maxHeight = '200px';
-    protected static ?string $height = '250px';
+    protected static ?string $heading = 'Producción Departamental';
+
+    protected static ?string $maxHeight = '300px';
 
     protected function getData(): array
     {
+        $user=auth()->user()->es_admin;
         $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
-        ->where('users.departamento_id', auth()->user()->departamento_id)
-        ->select(
-            DB::raw('CONCAT(users.name, " ", users.apellidos) as usuario'),
-            DB::raw('COUNT(*) as total')
-        )
-        ->groupBy('usuario')
-        ->orderBy('usuario')
+        ->join('departamentos', 'users.departamento_id', '=', 'departamentos.id')
+        ->selectRaw('count(*) as total, departamentos.nombre as departamento')
+        ->groupBy('departamentos.nombre')
         ->get();
-        return [
-            'labels' => $query->pluck('usuario'),
+
+        if($user==1){
+            return [
+                'labels' => $query->pluck('departamento'),
                 'datasets' => [
                     [
-                        'label' => 'Producción por departamento de:',
+                        'label' => 'Registros',
                         'backgroundColor' => [
                             '#3b82f6',
                             '#ef4444',
@@ -56,11 +54,14 @@ class ProduccionDepartamentoDocentes extends ChartWidget
                         'data' => $query->pluck('total'),
                     ],
                 ],
-        ];
+            ];
+        }else{
+            return[];
+        }
     }
 
     protected function getType(): string
     {
-        return 'pie';
+        return 'polarArea';
     }
 }

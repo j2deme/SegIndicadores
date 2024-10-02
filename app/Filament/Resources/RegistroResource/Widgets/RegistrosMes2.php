@@ -11,17 +11,27 @@ use Carbon\Carbon;
 
 class RegistrosMes2 extends ChartWidget
 {
-    protected static ?string $heading = 'Producción individual';
+    protected static ?string $heading = 'Producción Trimestral';
 
     protected function getData(): array
     {
-        $registros = Registro::where('user_id', auth()->user()->id)
-        ->select(
-            DB::raw('QUARTER(created_at) as trimestre'),
-            DB::raw('COUNT(*) as total')
-        )
-        ->groupBy('trimestre')
-        ->get();
+        $user=auth()->user()->es_admin;
+        if($user==1){
+            $registros = Registro::select(
+                DB::raw('QUARTER(created_at) as trimestre'),
+                DB::raw('COUNT(*) as total')
+            )
+            ->groupBy('trimestre')
+            ->get();
+        }else{
+            $registros = Registro::where('user_id', auth()->user()->id)
+            ->select(
+                DB::raw('QUARTER(created_at) as trimestre'),
+                DB::raw('COUNT(*) as total')
+            )
+            ->groupBy('trimestre')
+            ->get();
+        }
 
         $labels = ['Enero-Marzo', 'Abril-Junio', 'Julio-Septiembre', 'Octubre-Diciembre'];
         $totales = [0, 0, 0, 0];
@@ -32,7 +42,7 @@ class RegistrosMes2 extends ChartWidget
             'labels' => $labels,
             'datasets' => [
                 [
-                    'label' => 'Trimestales',
+                    'label' => 'Trimestre',
                     'data' => $totales,
                     'backgroundColor' => ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
                 ],

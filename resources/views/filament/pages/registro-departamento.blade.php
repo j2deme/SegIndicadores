@@ -15,7 +15,7 @@
     }
 </style>
 
-<x-filament-panels::page>
+<x-filament-panels::page>+
     <div class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
@@ -49,18 +49,22 @@
     <div class="swiper-container2">
         <div class="swiper-wrapper">
             <div class="swiper-slide" style="width: 75%;">
-                <div style="width: 45%; float:left; height: 230px; margin-left: 5%;">
-                    @livewire('producciondepartamento')
-                </div>
-                <div style="width: 45%; height: 230px; float:right; margin-left: 1%; margin-right: 4%;">
+                <div style="width: 90%; float:left; height: 200px; margin-left: 5%;">
                     @livewire('producciondepartamentomeses')
                 </div>
             </div>
             <div class="swiper-slide" style="width: 75%;">
-                <div style="width: 45%; float:left; height: 230px; margin-left: 5%;">
+                <div style="width: 90%; height: 230px; float:right; margin-left: 1%; margin-right: 4%;">
                     @livewire('estadisticachart')
                 </div>
-                <div style="width: 45%; float:right; margin-left: 1%; margin-right: 4%;">
+            </div>
+            <div class="swiper-slide" style="width: 75%;">
+                <div style="width: 90%; float:left; height: 230px; margin-left: 5%;">
+                    @livewire('producciondepartamento')
+                </div>
+            </div>
+            <div class="swiper-slide" style="width: 75%;">
+                <div style="width: 90%; float:right; margin-left: 1%; margin-right: 4%;">
                     @livewire('producciondepartamentodocentes')
                 </div>
             </div>

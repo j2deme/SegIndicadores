@@ -13,11 +13,17 @@ class RegistrosChart extends ChartWidget
 
     protected function getData(): array
     {
-        # Obtener los registros del usuario autenticado
-        $query = Registro::where('user_id', auth()->user()->id)
+        $user= auth()->user()->es_admin;
+        if($user==1){
+            $query = Registro::selectRaw('count(*) as total, registrable_type')
+            ->groupBy('registrable_type')
+            ->get();
+        }else{
+            $query = Registro::where('user_id', auth()->user()->id)
             ->groupBy('registrable_type')
             ->selectRaw('count(*) as total, registrable_type')
             ->get();
+        }
         //dd($query);
 
         return [
