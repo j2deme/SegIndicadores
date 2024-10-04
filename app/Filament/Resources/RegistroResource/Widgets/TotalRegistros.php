@@ -10,9 +10,15 @@ class TotalRegistros extends BaseWidget
 {
     protected function getStats(): array
     {
-        return [
-            Stat::make('Registros Totales',Registro::where('user_id', auth()->user()->id)->count()),
-            
-        ];
+        $user=auth()->user()->es_admin;
+        if($user==1){
+            return[
+                Stat::make('Registros Totales', Registro::all()->count()),
+            ];
+        }else{
+            return[
+                Stat::make('Registros Totales', Registro::where('user_id', auth()->user()->id)->count()),
+            ];
+        }
     }
 }

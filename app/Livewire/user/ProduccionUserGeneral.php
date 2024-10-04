@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Filament\Resources\RegistroResource\Widgets;
+namespace App\Livewire\user;
 
 use Filament\Widgets\ChartWidget;
 use App\Models\Registro;
+use Illuminate\Support\Facades\DB;
 
-class RegistrosChart extends ChartWidget
+class ProduccionUserGeneral extends ChartWidget
 {
-    protected static ?string $heading = 'Distribución de Producción';
-
-    protected static ?string $maxHeight = '300px';
-
+    protected static ?string $heading = 'Producción General';
+    protected static ?string $maxHeight = '230px';
     protected function getData(): array
     {
-        $user= auth()->user()->es_admin;
+        $user=auth()->user()->es_admin;
         if($user==1){
-            $query = Registro::selectRaw('count(*) as total, registrable_type')
-            ->groupBy('registrable_type')
+            $query = Registro::groupBy('registrable_type')
+            ->selectRaw('count(*) as total, registrable_type')
             ->get();
         }else{
             $query = Registro::where('user_id', auth()->user()->id)
@@ -24,13 +23,11 @@ class RegistrosChart extends ChartWidget
             ->selectRaw('count(*) as total, registrable_type')
             ->get();
         }
-        //dd($query);
-
         return [
             'labels' => $this->tipoLabel($query->pluck('registrable_type')),
             'datasets' => [
                 [
-                    'label' => 'Registros',
+                    'label' => 'Producción por departamento de:',
                     'backgroundColor' => [
                         '#3b82f6',
                         '#ef4444',

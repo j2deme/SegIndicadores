@@ -13,7 +13,7 @@ use Carbon\Carbon;
 class ProduccionDepartamentoMeses extends ChartWidget
 {
     protected static ?string $heading = 'Producción Departamental por Trimestre';
-    protected static ?string $maxHeight = '400px';
+    protected static ?string $maxHeight = '230px';
 
     protected function getData(): array
     {
@@ -30,7 +30,7 @@ class ProduccionDepartamentoMeses extends ChartWidget
         ->groupBy('trimestre')
         ->get();
 
-        $labels = ['Enero-Marzo', 'Abril-Junio', 'julio-Septiembre', 'Octubre-Diciembre'];
+        $labels = ['Enero-Marzo', 'Abril-Junio', 'Julio-Septiembre', 'Octubre-Diciembre'];
         $totales = [0, 0, 0, 0];
         foreach ($registros as $registro) {
             $totales[$registro->trimestre - 1] = $registro->total;

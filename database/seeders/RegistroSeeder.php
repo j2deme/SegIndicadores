@@ -26,7 +26,7 @@ class RegistroSeeder extends Seeder
                 'issn' => null,
                 'casa_editorial' => $faker->company(),
                 'edicion' => $faker->numberBetween(1, 5),
-                'user_id' => $faker->numberBetween(2, 7),
+                'user_id' => $faker->numberBetween(2, 12),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -34,7 +34,7 @@ class RegistroSeeder extends Seeder
 
             Registro::create([
                 'nombre' => $capitulo->libro,
-                'proposito' => $faker->sentence(),
+                'proposito' => $faker->numberBetween(0, 5),
                 'autores' => $faker->name(),
                 'posicion_autor' => 1,
                 'descripcion' => $faker->paragraph(),
@@ -47,7 +47,7 @@ class RegistroSeeder extends Seeder
                 'evidencia' => 'archivo.pdf',
                 'user_id' => $capitulo->user_id,
                 'registrable_id' => $capitulo->id,
-                'registrable_type' => Capitulo::class,
+                'registrable_type' => Capitulol::class,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -61,7 +61,7 @@ class RegistroSeeder extends Seeder
                 'pagina_fin'=> $faker->numberBetween(21, 50),
                 'isbn'=>$faker->isbn13(),
                 'issn'=> null,
-                'user_id' => $faker->numberBetween(2, 7),
+                'user_id' => $faker->numberBetween(2, 12),
             ]);
 
 
@@ -80,7 +80,7 @@ class RegistroSeeder extends Seeder
                 'evidencia' => 'archivo.pdf',
                 'user_id' => $historias->user_id,
                 'registrable_id' => $historias->id,
-                'registrable_type' =>Ponencia::class,
+                'registrable_type' =>Capitulom::class,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -92,7 +92,7 @@ class RegistroSeeder extends Seeder
                 'issn'=> null,
                 'casa_editorial'=> $faker->company(),
                 'edicion'=> $faker->numberBetween(1, 5),
-                'user_id'=> $faker->numberBetween(2, 7),
+                'user_id'=> $faker->numberBetween(2, 12),
 
             ]);
 
@@ -112,7 +112,7 @@ class RegistroSeeder extends Seeder
                 'evidencia' => 'archivo.pdf',
                 'user_id' => $Libros->user_id,
                 'registrable_id' => $Libros->id,
-                'registrable_type' =>Libros::class,
+                'registrable_type' =>Libro::class,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

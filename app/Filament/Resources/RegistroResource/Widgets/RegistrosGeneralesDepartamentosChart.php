@@ -1,30 +1,34 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Filament\Resources\RegistroResource\Widgets;
 
 use Filament\Widgets\ChartWidget;
-use App\Models\Departamento;
 use App\Models\Registro;
 use App\Models\User;
-use Filament\Widgets\StatsOverviewWidget\Stat;
-class ProduccionDepartamento extends ChartWidget
+use App\Models\Departamento;
+use Illuminate\Support\Facades\DB;
+
+class RegistrosGeneralesDepartamentosChart extends ChartWidget
 {
-    protected static ?string $heading = 'Producción departamental';
-    protected static ?string $maxHeight = '220px';
+    protected static ?string $heading = 'Producción Departamental';
+
+    protected static ?string $maxHeight = '300px';
 
     protected function getData(): array
     {
+        $user=auth()->user()->es_admin;
         $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
-        ->where('users.departamento_id', auth()->user()->departamento_id)
-        ->groupBy('registrable_type')
-        ->selectRaw('count(*) as total, registrable_type')
+        ->join('departamentos', 'users.departamento_id', '=', 'departamentos.id')
+        ->selectRaw('count(*) as total, departamentos.nombre as departamento')
+        ->groupBy('departamentos.nombre')
         ->get();
 
+        if($user==1){
             return [
-                'labels' => $this->tipoLabel($query->pluck('registrable_type')),
+                'labels' => $query->pluck('departamento'),
                 'datasets' => [
                     [
-                        'label' => 'Producción por departamento de:',
+                        'label' => 'Registros',
                         'backgroundColor' => [
                             '#3b82f6',
                             '#ef4444',
@@ -50,27 +54,14 @@ class ProduccionDepartamento extends ChartWidget
                         'data' => $query->pluck('total'),
                     ],
                 ],
-        ];
+            ];
+        }else{
+            return[];
+        }
     }
 
     protected function getType(): string
     {
-        return 'pie';
-    }
-
-    private function tipoLabel($tipos): array
-    {
-        $labels = [];
-        foreach ($tipos as $tipo) {
-            if (str($tipo)->endsWith('Capitulom')) {
-                $label = 'Capítulo de Memoria';
-            } elseif (str($tipo)->endsWith('Capitulol')) {
-                $label = 'Capítulo de Libro';
-            } else {
-                $label = str_replace('App\\Models\\', '', $tipo);
-            }
-            array_push($labels, $label);
-        }
-        return $labels;
+        return 'polarArea';
     }
 }

@@ -34,15 +34,17 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,               
+                //Se comentó la siguiente línea para inhabilitar el menú anterior de producción individual
+                //Pages\Dashboard::class,
+                \App\Filament\Pages\MainDashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                \App\Filament\Resources\RegistroResource\Widgets\TotalRegistros::class,  
+                \App\Filament\Resources\RegistroResource\Widgets\TotalRegistros::class,
                 \App\Filament\Resources\RegistroResource\Widgets\RegistrosChart::class,
                 \App\Filament\Resources\RegistroResource\Widgets\RegistrosMes2::class,
-                         
+                \App\Filament\Resources\RegistroResource\Widgets\RegistrosGeneralesDepartamentosChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -59,5 +61,8 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->sidebarCollapsibleOnDesktop();
+    }
+    public static function shouldRegisterNavigation():bool{
+        return false;
     }
 }
