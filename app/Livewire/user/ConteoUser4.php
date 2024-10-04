@@ -32,7 +32,7 @@ class ConteoUser4 extends BaseWidget
                 Registro::where('user_id', auth()->user()->id)
                 ->where('registrable_type', 'App\Models\Industrial')
                 ->count())
-                ->description('Total de Otros Prop. Intelectuales')
+                ->description('Total de Prop. Intelectuales')
                 ->icon('heroicon-o-check-circle')
                 ->color('success'),
 

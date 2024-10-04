@@ -66,6 +66,13 @@
                     @livewire('user.produccionusergeneral')
                 </div>
             </div>
+            @if(auth()->user()->es_admin == 1)
+                <div class="swiper-slide">
+                    <div style="width: 75%; margin-left:90px; padding:40px;">
+                        @livewire('producciondepartamentodocentes')
+                    </div>
+                </div>
+            @endif
         </div>
 
         <div class="swiper-button-next"></div>

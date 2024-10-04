@@ -17,16 +17,30 @@ class ProduccionDepartamentoDocentes extends ChartWidget
 
     protected function getData(): array
     {
-        $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
-        ->where('users.departamento_id', auth()->user()->departamento_id)
-        ->select(
-            DB::raw('CONCAT(users.name, " ", users.apellidos) as usuario'),
-            DB::raw('COUNT(*) as total')
-        )
-        ->groupBy('usuario')
-        ->orderBy('usuario')
-        ->get();
+        $user=auth()->user()->es_admin;
+        if($user==1){
+            $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
+            ->select(
+                DB::raw('CONCAT(users.name, " ", users.apellidos) as usuario'),
+                DB::raw('COUNT(*) as total')
+            )
+            ->groupBy('users.id', 'users.name', 'users.apellidos')
+            ->orderBy('usuario')
+            ->get();
+        }else{
+            $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
+            ->where('users.departamento_id', auth()->user()->departamento_id)
+            ->select(
+                DB::raw('CONCAT(users.name, " ", users.apellidos) as usuario'),
+                DB::raw('COUNT(*) as total')
+            )
+            ->groupBy('usuario')
+            ->orderBy('usuario')
+            ->get();
+        }
+
         return [
+
             'labels' => $query->pluck('usuario'),
                 'datasets' => [
                     [
