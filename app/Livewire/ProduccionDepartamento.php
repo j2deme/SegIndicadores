@@ -15,7 +15,6 @@ class ProduccionDepartamento extends ChartWidget
     protected function getData(): array
     {
         $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
-        //->select('registros.*')
         ->where('users.departamento_id', auth()->user()->departamento_id)
         ->groupBy('registrable_type')
         ->selectRaw('count(*) as total, registrable_type')

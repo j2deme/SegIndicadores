@@ -94,7 +94,7 @@ class RegistroResource extends Resource
 
                 Forms\Components\DatePicker::make('fecha_publicacion')
                     ->label('Fecha')
-                    ->maxDate(now()), 
+                    ->maxDate(now()),
                 Forms\Components\Select::make('pais_publicacion')
                     ->label('País')
                     ->searchable()
@@ -129,7 +129,7 @@ class RegistroResource extends Resource
                         }
                     }),
                 Tables\Columns\TextColumn::make('proposito')
-                    ->formatStateUsing(fn(string $state): string => RegistroResource::$propositos[$state])
+                    //->formatStateUsing(fn(string $state): string => RegistroResource::$propositos[$state])
                     ->searchable()
                     ->label('Propósito'),
                 Tables\Columns\TextColumn::make('autores')
@@ -158,7 +158,7 @@ class RegistroResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('area_prioritaria_pais')
-                    ->formatStateUsing(fn(string $state): string => RegistroResource::$areas_prioritarias[$state])
+                    //->formatStateUsing(fn(string $state): string => RegistroResource::$areas_prioritarias[$state])
                     ->searchable()
                     ->wrap()
                     ->label('Área Prioritaria'),
@@ -168,7 +168,7 @@ class RegistroResource extends Resource
                     ->wrap()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('pais_publicacion')
-                    ->formatStateUsing(fn(string $state): string => RegistroResource::$paises[$state])
+                    //->formatStateUsing(fn(string $state): string => RegistroResource::$paises[$state])
                     ->searchable()
                     ->label('País de Publicación'),
                 Tables\Columns\TextColumn::make('evidencia')
