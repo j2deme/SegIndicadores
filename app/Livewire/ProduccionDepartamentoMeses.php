@@ -15,6 +15,13 @@ class ProduccionDepartamentoMeses extends ChartWidget
     protected static ?string $heading = 'Producción Departamental por Trimestre';
     protected static ?string $maxHeight = '230px';
 
+    protected static ?array $options = [
+        'plugins' => [
+            'legend' => [
+                'display' => false,
+            ],
+        ],
+    ];
     protected function getData(): array
     {
 
@@ -39,7 +46,7 @@ class ProduccionDepartamentoMeses extends ChartWidget
             'labels' => $labels,
             'datasets' => [
                 [
-                    'label' => 'Trimestales',
+                   'label' => [],
                     'data' => $totales,
                     'backgroundColor' => ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
                 ],

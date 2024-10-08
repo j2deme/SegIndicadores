@@ -14,9 +14,12 @@ class ProduccionDepartamentoDocentes extends ChartWidget
     protected static ?string $heading = 'Producción Departamental por Docente';
     protected static ?string $maxHeight = '200px';
     protected static ?string $height = '250px';
+    public ?string $filter = 'today';
 
     protected function getData(): array
     {
+        $activeFilter = $this->filter;
+
         $user=auth()->user()->es_admin;
         if($user==1){
             $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
@@ -73,8 +76,29 @@ class ProduccionDepartamentoDocentes extends ChartWidget
         ];
     }
 
+    protected function getFilters(): ?array
+    {
+        return [
+            'today' => 'Hoy',
+            'week' => 'Semana pasada',
+            'month' => 'Mes pasado',
+            'year' => 'Este año',
+        ];
+    }
+
+    public function getDescription(): ?string
+    {
+        return 'Total de registros del departamento por docentes.';
+    }
+
+
     protected function getType(): string
     {
         return 'pie';
     }
+
+     /*   public function updatedFilter()
+    {
+        $this->emit('refreshChart');
+    }*/
 }

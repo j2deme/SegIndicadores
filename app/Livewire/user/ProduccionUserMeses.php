@@ -10,6 +10,14 @@ class ProduccionUserMeses extends ChartWidget
     protected static ?string $heading = 'Producción Mensual';
     protected static ?string $maxHeight = '230px';
 
+    protected static ?array $options = [
+        'plugins' => [
+            'legend' => [
+                'display' => false,
+            ],
+        ],
+    ];
+
     protected function getData(): array
     {
         $user=auth()->user()->es_admin;

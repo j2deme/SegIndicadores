@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div class="swiper-slide" style="width: 75%;">
-                <div style="width: 90%; height: 230px; float:right; margin-left: 1%; margin-right: 4%;">
+                <div style="width: 90%; height: 400px; float:right; margin-left: 1%; margin-right: 4%;">
                     @livewire('user.produccionusertrimestre')
                 </div>
             </div>

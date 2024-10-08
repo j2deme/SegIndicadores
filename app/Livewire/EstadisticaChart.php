@@ -13,6 +13,13 @@ class EstadisticaChart extends ChartWidget
     protected static ?string $heading = 'Producción Mensual del Departamento';
     protected static ?string $maxHeight = '230px';
 
+    protected static ?array $options = [
+        'plugins' => [
+            'legend' => [
+                'display' => false,
+            ],
+        ],
+    ];
         protected function getData(): array
         {
             /*$jefeId = auth()->user()->id;
@@ -41,7 +48,7 @@ class EstadisticaChart extends ChartWidget
                     [
                         'label' => 'Mensual',
                         'data' => $totales,
-                        'backgroundColor' => ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40', '#9966FF', '#FF6384', '#4BC0C0', '#36A2EB', '#FFCE56', '#FF9F40', '#9966FF'],
+                        'backgroundColor' => ['#FFFFFF', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40', '#9966FF', '#FF6384', '#4BC0C0', '#36A2EB', '#FFCE56', '#FF9F40', '#9966FF'],
                     ],
                 ],
             ];
