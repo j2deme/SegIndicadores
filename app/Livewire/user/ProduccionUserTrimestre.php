@@ -40,7 +40,8 @@ class ProduccionUserTrimestre extends ChartWidget
             'labels' => $labels,
             'datasets' => [
                 [
-                    'label' => 'Trimestales',
+                    'label' => 'Trimestrales',
+                    'borderColor' => 'transparent',
                     'data' => $totales,
                     'backgroundColor' => ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
                 ],
