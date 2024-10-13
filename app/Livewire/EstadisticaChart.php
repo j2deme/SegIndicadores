@@ -12,6 +12,7 @@ class EstadisticaChart extends ChartWidget
 {
     protected static ?string $heading = 'Producción Mensual del Departamento';
     protected static ?string $maxHeight = '230px';
+    public ?string $filter = 'today';
 
     protected static ?array $options = [
         'plugins' => [
@@ -22,14 +23,30 @@ class EstadisticaChart extends ChartWidget
     ];
         protected function getData(): array
         {
+            $activeFilter = $this->filter;
             /*$jefeId = auth()->user()->id;
             $departamento = Departamento::where('jefe_id', $jefeId)->first();
             $depaId = $departamento->id;
 
 */
             $registros = Registro::join('users', 'registros.user_id', '=', 'users.id')
-            ->where('users.departamento_id', auth()->user()->departamento_id)
-            ->select(
+            ->where('users.departamento_id', auth()->user()->departamento_id);
+            switch ($activeFilter) {
+                case 'today':
+                    $registros->whereDate('registros.created_at', today());
+                    break;
+                case 'week':
+                    $registros->whereBetween('registros.created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'month':
+                    $registros->whereMonth('registros.created_at', now()->month)
+                        ->whereYear('registros.created_at', now()->year);
+                    break;
+                case 'year':
+                    $registros->whereYear('registros.created_at', now()->year);
+                    break;
+            }
+            $registros=$registros->select(
                 DB::raw('MONTH(registros.created_at) as mes'),
                 DB::raw('COUNT(*) as total')
             )
@@ -53,6 +70,16 @@ class EstadisticaChart extends ChartWidget
                 ],
             ];
         }
+
+        protected function getFilters(): ?array
+    {
+        return [
+            'today' => 'Hoy',
+            'week' => 'Esta semana',
+            'month' => 'Este mes',
+            'year' => 'Este año',
+        ];
+    }
 
         protected function getType(): string
         {

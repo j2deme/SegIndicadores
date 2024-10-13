@@ -32,8 +32,25 @@ class ProduccionDepartamentoDocentes extends ChartWidget
             ->get();
         }else{
             $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
-            ->where('users.departamento_id', auth()->user()->departamento_id)
-            ->select(
+            ->where('users.departamento_id', auth()->user()->departamento_id);
+
+            switch ($activeFilter) {
+                case 'today':
+                    $query->whereDate('registros.created_at', today());
+                    break;
+                case 'week':
+                    $query->whereBetween('registros.created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'month':
+                    $query->whereMonth('registros.created_at', now()->month)
+                        ->whereYear('registros.created_at', now()->year);
+                    break;
+                case 'year':
+                    $query->whereYear('registros.created_at', now()->year);
+                    break;
+            }
+
+            $query= $query->select(
                 DB::raw('CONCAT(users.name, " ", users.apellidos) as usuario'),
                 DB::raw('COUNT(*) as total')
             )
@@ -80,8 +97,8 @@ class ProduccionDepartamentoDocentes extends ChartWidget
     {
         return [
             'today' => 'Hoy',
-            'week' => 'Semana pasada',
-            'month' => 'Mes pasado',
+            'week' => 'Esta Semana',
+            'month' => 'Este Mes',
             'year' => 'Este año',
         ];
     }
