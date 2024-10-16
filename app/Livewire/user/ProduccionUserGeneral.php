@@ -8,18 +8,52 @@ use Illuminate\Support\Facades\DB;
 
 class ProduccionUserGeneral extends ChartWidget
 {
+    public ?string $filter = 'today';
     protected static ?string $heading = 'Producción General';
     protected static ?string $maxHeight = '230px';
+
     protected function getData(): array
     {
+        $activeFilter = $this->filter;
         $user=auth()->user()->es_admin;
         if($user==1){
-            $query = Registro::groupBy('registrable_type')
-            ->selectRaw('count(*) as total, registrable_type')
+            $query = Registro::groupBy('registrable_type');
+            switch ($activeFilter) {
+                case 'today':
+                    $query->whereDate('registros.created_at', today());
+                    break;
+                case 'week':
+                    $query->whereBetween('registros.created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'month':
+                    $query->whereMonth('registros.created_at', now()->month)
+                        ->whereYear('registros.created_at', now()->year);
+                    break;
+                case 'year':
+                    $query->whereYear('registros.created_at', now()->year);
+                    break;
+            }
+            $query= $query->selectRaw('count(*) as total, registrable_type')
             ->get();
         }else{
             $query = Registro::where('user_id', auth()->user()->id)
-            ->groupBy('registrable_type')
+            ->groupBy('registrable_type');
+            switch ($activeFilter) {
+                case 'today':
+                    $query->whereDate('registros.created_at', today());
+                    break;
+                case 'week':
+                    $query->whereBetween('registros.created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'month':
+                    $query->whereMonth('registros.created_at', now()->month)
+                        ->whereYear('registros.created_at', now()->year);
+                    break;
+                case 'year':
+                    $query->whereYear('registros.created_at', now()->year);
+                    break;
+            }
+            $query= $query
             ->selectRaw('count(*) as total, registrable_type')
             ->get();
         }
@@ -59,6 +93,16 @@ class ProduccionUserGeneral extends ChartWidget
     protected function getType(): string
     {
         return 'pie';
+    }
+
+    protected function getFilters(): ?array
+    {
+        return [
+            'today' => 'Hoy',
+            'week' => 'Esta semana',
+            'month' => 'Este mes',
+            'year' => 'Este año',
+        ];
     }
 
     private function tipoLabel($tipos): array

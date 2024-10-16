@@ -4,10 +4,11 @@ namespace App\Livewire;
 
 use Filament\Widgets\ChartWidget;
 use App\Models\Registro;
+use App\Models\Departamento;
 
 class ProduccionDepartamento extends ChartWidget
 {
-    protected static ?string $heading = 'Producción departamental';
+    protected static ?string $heading = null;
     protected static ?string $maxHeight = '220px';
     public ?string $filter = 'today';
 
@@ -83,6 +84,18 @@ class ProduccionDepartamento extends ChartWidget
     protected function getType(): string
     {
         return 'pie';
+    }
+
+    public function getHeading(): ?string{
+        $user = auth()->user()->es_admin;
+
+        if($user==1){
+            return 'Producción Global.';
+        }else{
+            $departamento = auth()->user()->departamento_id;
+            $departamento=Departamento::find($departamento);
+            return 'Producción global del Departamento '. $departamento->nombre;
+        }
     }
 
     private function tipoLabel($tipos): array

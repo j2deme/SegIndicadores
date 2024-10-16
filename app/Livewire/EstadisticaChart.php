@@ -10,7 +10,7 @@ use App\Models\Registro;
 
 class EstadisticaChart extends ChartWidget
 {
-    protected static ?string $heading = 'Producción Mensual del Departamento';
+    protected static ?string $heading = null;
     protected static ?string $maxHeight = '230px';
     public ?string $filter = 'today';
 
@@ -79,6 +79,17 @@ class EstadisticaChart extends ChartWidget
             'month' => 'Este mes',
             'year' => 'Este año',
         ];
+    }
+
+    public function getHeading(): ?string{
+        $user = auth()->user()->es_admin;
+        if($user==1){
+            return 'Producción mensual global';
+        }else{
+            $departamentoId = auth()->user()->departamento_id;
+            $departamento = Departamento::where('id', $departamentoId)->first();
+            return 'Producción mensual del departamento de '. $departamento->nombre;
+        }
     }
 
         protected function getType(): string

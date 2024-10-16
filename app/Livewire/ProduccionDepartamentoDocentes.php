@@ -11,10 +11,24 @@ use Carbon\Carbon;
 
 class ProduccionDepartamentoDocentes extends ChartWidget
 {
-    protected static ?string $heading = 'Producción Departamental por Docente';
+    protected static ?string $heading = null;
     protected static ?string $maxHeight = '200px';
     protected static ?string $height = '250px';
     public ?string $filter = 'today';
+
+    public function getHeading():string
+{
+    $user=auth()->user()->es_admin;
+    $departamentoId = auth()->user()->departamento_id;
+
+    $departamento = Departamento::find($departamentoId);
+
+    if ($user==1) {
+        return 'Producción por Docente';
+    } else {
+        return 'Producción departamental por docente de '. $departamento->nombre;
+    }
+}
 
     protected function getData(): array
     {
@@ -26,9 +40,26 @@ class ProduccionDepartamentoDocentes extends ChartWidget
             ->select(
                 DB::raw('CONCAT(users.name, " ", users.apellidos) as usuario'),
                 DB::raw('COUNT(*) as total')
-            )
+            );
+            switch ($activeFilter) {
+                case 'today':
+                    $query->whereDate('registros.created_at', today());
+                    break;
+                case 'week':
+                    $query->whereBetween('registros.created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'month':
+                    $query->whereMonth('registros.created_at', now()->month)
+                        ->whereYear('registros.created_at', now()->year);
+                    break;
+                case 'year':
+                    $query->whereYear('registros.created_at', now()->year);
+                    break;
+            }
+            $query= $query
             ->groupBy('users.id', 'users.name', 'users.apellidos')
-            ->orderBy('usuario')
+            ->orderBy('total', 'desc')
+            ->limit(5)
             ->get();
         }else{
             $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
@@ -103,19 +134,14 @@ class ProduccionDepartamentoDocentes extends ChartWidget
         ];
     }
 
-    public function getDescription(): ?string
+    /*public function getDescription(): ?string
     {
         return 'Total de registros del departamento por docentes.';
-    }
+    }*/
 
 
     protected function getType(): string
     {
         return 'pie';
     }
-
-     /*   public function updatedFilter()
-    {
-        $this->emit('refreshChart');
-    }*/
 }

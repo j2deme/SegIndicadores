@@ -12,7 +12,7 @@ use Carbon\Carbon;
 
 class ProduccionDepartamentoMeses extends ChartWidget
 {
-    protected static ?string $heading = 'Producción Departamental por Trimestre';
+    protected static ?string $heading = null;
     protected static ?string $maxHeight = '230px';
     public ?string $filter = 'today';
 
@@ -79,6 +79,17 @@ class ProduccionDepartamentoMeses extends ChartWidget
             'month' => 'Este trimestre',
             'year' => 'Este año',
         ];
+    }
+    public function getHeading(): ?string{
+        $user = auth()->user()->es_admin;
+
+        if($user==1){
+            return 'Producción global por trimestre';
+        }else{
+            $departamento=auth()->user()->departamento_id;
+            $departamento=Departamento::find($departamento);
+            return 'Producción departamental por trimestre de '.$departamento->nombre;
+        }
     }
 
     protected function getType(): string
