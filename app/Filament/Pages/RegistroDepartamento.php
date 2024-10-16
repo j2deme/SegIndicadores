@@ -18,7 +18,7 @@ class RegistroDepartamento extends Page
 
     public static function canAccess(): bool
     {
-        return auth()->user()->canManageSettings();
+        return auth()->user()->es_jefe;
     }
 
     public static function shouldRegisterNavigation():bool{
