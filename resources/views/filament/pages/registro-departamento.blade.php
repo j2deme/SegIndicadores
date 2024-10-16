@@ -15,7 +15,7 @@
     }
 </style>
 
-<x-filament-panels::page>+
+<x-filament-panels::page>
     <div class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">

@@ -9,15 +9,41 @@ class ProduccionUserMeses extends ChartWidget
 {
     protected static ?string $heading = 'Producción Mensual';
     protected static ?string $maxHeight = '230px';
+    public ?string $filter = 'today';
+
+    protected static ?array $options = [
+        'plugins' => [
+            'legend' => [
+                'display' => false,
+            ],
+        ],
+    ];
 
     protected function getData(): array
     {
+        $activeFilter=$this->filter;
         $user=auth()->user()->es_admin;
         if($user==1){
             $registros = Registro::select(
                 DB::raw('MONTH(registros.created_at) as mes'),
                 DB::raw('COUNT(*) as total')
-            )
+            );
+            switch ($activeFilter) {
+                case 'today':
+                    $registros->whereDate('registros.created_at', today());
+                    break;
+                case 'week':
+                    $registros->whereBetween('registros.created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'month':
+                    $registros->whereMonth('registros.created_at', now()->month)
+                        ->whereYear('registros.created_at', now()->year);
+                    break;
+                case 'year':
+                    $registros->whereYear('registros.created_at', now()->year);
+                    break;
+            }
+            $registros = $registros
             ->groupBy('mes')
             ->orderBy('mes')
             ->get();
@@ -26,7 +52,23 @@ class ProduccionUserMeses extends ChartWidget
             ->select(
                 DB::raw('MONTH(registros.created_at) as mes'),
                 DB::raw('COUNT(*) as total')
-            )
+            );
+            switch ($activeFilter) {
+                case 'today':
+                    $registros->whereDate('registros.created_at', today());
+                    break;
+                case 'week':
+                    $registros->whereBetween('registros.created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'month':
+                    $registros->whereMonth('registros.created_at', now()->month)
+                        ->whereYear('registros.created_at', now()->year);
+                    break;
+                case 'year':
+                    $registros->whereYear('registros.created_at', now()->year);
+                    break;
+            }
+            $registros = $registros
             ->groupBy('mes')
             ->orderBy('mes')
             ->get();
@@ -46,6 +88,16 @@ class ProduccionUserMeses extends ChartWidget
                     'backgroundColor' => ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40', '#9966FF', '#FF6384', '#4BC0C0', '#36A2EB', '#FFCE56', '#FF9F40', '#9966FF'],
                 ],
             ],
+        ];
+    }
+
+    protected function getFilters(): ?array
+    {
+        return [
+            'today' => 'Hoy',
+            'week' => 'Esta semana',
+            'month' => 'Este Mes',
+            'year' => 'Este año',
         ];
     }
 

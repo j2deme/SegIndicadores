@@ -13,6 +13,14 @@ class TrimisteChart extends ChartWidget
 {
     protected static ?string $heading = 'Registros';
 
+    protected static ?array $options = [
+        'plugins' => [
+            'legend' => [
+                'display' => false,
+            ],
+        ],
+    ];
+
     protected function getData(): array
     {
         $jefeId = auth()->user()->id;
@@ -20,7 +28,7 @@ class TrimisteChart extends ChartWidget
         $depaId = $departamento->id;
 
 
-        $registros = Registro::where('sector_id', $depaId) 
+        $registros = Registro::where('sector_id', $depaId)
         ->select(
             DB::raw('QUARTER(created_at) as trimestre'),
             DB::raw('COUNT(*) as total')
@@ -28,9 +36,9 @@ class TrimisteChart extends ChartWidget
         ->groupBy('trimestre')
         ->get();
 
-    
+
         $labels = ['Enero-Marzo', 'Abril-Junio', 'julio-Septiembre', 'Octubre-Noviembre'];
-        $totales = [0, 0, 0, 0]; 
+        $totales = [0, 0, 0, 0];
         foreach ($registros as $registro) {
             $totales[$registro->trimestre - 1] = $registro->total;
         }

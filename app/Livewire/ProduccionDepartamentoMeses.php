@@ -12,18 +12,42 @@ use Carbon\Carbon;
 
 class ProduccionDepartamentoMeses extends ChartWidget
 {
-    protected static ?string $heading = 'Producción Departamental por Trimestre';
+    protected static ?string $heading = null;
     protected static ?string $maxHeight = '230px';
+    public ?string $filter = 'today';
+
+    protected static ?array $options = [
+        'plugins' => [
+            'legend' => [
+                'display' => false,
+            ],
+        ],
+    ];
 
     protected function getData(): array
     {
-
+        $activeFilter = $this->filter;
         #$jefeId = auth()->user()->id;
         #$departamento = Departamento::where('jefe_id', $jefeId)->first();
 
         $registros = Registro::join('users', 'registros.user_id', '=', 'users.id')
-        ->where('users.departamento_id', auth()->user()->departamento_id)
-        ->select(
+        ->where('users.departamento_id', auth()->user()->departamento_id);
+        switch ($activeFilter) {
+            case 'today':
+                $registros->whereDate('registros.created_at', today());
+                break;
+            case 'week':
+                $registros->whereBetween('registros.created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                break;
+            case 'month':
+                $registros->whereMonth('registros.created_at', now()->month)
+                    ->whereYear('registros.created_at', now()->year);
+                break;
+            case 'year':
+                $registros->whereYear('registros.created_at', now()->year);
+                break;
+        }
+        $registros= $registros->select(
             DB::raw('QUARTER(registros.created_at) as trimestre'),
             DB::raw('COUNT(*) as total')
         )
@@ -39,12 +63,33 @@ class ProduccionDepartamentoMeses extends ChartWidget
             'labels' => $labels,
             'datasets' => [
                 [
-                    'label' => 'Trimestales',
+                   'label' => [],
                     'data' => $totales,
                     'backgroundColor' => ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
                 ],
             ],
         ];
+    }
+
+    protected function getFilters(): ?array
+    {
+        return [
+            'today' => 'Hoy',
+            'week' => 'Esta semana',
+            'month' => 'Este trimestre',
+            'year' => 'Este año',
+        ];
+    }
+    public function getHeading(): ?string{
+        $user = auth()->user()->es_admin;
+
+        if($user==1){
+            return 'Producción global por trimestre';
+        }else{
+            $departamento=auth()->user()->departamento_id;
+            $departamento=Departamento::find($departamento);
+            return 'Producción departamental por trimestre de '.$departamento->nombre;
+        }
     }
 
     protected function getType(): string
