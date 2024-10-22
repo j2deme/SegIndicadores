@@ -14,8 +14,8 @@ use App\Http\Controllers\DownloadPDFController;
 |
 */
 
+Route::get('/reporte.pdf', [DownloadPDFController::class, 'download'])->name('reporte.pdf');
 
-Route::get('/reporte.pdf', DownloadPDFController::class)->name('reporte.pdf');
 /*Route::get('/', function () {
     return view('welcome');
 });*/
