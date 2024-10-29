@@ -3,7 +3,6 @@
 <x-filament-panels::page>
 
     <div class="flex justify-between">
-        <h2 class="text-2xl font-bold">{{ $this->getHeading() }}</h2>
 
         <div>
             <label for="filtroPeriodo" class="mr-2">Seleccionar periodo:</label>
@@ -82,7 +81,6 @@
 
     <div class="mt-8">
         <h3 class="text-xl font-semibold">Listado de registros</h3>
-        <canvas id="chart"></canvas>
     </div>
 
     <table class="table-auto w-full mt-4">
@@ -101,8 +99,42 @@
                     <td>{{ $index + 1 }}</td>
                 <td class="border px-4 py-2">{{ $registro->autores }} </td>
                 <td class="border px-4 py-2">{{ $registro->nombre }} </td>
-                <td class="border px-4 py-2">{{ $registro->registrable_type }}</td>
-                <td class="border px-4 py-2">{{ \Carbon\Carbon::parse($registro->created_at)->format('d|mY') }}</td>
+                <td class="border px-4 py-2">
+                    @switch($registro->registrable_type)
+                        @case('App\Models\Tesis')
+                            Tesis
+                        @break
+                        @case('App\Models\Libro')
+                            Libro
+                        @break
+                        @case('App\Models\Capitulol')
+                            Capítulo Libro
+                        @break
+                        @case('App\Models\Articulo')
+                            Artículo
+                        @break
+                        @case('App\Models\Capitulom')
+                            Capítulo de Memoria
+                        @break
+                        @case('App\Models\Industrial')
+                            Industrial
+                        @break
+                        @case('App\Models\Ponencia')
+                            Ponencia
+                        @break
+                        @case('App\Models\Prototipo')
+                            Prototipo
+                        @break
+                        @case('App\Models\Autoral')
+                            Registro Autoral
+                        @break
+                        @case('App\Models\Otro')
+                            Otro
+                        @default
+
+                    @endswitch
+                </td>
+                <td class="border px-4 py-2">{{ \Carbon\Carbon::parse($registro->created_at)->format('d-m') }}</td>
             </tr>
             @endforeach
         </tbody>

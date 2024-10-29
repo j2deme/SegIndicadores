@@ -9,10 +9,6 @@ use Carbon\Carbon;
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\Storage;
 
-
-
-
-
 class Reportes extends Page
 {
     //protected static ?string $heading = null;
@@ -52,12 +48,8 @@ class Reportes extends Page
         // );
         $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
         ->where('users.departamento_id', auth()->user()->departamento_id)
-        ->select(
-            'registrable_type',
-            'registros.created_at',
-            'autores',
-            'nombre'
-        );
+        ->select('registros.*', 'users.name as user_name', 'users.apellidos as user_apellidos')
+;
 
         $currentDate = Carbon::now();
 
@@ -91,6 +83,9 @@ class Reportes extends Page
 
             return response()->download(storage_path('app/public/reports/reporte de area.pdf'));
 
+    }
+    public static function shouldRegisterNavigation(): bool{
+        return false;
     }
 
 }
