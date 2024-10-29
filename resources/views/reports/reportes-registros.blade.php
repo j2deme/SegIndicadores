@@ -64,34 +64,38 @@
     
         <h3 class="text-xl font-semibold">Gráfico de Registros</h3>
         <canvas id="chart" width="400" height="200"></canvas>
-    
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            var ctx = document.getElementById('chart').getContext('2d');
-            var chartData = {
-                labels: @json($registros->pluck('registrable_type')),
-                datasets: [{
-                    label: 'Registros',
-                    data: @json($registros->groupBy('registrable_type')->map(fn($r) => $r->count())),
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.5)',
-                        'rgba(54, 162, 235, 0.5)',
-                        'rgba(255, 206, 86, 0.5)',
-                        'rgba(75, 192, 192, 0.5)',
-                        'rgba(153, 102, 255, 0.5)',
-                        'rgba(255, 159, 64, 0.5)',
-                    ]
-                }]
-            };
-    
-            new Chart(ctx, {
-                type: 'bar',
-                data: chartData,
-            });
-        </script>
-        
-        
-    
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <script>
+         var ctx = document.getElementById('chart').getContext('2d');
+         var chartData = {
+             labels: @json($graficoData->pluck('registrable_type')),
+             datasets: [{
+                 label: 'Registros',
+                 data: @json($graficoData->pluck('total')), 
+                 backgroundColor: [
+                     'rgba(255, 99, 132, 0.5)',
+                     'rgba(54, 162, 235, 0.5)',
+                     'rgba(255, 206, 86, 0.5)',
+                     'rgba(75, 192, 192, 0.5)',
+                     'rgba(153, 102, 255, 0.5)',
+                     'rgba(255, 159, 64, 0.5)'
+                 ]
+             }]
+         };
+ 
+         new Chart(ctx, {
+             type: 'bar',
+             data: chartData,
+             options: {
+                 responsive: true,
+                 scales: {
+                     y: {
+                         beginAtZero: true
+                     }
+                 }
+             }
+         });
+     </script>
     
    
     
@@ -103,7 +107,7 @@
                 <th>Autores</th>
                 <th >Nombre</th>
                 <th>Tipo de Registro</th>
-                <th>Fecha</th>
+                <th>Fecha</th> 
             </tr>
         </thead>
         <tbody>
@@ -113,7 +117,7 @@
                     <td>{{ $registro->autores }}</td>
                     <td>{{ $registro->nombre }}</td>
                     <td>{{ $registro->registrable_type }}</td>
-                    <td>{{ $registro->created_at->format('Y')  }}</td>
+                     <td>{{ $registro->created_at->format('Y')  }}</td> 
                 </tr>
             @endforeach
         </tbody>

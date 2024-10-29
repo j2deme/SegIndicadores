@@ -30,7 +30,8 @@ class RegistroDepartamento extends Page
     //     $departamentoNombre = auth()->user()->departamento->nombre;
     //     return "Registro del departamento de: " . $departamentoNombre;
     // }
-  
+   
+    
 
 
 
@@ -54,50 +55,84 @@ class RegistroDepartamento extends Page
     }
   
 
-    public function getRegistros()
-    {
-        $depaId=auth()->user()->departamento_id;
-        $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
-        ->where('users.departamento_id', auth()->user()->departamento_id)
-        ->select(
-            'registrable_type',    
-            'registros.created_at',       
-            'autores',
-            'nombre'           
-        );
-        
-        $currentDate = Carbon::now();
 
-        if ($this->filter === 'anual') {
-            $query->whereYear('registros.created_at', $currentDate->year);
-        } elseif ($this->filter === 'trimestre') {
-            $currentQuarter = $currentDate->quarter;
-            $query->whereRaw('QUARTER(registros.created_at) = ?', [$currentQuarter]);
-        } elseif ($this->filter === 'semestre') {
-            $currentMonth = $currentDate->month;
-            if ($currentMonth <= 6) {
-                $query->whereBetween('registros.created_at', [$currentDate->startOfYear(), $currentDate->copy()->endOfMonth(6)]);
-            } else {
-                $query->whereBetween('registros.created_at', [$currentDate->copy()->startOfMonth(7), $currentDate->endOfYear()]);
-            }
+    public function getGrafico()
+{
+    $depaId = auth()->user()->departamento_id;
+
+    $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
+        ->where('users.departamento_id', $depaId)
+        ->select('registrable_type')
+        ->selectRaw('COUNT(*) as total') 
+        ->groupBy('registrable_type'); 
+
+    $currentDate = Carbon::now();
+
+    if ($this->filter === 'anual') {
+        $query->whereYear('registros.created_at', $currentDate->year);
+    } elseif ($this->filter === 'trimestre') {
+        $currentQuarter = $currentDate->quarter;
+        $query->whereRaw('QUARTER(registros.created_at) = ?', [$currentQuarter]);
+    } elseif ($this->filter === 'semestre') {
+        $currentMonth = $currentDate->month;
+        if ($currentMonth <= 6) {
+            $query->whereBetween('registros.created_at', [$currentDate->startOfYear(), $currentDate->copy()->endOfMonth(6)]);
+        } else {
+            $query->whereBetween('registros.created_at', [$currentDate->copy()->startOfMonth(7), $currentDate->endOfYear()]);
         }
-        
-        return $query->get();
-        
     }
 
+    return $query->get(); 
+}
+public function getRegistros()
+{
+    $depaId = auth()->user()->departamento_id;
+    $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
+        ->where('users.departamento_id', $depaId)
+        ->select('registrable_type', 'registros.created_at', 'autores', 'nombre');
+
+    $currentDate = Carbon::now();
+
+    if ($this->filter === 'anual') {
+        $query->whereYear('registros.created_at', $currentDate->year);
+    } elseif ($this->filter === 'trimestre') {
+        $currentQuarter = $currentDate->quarter;
+        $query->whereRaw('QUARTER(registros.created_at) = ?', [$currentQuarter]);
+    } elseif ($this->filter === 'semestre') {
+        $currentMonth = $currentDate->month;
+        if ($currentMonth <= 6) {
+            $query->whereBetween('registros.created_at', [$currentDate->startOfYear(), $currentDate->copy()->endOfMonth(6)]);
+        } else {
+            $query->whereBetween('registros.created_at', [$currentDate->copy()->startOfMonth(7), $currentDate->endOfYear()]);
+        }
+    }
+
+    return $query->get();
+}
+
+
+
+    
     
     public function generadorPDF()
     {
-         $registros = $this->getRegistros();
-         $html = view('reports.reportes-registros', ['registros' => $registros])->render();
-         
+        
+        $registros = $this->getRegistros();
+        $graficoData = $this->getGrafico();
+    
+        $html = view('reports.reportes-registros', [
+            'registros' => $registros,
+            'graficoData' => $graficoData
+        ])->render();
+    
+        
         Browsershot::html($html)
-            ->setOption('no-sandbox', true)
-            ->save(storage_path('app/public/reports/reporte de area.pdf'));
-            
-            return response()->download(storage_path('app/public/reports/reporte de area.pdf'));
-
+            ->setOption('no-sandbox', true) 
+            ->save(storage_path('app/public/reports/reporte_de_area.pdf')); 
+    
+        return response()->download(storage_path('app/public/reports/reporte_de_area.pdf'));
     }
+    
+    
 
 }
