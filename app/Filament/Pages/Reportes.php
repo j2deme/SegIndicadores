@@ -9,10 +9,6 @@ use Carbon\Carbon;
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\Storage;
 
-
-
-
-
 class Reportes extends Page
 {
     //protected static ?string $heading = null;
@@ -31,34 +27,30 @@ class Reportes extends Page
 
         return 'Registros del departamento de ' . $departamento->nombre;
     }
-    
+
 
     public function mount(){
         $this->filter='anual';
         $this->registros = $this->getRegistros();
 
     }
-  
+
 
     public function getRegistros()
     {
         $depaId=auth()->user()->departamento_id;
         // $query = Registro::where('sector_id', $depaId)
         // ->select(
-        //     'registrable_type',    
-        //     'created_at',       
+        //     'registrable_type',
+        //     'created_at',
         //     'autores',
-        //     'nombre'           
+        //     'nombre'
         // );
         $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
         ->where('users.departamento_id', auth()->user()->departamento_id)
-        ->select(
-            'registrable_type',    
-            'registros.created_at',       
-            'autores',
-            'nombre'           
-        );
-        
+        ->select('registros.*', 'users.name as user_name', 'users.apellidos as user_apellidos')
+;
+
         $currentDate = Carbon::now();
 
         if ($this->filter === 'anual') {
@@ -74,24 +66,27 @@ class Reportes extends Page
                 $query->whereBetween('registros.created_at', [$currentDate->copy()->startOfMonth(7), $currentDate->endOfYear()]);
             }
         }
-        
+
         return $query->get();
-        
+
     }
 
-    
+
     public function generadorPDF()
     {
          $registros = $this->getRegistros();
          $html = view('reports.reportes-registros', ['registros' => $registros])->render();
-         
+
         Browsershot::html($html)
             ->setOption('no-sandbox', true)
             ->save(storage_path('app/public/reports/reporte de area.pdf'));
-            
+
             return response()->download(storage_path('app/public/reports/reporte de area.pdf'));
 
     }
-    
+    public static function shouldRegisterNavigation(): bool{
+        return false;
+    }
+
 }
 

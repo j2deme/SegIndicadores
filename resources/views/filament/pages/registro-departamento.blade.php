@@ -1,43 +1,18 @@
-
-{{-- <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<style>
-    .swiper-container {
-        overflow: hidden;
-        position: relative;
-    }
-    .swiper-container2 {
-        overflow: hidden;
-        position: relative;
-    } 
-</style>   --}}
-
 <x-filament-panels::page>
-    
-    
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <div class="flex justify-between">
+        <div>
+            <label for="filtroPeriodo" class="mr-2">Seleccionar periodo:</label>
+            <select wire:model="filter" id="filtroPeriodo" class="border rounded px-2 py-1" style="width: 130px;">
+                <option value="anual">Anual</option>
+                <option value="semestre">Semestral</option>
+                <option value="trimestre">Trimestral</option>
+            </select>
+        </div>
 
-
-<div class="flex justify-between">
-    <h2 class="text-2xl font-bold">{{ $this->getHeading() }}</h2>
-
-    <div>
-        <label for="filtroPeriodo" class="mr-2">Seleccionar periodo:</label>
-        <select wire:model="filter" id="filtroPeriodo" class="border rounded px-2 py-1">
-            <option value="anual">Anual</option>
-            <option value="semestre">Semestre</option>
-            <option value="trimestre">Trimestre</option>
-        </select>
+        <x-filament::button wire:click="generadorPDF">Generar Reporte</x-filament::button>
     </div>
-
-    <x-filament::button wire:click="generadorPDF">Generar Reporte</x-filament::button>
-
-
-
-</div>
-
-
-
-
     <div class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
@@ -66,14 +41,6 @@
         <div class="swiper-pagination"></div>
 
     </div>
-
-    <div class="mt-8">
-        <h3 class="text-xl font-semibold">Listado de registros</h3>
-        <canvas id="chart"></canvas>
-    </div>
-   
- 
-
     <div class="swiper-container2">
         <div class="swiper-wrapper">
             <div class="swiper-slide" style="width: 75%;">
@@ -131,4 +98,15 @@
             },
         });
     </script>
+
+        <style>
+            .swiper-container {
+                overflow: hidden;
+                position: relative;
+            }
+            .swiper-container2 {
+                overflow: hidden;
+                position: relative;
+            }
+        </style>
 </x-filament-panels::page>

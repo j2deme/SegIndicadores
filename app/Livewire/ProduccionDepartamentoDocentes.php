@@ -14,7 +14,7 @@ class ProduccionDepartamentoDocentes extends ChartWidget
     protected static ?string $heading = null;
     protected static ?string $maxHeight = '200px';
     protected static ?string $height = '250px';
-    public ?string $filter = 'today';
+    public ?string $filter = 'year';
 
     public function getHeading():string
 {
@@ -133,6 +133,26 @@ class ProduccionDepartamentoDocentes extends ChartWidget
             'year' => 'Este año',
         ];
     }
+
+    protected static ?array $options = [
+        'plugins' => [
+            'legend' => [
+                'display' => true,
+            ],
+        ],
+        'tooltips' => [
+            'enabled' => false,
+        ],
+        'scales' => [
+            'y' => [
+                'beginAtZero' => false,
+                'display' => false,
+            ],
+            'x' => [
+                'display' => false,
+            ],
+        ],
+    ];
 
     /*public function getDescription(): ?string
     {

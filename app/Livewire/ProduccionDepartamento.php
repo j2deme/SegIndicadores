@@ -10,7 +10,7 @@ class ProduccionDepartamento extends ChartWidget
 {
     protected static ?string $heading = null;
     protected static ?string $maxHeight = '220px';
-    public ?string $filter = 'today';
+    public ?string $filter = 'year';
 
     protected function getData(): array
     {
@@ -70,6 +70,25 @@ class ProduccionDepartamento extends ChartWidget
             ],
         ];
     }
+    protected static ?array $options = [
+        'plugins' => [
+            'legend' => [
+                'display' => true,
+            ],
+        ],
+        'tooltips' => [
+            'enabled' => false,
+        ],
+        'scales' => [
+            'y' => [
+                'beginAtZero' => false,
+                'display' => false,
+            ],
+            'x' => [
+                'display' => false,
+            ],
+        ],
+    ];
 
     protected function getFilters(): ?array
     {

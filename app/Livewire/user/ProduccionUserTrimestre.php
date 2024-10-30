@@ -10,7 +10,7 @@ class ProduccionUserTrimestre extends ChartWidget
 {
     protected static ?string $heading = 'Producción Trimestral';
     protected static ?string $maxHeight = '230px';
-    public ?string $filter = 'today';
+    public ?string $filter = 'year';
 
     protected function getData(): array
     {
@@ -29,8 +29,29 @@ class ProduccionUserTrimestre extends ChartWidget
                     $registros->whereBetween('registros.created_at', [now()->startOfWeek(), now()->endOfWeek()]);
                     break;
                 case 'month':
-                    $registros->whereMonth('registros.created_at', now()->month)
-                        ->whereYear('registros.created_at', now()->year);
+                    $now = now();
+                    $currentQuarter = $now->quarter;
+
+                    switch ($currentQuarter) {
+                        case 1:
+                            $start = $now->copy()->startOfYear();
+                            $end = $now->copy()->startOfYear()->addMonths(2)->endOfMonth();
+                            break;
+                        case 2:
+                            $start = $now->copy()->startOfYear()->addMonths(3);
+                            $end = $now->copy()->startOfYear()->addMonths(5)->endOfMonth();
+                            break;
+                        case 3:
+                            $start = $now->copy()->startOfYear()->addMonths(6);
+                            $end = $now->copy()->startOfYear()->addMonths(8)->endOfMonth();
+                            break;
+                        case 4:
+                            $start = $now->copy()->startOfYear()->addMonths(9);
+                            $end = $now->copy()->endOfYear();
+                            break;
+                    }
+
+                    $registros->whereBetween('registros.created_at', [$start, $end]);
                     break;
                 case 'year':
                     $registros->whereYear('registros.created_at', now()->year);
@@ -98,6 +119,15 @@ class ProduccionUserTrimestre extends ChartWidget
         'plugins' => [
             'legend' => [
                 'display' => false,
+            ],
+        ],
+        'scales' => [
+            'y' => [
+                'beginAtZero' => true,
+                'ticks' => [
+                    'beginAtZero' => true,
+                    'stepSize' => 1,
+                    ],
             ],
         ],
     ];
