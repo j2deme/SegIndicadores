@@ -70,6 +70,25 @@ class ProduccionDepartamento extends ChartWidget
             ],
         ];
     }
+    protected static ?array $options = [
+        'plugins' => [
+            'legend' => [
+                'display' => true,
+            ],
+        ],
+        'tooltips' => [
+            'enabled' => false,
+        ],
+        'scales' => [
+            'y' => [
+                'beginAtZero' => false,
+                'display' => false,
+            ],
+            'x' => [
+                'display' => false,
+            ],
+        ],
+    ];
 
     protected function getFilters(): ?array
     {

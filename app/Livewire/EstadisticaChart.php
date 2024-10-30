@@ -12,12 +12,21 @@ class EstadisticaChart extends ChartWidget
 {
     protected static ?string $heading = null;
     protected static ?string $maxHeight = '230px';
-    public ?string $filter = 'today';
+    public ?string $filter = 'year';
 
     protected static ?array $options = [
         'plugins' => [
             'legend' => [
                 'display' => false,
+            ],
+        ],
+        'scales' => [
+            'y' => [
+                'beginAtZero' => true,
+                'ticks' => [
+                    'beginAtZero' => true,
+                    'stepSize' => 1,
+                    ],
             ],
         ],
     ];

@@ -14,8 +14,7 @@
     .logo img{
         height: 90px;
     }
-
-        body {
+    body {
             font-family: Arial, sans-serif;
         }
         table {
@@ -55,7 +54,6 @@
             </div>
         </div>
     </header>
-
 
     <h2 style="text-align: center;">Tabla de registros totales</h2>
     <table>

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProduccionUserGeneral extends ChartWidget
 {
-    public ?string $filter = 'today';
+    public ?string $filter = 'year';
     protected static ?string $heading = 'Producción General';
     protected static ?string $maxHeight = '230px';
 
@@ -120,4 +120,24 @@ class ProduccionUserGeneral extends ChartWidget
         }
         return $labels;
     }
+
+    protected static ?array $options = [
+        'plugins' => [
+            'legend' => [
+                'display' => true,
+            ],
+        ],
+        'tooltips' => [
+            'enabled' => false,
+        ],
+        'scales' => [
+            'y' => [
+                'beginAtZero' => false,
+                'display' => false,
+            ],
+            'x' => [
+                'display' => false,
+            ],
+        ],
+    ];
 }
