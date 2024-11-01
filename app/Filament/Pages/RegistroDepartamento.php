@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use Illuminate\Support\Facades\DB;
 use Filament\Pages\Page;
 use App\Models\Registro;
 use App\Models\Departamento;
@@ -35,7 +36,6 @@ class RegistroDepartamento extends Page
     public function mount(){
         $this->filter='anual';
         $this->registros = $this->getRegistros();
-
     }
 
     public function getGrafico()
@@ -43,10 +43,9 @@ class RegistroDepartamento extends Page
         $depaId = auth()->user()->departamento_id;
 
         $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
-            ->where('users.departamento_id', $depaId)
-            ->select('registrable_type')
-            ->selectRaw('count(*) as total, registrable_type')
-            ->groupBy('registrable_type');
+        ->where('users.departamento_id', $depaId)
+        ->select('registrable_type', DB::raw('count(*) as total'))
+        ->groupBy('registrable_type');
 
         $currentDate = Carbon::now();
 
@@ -63,8 +62,6 @@ class RegistroDepartamento extends Page
                 $query->whereBetween('registros.created_at', [$currentDate->clone()->month(7)->startOfMonth(), $currentDate->clone()->endOfYear()]);
             }
         }
-
-
         return $query->get();
     }
 
@@ -91,8 +88,6 @@ class RegistroDepartamento extends Page
                 $query->whereBetween('registros.created_at', [$currentDate->clone()->month(7)->startOfMonth(), $currentDate->clone()->endOfYear()]);
             }
         }
-
-
         return $query->get();
     }
 
@@ -131,13 +126,13 @@ class RegistroDepartamento extends Page
             'filtroTexto' => $filtroTexto
         ])->render();
 
-
         Browsershot::html($html)
             ->setOption('no-sandbox', true)
             ->setOption('landscape', true)
+            ->setTimeout(60)
+            ->waitFor('#chart')
             ->save(storage_path('app/public/reports/reporte_de_area.pdf'));
 
         return response()->download(storage_path('app/public/reports/reporte_de_area.pdf'));
     }
-
 }
