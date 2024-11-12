@@ -9,6 +9,7 @@ use App\Models\Registro;
 use App\Models\Departamento;
 use Carbon\Carbon;
 
+
 class ProduccionDepartamentoDocentes extends ChartWidget
 {
     protected static ?string $heading = null;
@@ -36,7 +37,62 @@ class ProduccionDepartamentoDocentes extends ChartWidget
 
         $user=auth()->user()->es_admin;
         if($user==1){
-            $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
+            $topCinco = Registro::join('users', 'registros.user_id', '=', 'users.id')
+            ->select(
+                DB::raw('CONCAT(users.name, " ", users.apellidos) as usuario'),
+                DB::raw('COUNT(*) as total'),
+                'users.id'
+            );
+            switch ($activeFilter) {
+                case 'today':
+                    $topCinco->whereDate('registros.created_at', today());
+                    break;
+                case 'week':
+                    $topCinco->whereBetween('registros.created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                    break;
+                case 'month':
+                    $topCinco->whereMonth('registros.created_at', now()->month)
+                        ->whereYear('registros.created_at', now()->year);
+                    break;
+                case 'year':
+                    $topCinco->whereYear('registros.created_at', now()->year);
+                    break;
+            }
+            $topCinco=$topCinco
+            ->groupBy('users.id', 'users.name', 'users.apellidos')
+            ->orderBy('total', 'desc')
+            ->limit(5)
+            ->get();
+
+
+            $otros = Registro::join('users', 'registros.user_id', '=', 'users.id')
+                ->whereNotIn('users.id', $topCinco->pluck('id'));
+                switch ($activeFilter) {
+                    case 'today':
+                        $otros->whereDate('registros.created_at', today());
+                        break;
+                    case 'week':
+                        $otros->whereBetween('registros.created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                        break;
+                    case 'month':
+                        $otros->whereMonth('registros.created_at', now()->month)
+                            ->whereYear('registros.created_at', now()->year);
+                        break;
+                    case 'year':
+                        $otros->whereYear('registros.created_at', now()->year);
+                        break;
+                }
+                $otros=$otros
+                ->count();
+
+            $labels = $topCinco->pluck('usuario')->toArray();
+            $data = $topCinco->pluck('total')->toArray();
+
+            if ($otros > 0) {
+                $labels[] = 'Otros';
+                $data[] = $otros;
+            }
+            /*$query = Registro::join('users', 'registros.user_id', '=', 'users.id')
             ->select(
                 DB::raw('CONCAT(users.name, " ", users.apellidos) as usuario'),
                 DB::raw('COUNT(*) as total')
@@ -60,9 +116,41 @@ class ProduccionDepartamentoDocentes extends ChartWidget
             ->groupBy('users.id', 'users.name', 'users.apellidos')
             ->orderBy('total', 'desc')
             ->limit(5)
-            ->get();
+            ->get();*/
         }else{
-            $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
+            $topCinco = Registro::join('users', 'registros.user_id', '=', 'users.id')
+                ->where('users.departamento_id', auth()->user()->departamento_id)
+                ->select(
+                    DB::raw('CONCAT(users.name, " ", users.apellidos) as usuario'),
+                    DB::raw('COUNT(*) as total'),
+                    'users.id'
+                );
+                switch ($activeFilter) {
+                    case 'today':
+                        $topCinco->whereDate('registros.created_at', today());
+                        break;
+                    case 'week':
+                        $topCinco->whereBetween('registros.created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                        break;
+                    case 'month':
+                        $topCinco->whereMonth('registros.created_at', now()->month)
+                            ->whereYear('registros.created_at', now()->year);
+                        break;
+                    case 'year':
+                        $topCinco->whereYear('registros.created_at', now()->year);
+                        break;
+                }
+                $topCinco=$topCinco
+                ->groupBy('users.id', 'users.name', 'users.apellidos')
+                ->orderBy('total', 'desc')
+                ->limit(5)
+                ->get();
+
+
+
+
+
+            /*$query = Registro::join('users', 'registros.user_id', '=', 'users.id')
             ->where('users.departamento_id', auth()->user()->departamento_id);
 
             switch ($activeFilter) {
@@ -87,12 +175,39 @@ class ProduccionDepartamentoDocentes extends ChartWidget
             )
             ->groupBy('usuario')
             ->orderBy('usuario')
-            ->get();
+            ->get();*/
         }
+        $otros = Registro::join('users', 'registros.user_id', '=', 'users.id')
+                ->where('users.departamento_id', auth()->user()->departamento_id)
+                ->whereNotIn('users.id', $topCinco->pluck('id'));
+                switch ($activeFilter) {
+                    case 'today':
+                        $otros->whereDate('registros.created_at', today());
+                        break;
+                    case 'week':
+                        $otros->whereBetween('registros.created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                        break;
+                    case 'month':
+                        $otros->whereMonth('registros.created_at', now()->month)
+                            ->whereYear('registros.created_at', now()->year);
+                        break;
+                    case 'year':
+                        $otros->whereYear('registros.created_at', now()->year);
+                        break;
+                }
+                $otros=$otros
+                ->count();
 
-        return [
+            $labels = $topCinco->pluck('usuario')->toArray();
+            $data = $topCinco->pluck('total')->toArray();
 
-            'labels' => $query->pluck('usuario'),
+            if ($otros > 0) {
+                $labels[] = 'Otros';
+                $data[] = $otros;
+            }
+
+            return [
+                'labels' => $labels,
                 'datasets' => [
                     [
                         'label' => 'Producción por departamento de:',
@@ -118,10 +233,10 @@ class ProduccionDepartamentoDocentes extends ChartWidget
                             '#2dd4bf',
                             '#fb923c',
                         ],
-                        'data' => $query->pluck('total'),
+                        'data' => $data,
                     ],
                 ],
-        ];
+            ];
     }
 
     protected function getFilters(): ?array
@@ -134,10 +249,20 @@ class ProduccionDepartamentoDocentes extends ChartWidget
         ];
     }
 
-    protected static ?array $options = [
+    protected function getOptions(): array
+{
+    return [
         'plugins' => [
             'legend' => [
                 'display' => true,
+            ],
+            'datalabels' => [
+                'anchor' => 'end',
+                'align' => 'start',
+                'formatter' => function ($value, $context) {
+                    $label = $context['chart']['data']['labels'][$context['dataIndex']];
+                    return $label . ': ' . $value;
+                },
             ],
         ],
         'tooltips' => [
@@ -153,6 +278,7 @@ class ProduccionDepartamentoDocentes extends ChartWidget
             ],
         ],
     ];
+}
 
     /*public function getDescription(): ?string
     {

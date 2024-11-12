@@ -35,24 +35,46 @@ class Reportes extends Page
 
     }
 
+    public function getGrafico()
+    {
+        $depaId = auth()->user()->departamento_id;
+        $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
+            ->where('users.departamento_id', $depaId)
+            ->select('registrable_type')
+            ->selectRaw('COUNT(*) as total')
+            ->groupBy('registrable_type');
+
+            $currentDate = Carbon::now();
+
+            if ($this->filter === 'anual') {
+                $query->whereYear('registros.created_at', $currentDate->year);
+            }
+            elseif ($this->filter === 'trimestre') {
+                $currentQuarter = $currentDate->quarter;
+                $query->whereRaw('QUARTER(registros.created_at) = ?', [$currentQuarter]);
+            }
+            elseif ($this->filter ==='semestre') {
+                $currentMonth = $currentDate->month;
+                if ($currentMonth <= 6) {
+                    $query->whereBetween('registros.created_at', [$currentDate->startOfYear(), $currentDate->copy()->endOfMonth(6)]);
+                } else {
+                    $query->whereBetween('registros.created_at', [$currentDate->copy()->startOfMonth(7), $currentDate->endOfYear()]);
+                }
+            }
+
+            return $query->get();
+    }
 
     public function getRegistros()
     {
         $depaId=auth()->user()->departamento_id;
-        // $query = Registro::where('sector_id', $depaId)
-        // ->select(
-        //     'registrable_type',
-        //     'created_at',
-        //     'autores',
-        //     'nombre'
-        // );
         $query = Registro::join('users', 'registros.user_id', '=', 'users.id')
         ->where('users.departamento_id', auth()->user()->departamento_id)
         ->select('registros.*', 'users.name as user_name', 'users.apellidos as user_apellidos')
 ;
 
         $currentDate = Carbon::now();
-
+//Ajustar el filtro de acuerdo a los trimestres o semestres
         if ($this->filter === 'anual') {
             $query->whereYear('registros.created_at', $currentDate->year);
         } elseif ($this->filter === 'trimestre') {
@@ -74,19 +96,24 @@ class Reportes extends Page
 
     public function generadorPDF()
     {
-         $registros = $this->getRegistros();
-         $html = view('reports.reportes-registros', ['registros' => $registros])->render();
+        $registros = $this->getRegistros();
+        $graficoData= $this->getGrafico();
+        $html = view('reports.reportes-registros', [
+            'registros' => $registros,
+            'graficoData' => $graficoData
+        ])->render();
 
         Browsershot::html($html)
             ->setOption('no-sandbox', true)
+            ->margins(10, 10, 10, 10)
+            ->showBackground()
             ->save(storage_path('app/public/reports/reporte de area.pdf'));
 
             return response()->download(storage_path('app/public/reports/reporte de area.pdf'));
-
     }
+
     public static function shouldRegisterNavigation(): bool{
         return false;
     }
 
 }
-
