@@ -78,78 +78,77 @@
 
     <h2 style="text-align: center;">Tabla de registros totales</h2>
     <table style="margin-bottom: 60px;">
-        <thead>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Autor</th>
+            <th>Nombre</th>
+            <th>Tipo de Registro</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($registros as $index => $registro)
+            @if ($index == 8 || ($index > 8 && ($index - 8) % 12 == 0))
+                </tbody>
+            </table>
+
+            <div style="page-break-before: always;"></div>
+
+            <table style="margin-bottom: 60px;">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Autor</th>
+                        <th>Nombre</th>
+                        <th>Tipo de Registro</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody>
+            @endif
+
             <tr>
-                <th></th>
-                <th>Autor</th>
-                <th>Nombre</th>
-                <th>Tipo de Registro</th>
-                <th>Fecha</th>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $registro->user_name }} {{ $registro->user_apellidos }}</td>
+                <td>{{ $registro->nombre }}</td>
+                <td>
+                    @switch($registro->registrable_type)
+                        @case('App\Models\Libro')
+                            Libro
+                        @break
+                        @case('App\Models\Capitulol')
+                            Capítulo de Libro
+                        @break
+                        @case('App\Models\Autoral')
+                            Autoral
+                        @break
+                        @case('App\Models\Prototipo')
+                            Prototipo
+                        @break
+                        @case('App\Models\Ponencia')
+                            Ponencia
+                        @break
+                        @case('App\Models\Industrial')
+                            Prop. Intelectual
+                        @break
+                        @case('App\Models\Tesis')
+                            Tesis
+                        @break
+                        @case('App\Models\Otro')
+                            Otro
+                        @break
+                        @case('App\Models\Capitulom')
+                            Capítulo de Memoria
+                        @break
+                        @default
+                    @endswitch
+                </td>
+                <td style="width: 75px;">{{ $registro->created_at->format('d-M') }}</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach ($registros as $index => $registro)
-
-                @if ($index == 8 || ($index > 8 && ($index - 8) % 13 == 0))
-                    </tbody>
-                </table>
-
-                <div style="page-break-before: always;"></div>
-
-                <table style="margin-bottom: 60px;">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Autor</th>
-                            <th>Nombre</th>
-                            <th>Tipo de Registro</th>
-                            <th>Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                @endif
-
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $registro->user_name }} {{ $registro->user_apellidos }}</td>
-                    <td>{{ $registro->nombre }}</td>
-                    <td>
-                        @switch($registro->registrable_type)
-                            @case('App\Models\Libro')
-                                Libro
-                            @break
-                            @case('App\Models\Capitulol')
-                                Capítulo de Libro
-                            @break
-                            @case('App\Models\Autoral')
-                                Autoral
-                            @break
-                            @case('App\Models\Prototipo')
-                                Prototipo
-                            @break
-                            @case('App\Models\Ponencia')
-                                Ponencia
-                            @break
-                            @case('App\Models\Industrial')
-                                Prop. Intelectual
-                            @break
-                            @case('App\Models\Tesis')
-                                Tesis
-                            @break
-                            @case('App\Models\Otro')
-                                Otro
-                            @break
-                            @case('App\Models\Capitulom')
-                                Capítulo de Memoria
-                            @break
-                            @default
-                        @endswitch
-                    </td>
-                    <td style="width: 75px;">{{ $registro->created_at->format('d-M') }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+        @endforeach
+    </tbody>
+</table>
 
 
     <div style="page-break-before: always; margin-bottom:50px;"></div>
@@ -161,56 +160,12 @@
         </div>
         <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/banner1.png'))) }}" alt="Logo Derecho" style="width: auto; height: 100px;">
     </div>
-    <canvas id="chart" width="50%" height="40%"></canvas>
+    <center><div style="width:600px; height:500px;">
+        <img style="height: 500px; width: 600px;" src="{{ $chartUrl }}" alt="Gráfico de registros">
+    </div></center>
+    <!--<canvas id="chart" width="600" height="400"></canvas>-->
     <div class="footer" style="margin-bottom: 25px;">
         <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/footer.png'))) }}" alt="Footer Image" style="width: auto; height: 75px;">
     </div>
-    <script>
-        window.onload = function() {
-            var ctx = document.getElementById('chart').getContext('2d');
-            var chartData = {
-                labels: @json($graficoData->pluck('registrable_type')),
-                datasets: [{
-                    label: 'Registros',
-                    data: @json($graficoData->pluck('total')),
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.5)',
-                        'rgba(54, 162, 235, 0.5)',
-                        'rgba(255, 206, 86, 0.5)',
-                        'rgba(75, 192, 192, 0.5)',
-                        'rgba(153, 102, 255, 0.5)',
-                        'rgba(255, 159, 64, 0.5)'
-                    ]
-                }]
-            };
-
-            new Chart(ctx, {
-                type: 'bar',
-                data: chartData,
-                options: {
-                    responsive: true,
-                    layout: {
-                        padding: {
-                            top: 10,
-                            bottom: 10,
-                            left: 10,
-                            right: 10,
-                        }
-                    },
-                    scales: {
-                        y: {
-                            min: 0,
-                            max: 1,
-                            beginAtZero: true,
-                            ticks: {
-                                //stepSize: 1,
-
-                            },
-                        }
-                    }
-                }
-            });
-        };
-    </script>
 </body>
 </html>

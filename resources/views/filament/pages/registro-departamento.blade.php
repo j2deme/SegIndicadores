@@ -5,10 +5,18 @@
     <div class="flex justify-between">
         <div>
             <label for="filtroPeriodo" class="mr-2">Seleccionar periodo:</label>
-            <select wire:model="filter" id="filtroPeriodo" class="border rounded px-2 py-1" style="width: 130px;">
+            <select wire:model="filter" id="filtroPeriodo" class="border rounded px-2 py-1" style="width: 190px;">
                 <option value="anual">Anual</option>
-                <option value="semestre">Semestral</option>
-                <option value="trimestre">Trimestral</option>
+                <optgroup label="Semestral">
+                    <option value="semestre1">Enero-Junio</option>
+                    <option value="semestre2">Julio-Diciembre</option>
+                </optgroup>
+                <optgroup label="Trimestral">
+                    <option value="trimestre1">Enero-Marzo</option>
+                    <option value="trimestre2">Abril-Junio</option>
+                    <option value="trimestre3">Julio-Septiembre</option>
+                    <option value="trimestre4">Octubre-Diciembre</option>
+                </optgroup>
             </select>
         </div>
 
