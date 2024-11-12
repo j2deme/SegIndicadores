@@ -74,11 +74,14 @@ class Reportes extends Page
 
     public function generadorPDF()
     {
-         $registros = $this->getRegistros();
-         $html = view('reports.reportes-registros', ['registros' => $registros])->render();
+        $registros = $this->getRegistros();
+        $html = view('reports.reportes-registros', ['registros' => $registros])->render()->setDelay(10000);
 
         Browsershot::html($html)
             ->setOption('no-sandbox', true)
+            ->margins(10, 10, 10, 10)
+            ->showBackground()
+
             ->save(storage_path('app/public/reports/reporte de area.pdf'));
 
             return response()->download(storage_path('app/public/reports/reporte de area.pdf'));

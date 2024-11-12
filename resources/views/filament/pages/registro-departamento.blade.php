@@ -1,6 +1,7 @@
 <x-filament-panels::page>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <div class="flex justify-between">
         <div>
             <label for="filtroPeriodo" class="mr-2">Seleccionar periodo:</label>

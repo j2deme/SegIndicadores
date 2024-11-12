@@ -9,6 +9,7 @@ use App\Models\Registro;
 use App\Models\Departamento;
 use Carbon\Carbon;
 
+
 class ProduccionDepartamentoDocentes extends ChartWidget
 {
     protected static ?string $heading = null;
@@ -248,10 +249,20 @@ class ProduccionDepartamentoDocentes extends ChartWidget
         ];
     }
 
-    protected static ?array $options = [
+    protected function getOptions(): array
+{
+    return [
         'plugins' => [
             'legend' => [
                 'display' => true,
+            ],
+            'datalabels' => [
+                'anchor' => 'end',
+                'align' => 'start',
+                'formatter' => function ($value, $context) {
+                    $label = $context['chart']['data']['labels'][$context['dataIndex']];
+                    return $label . ': ' . $value;
+                },
             ],
         ],
         'tooltips' => [
@@ -267,6 +278,7 @@ class ProduccionDepartamentoDocentes extends ChartWidget
             ],
         ],
     ];
+}
 
     /*public function getDescription(): ?string
     {
