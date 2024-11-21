@@ -14,6 +14,7 @@ class RegistroDepartamento extends Page
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $view = 'filament.pages.registro-departamento';
     protected static ?string $title = 'Registros por Departamento';
+    protected static ?string $slug = 'registro-departamento';
 
     public $filter;
     public $registros;
@@ -38,69 +39,73 @@ class RegistroDepartamento extends Page
         $this->registros = $this->getRegistros();
     }
     public function getChartUrl()
-{
-    $graficoData = $this->getGrafico();
+    {
+        $graficoData = $this->getGrafico();
 
-    $labels = $graficoData->pluck('registrable_type')->map(function ($type) {
-        switch ($type) {
-            case 'App\Models\Libro':
-                return 'Libro';
-            case 'App\Models\Capitulol':
-                return 'Cap. de Libro';
-            case 'App\Models\Autoral':
-                return 'Autoral';
-            case 'App\Models\Prototipo':
-                return 'Prototipo';
-            case 'App\Models\Ponencia':
-                return 'Ponencia';
-            case 'App\Models\Industrial':
-                return 'Prop. Intelectual';
-            case 'App\Models\Tesis':
-                return 'Tesis';
-            case 'App\Models\Otro':
-                return 'Otro';
-            case 'App\Models\Capitulom':
-                return 'Cap. de Mem.';
-        }
-    })->toArray();
+        $labels = $graficoData->pluck('registrable_type')->map(function ($type) {
+            switch ($type) {
+                case 'App\Models\Libro':
+                    return 'Libro';
+                case 'App\Models\Capitulol':
+                    return 'Cap. de Libro';
+                case 'App\Models\Autoral':
+                    return 'Autoral';
+                case 'App\Models\Prototipo':
+                    return 'Prototipo';
+                case 'App\Models\Ponencia':
+                    return 'Ponencia';
+                case 'App\Models\Industrial':
+                    return 'Prop. Intelectual';
+                case 'App\Models\Tesis':
+                    return 'Tesis';
+                case 'App\Models\Otro':
+                    return 'Otro';
+                case 'App\Models\Capitulom':
+                    return 'Cap. de Mem.';
+            }
+        })->toArray();
 
-    $data = $graficoData->pluck('total')->toArray();
+        $data = $graficoData->pluck('total')->toArray();
 
-    $chartConfig = [
-        'type' => 'bar',
-        'data' => [
-            'labels' => $labels,
-            'datasets' => [[
-                'label' => 'Total Registros',
-                'data' => $data,
-                'backgroundColor' => ['#fc7e99','#65bffc','#f7d379','#75fa6b','#a579fc','#fcad5d','#fc6060','#fc95ab','#aaebfa','#FFCE56']
-            ]]
-        ],
-        'options' => [
-            'scales' => [
-                'yAxes' => [[
-                    'ticks' => [
-                        'beginAtZero' => true,
-                        'stepSize' => 1
-                    ]
+        $chartConfig = [
+            'type' => 'bar',
+            'data' => [
+                'labels' => $labels,
+                'datasets' => [[
+                    'label' => '',
+                    'data' => $data,
+                    'backgroundColor' => ['#fc7e99','#65bffc','#f7d379','#75fa6b','#a579fc','#fcad5d','#fc6060','#fc95ab','#aaebfa','#FFCE56']
                 ]]
             ],
-            'plugins' => [
-                'datalabels' => [
-                    'display' => true,
-                    'align' => 'center',
-                    'anchor' => 'center',
-                    'color' => 'black',
+            'options' => [
+                'scales' => [
+                    'yAxes' => [[
+                        'ticks' => [
+                            'beginAtZero' => true,
+                            'stepSize' => 1
+                        ]
+                    ]]
+                ],
+                'plugins' => [
+                    'legend' => [
+                        'display' => false
+                    ],
+                    'datalabels' => [
+                        'display' => true,
+                        'align' => 'center',
+                        'anchor' => 'center',
+                        'color' => 'black',
+                    ]
                 ]
             ]
-        ]
-    ];
+        ];
 
-    $chartConfigJson = json_encode($chartConfig);
-    $url = "https://quickchart.io/chart?c=" . urlencode($chartConfigJson) . "&width=400&height=300";
+        $chartConfigJson = json_encode($chartConfig);
+        $url = "https://quickchart.io/chart?c=" . urlencode($chartConfigJson) . "&width=400&height=300";
 
-    return $url;
-}
+        return $url;
+    }
+
     public function getGrafico()
     {
         $depaId = auth()->user()->departamento_id;
@@ -217,7 +222,8 @@ class RegistroDepartamento extends Page
             ->waitFor('#chart')
             ->save(storage_path('app/public/reports/reporte_de_area.pdf'));
 
-        return response()->download(storage_path('app/public/reports/reporte_de_area.pdf'));
+            return response()->download(storage_path('app/public/reports/reporte_de_area.pdf'))
+            ->deleteFileAfterSend(true);
     }
 
 }

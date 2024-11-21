@@ -107,6 +107,18 @@
             },
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pdfButton = document.querySelector('button[wire\\:click="generadorPDF"]');
+
+            pdfButton.addEventListener('click', () => {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            });
+        });
+    </script>
+
 
         <style>
             .swiper-container {
