@@ -19,6 +19,15 @@
                 </optgroup>
             </select>
         </div>
+        <div>
+            <label for="filtroAnio" class="mr-2">Seleccionar año:</label>
+            <select wire:model="anio" id="filtroAnio" class="border rounded px-2 py-1" style="width: 190px;">
+                @for ($i = 2024; $i <= 2030; $i++)
+                    <option value="{{ $i }}">{{ $i }}</option>
+                @endfor
+            </select>
+        </div>
+
 
         <x-filament::button wire:click="generadorPDF">Generar Reporte</x-filament::button>
     </div>

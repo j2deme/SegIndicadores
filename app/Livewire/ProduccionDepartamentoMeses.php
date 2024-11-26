@@ -96,6 +96,8 @@ class ProduccionDepartamentoMeses extends ChartWidget
                    'label' => [],
                     'data' => $totales,
                     'backgroundColor' => ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+                    'borderColor' => ['#ffffff'],
+                    'borderWidth' => 0,
                 ],
             ],
         ];
