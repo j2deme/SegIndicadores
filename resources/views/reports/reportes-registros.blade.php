@@ -163,7 +163,7 @@
     <center><div style="width:600px; height:500px;">
         <img style="height: 500px; width: 600px;" src="{{ $chartUrl }}" alt="Gráfico de registros">
     </div></center>
-    <!--<canvas id="chart" width="600" height="400"></canvas>-->
+
     <div class="footer" style="margin-bottom: 25px;">
         <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/footer.png'))) }}" alt="Footer Image" style="width: auto; height: 75px;">
     </div>

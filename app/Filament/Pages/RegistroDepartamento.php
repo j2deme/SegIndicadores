@@ -223,7 +223,7 @@ class RegistroDepartamento extends Page
             ->save(storage_path('app/public/reports/reporte_de_area.pdf'));
 
             return response()->download(storage_path('app/public/reports/reporte_de_area.pdf'))
-            ->deleteFileAfterSend(true);
+        ->deleteFileAfterSend(true);
     }
 
 }
