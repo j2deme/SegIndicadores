@@ -68,7 +68,11 @@
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 10px;">
             <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/banner2.png'))) }}" alt="Logo Izquierdo" style="width: auto; height: 100px;">
             <div style="text-align: center;">
+                @if(auth()->user()->es_admin == 1)
+                    <h2 style="margin: 0;">Reporte de Registros Generales</h2>
+                @else
                 <h2 style="margin: 0;">Reporte de producción del Departamento de {{ auth()->user()->departamento->nombre }}</h2>
+                @endif
                 <h2 style="margin: 5px 0 0;">{{ $filtroTexto }}</h2>
             </div>
 
@@ -82,6 +86,9 @@
         <tr>
             <th></th>
             <th>Autor</th>
+            @if(auth()->user()->es_admin == 1)
+                <th>Departamento</th>
+            @endif
             <th>Nombre</th>
             <th>Tipo de Registro</th>
             <th>Fecha</th>
@@ -89,7 +96,7 @@
     </thead>
     <tbody>
         @foreach ($registros as $index => $registro)
-            @if ($index == 8 || ($index > 8 && ($index - 8) % 12 == 0))
+            @if ($index == 8 || ($index > 8 && ($index - 8) % 10 == 0))
                 </tbody>
             </table>
 
@@ -100,6 +107,9 @@
                     <tr>
                         <th></th>
                         <th>Autor</th>
+                        @if (auth()->user()->es_admin == 1)
+                            <th>Departamento</th>
+                        @endif
                         <th>Nombre</th>
                         <th>Tipo de Registro</th>
                         <th>Fecha</th>
@@ -111,6 +121,29 @@
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $registro->user_name }} {{ $registro->user_apellidos }}</td>
+                @if (auth()->user()->es_admin == 1)
+                    @switch($registro->user_departamento_id)
+                        @case(1)
+                            <td>Ciencias Básicas</td>
+                        @break
+                        @case(2)
+                            <td>Ciencias Económico-Administrativas</td>
+                        @break
+                        @case(3)
+                            <td>Industrial</td>
+                        @break
+                        @case(4)
+                            <td>Ingenierías</td>
+                        @default
+                        @case(5)
+                            <td>Agronomía</td>
+                        @break
+                        @case(6)
+                            <td>Sistemas y Computación</td>
+                        @break
+
+                    @endswitch
+                @endif
                 <td>{{ $registro->nombre }}</td>
                 <td>
                     @switch($registro->registrable_type)
@@ -164,7 +197,7 @@
         <img style="height: 500px; width: 600px;" src="{{ $chartUrl }}" alt="Gráfico de registros">
     </div></center>
 
-    <div class="footer" style="margin-bottom: 25px;">
+    <div class="footer" style="margin-bottom: 20px;">
         <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('img/footer.png'))) }}" alt="Footer Image" style="width: auto; height: 75px;">
     </div>
 </body>
