@@ -76,7 +76,7 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
             ->map(fn(string $segment): string => filled($segment) ? mb_substr($segment, 0, 1) : '')
             ->join(' ');
 
-        return 'https://source.boringavatars.com/beam/120/' . urlencode($name) . '?colors=3a3132,0f4571,386dbd,009ddd,05d3f8';
+            return "https://api.dicebear.com/9.x/initials/svg?seed=" . urlencode($name);
     }
 
     public function getFilamentName(): string
@@ -111,8 +111,8 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
 
     /**
      * Obtiene el departamento de adscripción del usuario.
-     * 
-     * 
+     *
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
 
@@ -123,8 +123,8 @@ class User extends Authenticatable implements FilamentUser, HasName, HasAvatar
 
     /**
      * Obtiene la jefatura del usuario.
-     * 
-     * 
+     *
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
 
